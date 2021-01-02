@@ -1,0 +1,22 @@
+package ir.piana.business.multishop;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+
+@SpringBootApplication(exclude = {
+		DataSourceAutoConfiguration.class,
+		HibernateJpaAutoConfiguration.class,
+		DataSourceTransactionManagerAutoConfiguration.class })
+public class ShopBackendApplication {
+
+	public static void main(String[] args) {
+		SpringApplication app = new SpringApplication(ShopBackendApplication.class);
+		app.setAdditionalProfiles("production");
+		app.run(args);
+//		SpringApplication.run(ShopBackendApplication.class, args);
+	}
+
+}
