@@ -31,7 +31,9 @@ CREATE TABLE IF NOT EXISTS DATASOURCES (
     MAX_PULL_SIZE number not null default 5,
     IS_ACTIVE number not null default 1
 );
-
-delete from DATASOURCES;
-INSERT INTO DATASOURCES (id, TENANT_ID, DB_SCHEMA, DB_DRIVER, DB_URL, DB_USERNAME, DB_PASSWORD, MAX_PULL_SIZE, IS_ACTIVE) values
-(UNIQUE_SEQUENCE.nextval, 'vavishka.ir', 'vavishka', 'org.h2.Driver', 'jdbc:h2:file:./data/vavishka', 'vavishka', 'v', 5, 1);
+-- INSERT INTO DATASOURCES (id, TENANT_ID, DB_SCHEMA, DB_DRIVER, DB_URL, DB_USERNAME, DB_PASSWORD, MAX_PULL_SIZE, IS_ACTIVE) values
+-- (UNIQUE_SEQUENCE.nextval, 'vavishka.ir', 'vavishka', 'org.h2.Driver', 'jdbc:h2:file:./data/vavishka', 'vavishka', 'v', 5, 1);
+INSERT INTO DATASOURCES select * from (
+   select UNIQUE_SEQUENCE.nextval id, 'vavishka.ir' tenant_id, 'vavishka' db_schema, 'org.h2.Driver' db_driver, 'jdbc:h2:file:./data/vavishka' db_url, 'vavishka' db_username, 'v' db_password, 5 MAX_PULL_SIZE, 1 IS_ACTIVE union
+   select UNIQUE_SEQUENCE.nextval, 'piana.ir', 'piana', 'org.h2.Driver', 'jdbc:h2:file:./data/piana', 'piana', 'p', 5, 1) x
+where not exists(select * from datasources);

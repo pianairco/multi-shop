@@ -74,8 +74,8 @@ public class SpecificSchemaQueryExecutor {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            BigDecimal value = runner.query(conn, query, new ScalarHandler<>());
-            return value.intValue();
+            Object value = runner.query(conn, query, new ScalarHandler<>());
+            return value instanceof BigDecimal ? ((BigDecimal)value).intValue() : (Integer) value;
         } finally {
             ds.evictConnection(conn);
         }
@@ -85,8 +85,8 @@ public class SpecificSchemaQueryExecutor {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            BigDecimal value = runner.query(conn, query, new ScalarHandler<>());
-            return value.longValue();
+            Object value = runner.query(conn, query, new ScalarHandler<>());
+            return value instanceof BigDecimal ? ((BigDecimal)value).longValue() : (Long) value;
         } finally {
             ds.evictConnection(conn);
         }
