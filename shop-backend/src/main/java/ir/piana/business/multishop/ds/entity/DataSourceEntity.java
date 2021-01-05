@@ -24,6 +24,9 @@ public class DataSourceEntity {
     @Column(name = "DB_SCHEMA")
     private String schemaName;
 
+    @Column(name = "DB_SCRIPT")
+    private String scriptPath;
+
     @Column(name = "DB_DRIVER")
     private String driver;
 

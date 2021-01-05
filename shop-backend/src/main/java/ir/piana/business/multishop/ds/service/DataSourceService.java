@@ -9,15 +9,18 @@ import ir.piana.business.multishop.ds.repository.DataSourceRepository;
 import ir.piana.business.multishop.exceptions.ChangeStatusException;
 import ir.piana.business.multishop.exceptions.ErrorModel;
 import ir.piana.business.multishop.exceptions.RefreshDatasourceException;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +82,7 @@ public class DataSourceService {
 
     public synchronized HikariDataSource createHikariDS(
             DataSourceEntity dataSourceEntity)
-            throws SQLException {
+            throws SQLException, IOException {
         HikariDataSource ds = new HikariDataSource();
         ds.setDriverClassName(dataSourceEntity.getDriver());
         ds.setJdbcUrl(dataSourceEntity.getUrl());
@@ -90,7 +93,21 @@ public class DataSourceService {
         ds.setConnectionTimeout(5000);
         ds.setIdleTimeout(5000);
         ds.setInitializationFailTimeout(5000);
-        new SpecificSchemaQueryExecutor(ds).queryInt("select 1 from dual");
+        SpecificSchemaQueryExecutor specificSchemaQueryExecutor = new SpecificSchemaQueryExecutor(ds);
+        specificSchemaQueryExecutor.queryInt("select 1 from dual");
+        if(dataSourceEntity.getScriptPath() != null) {
+            File file = ResourceUtils.getFile(dataSourceEntity.getScriptPath());
+            InputStream inputStream = new FileInputStream(file);
+            String[] split = IOUtils.toString(inputStream).split(";");
+            for (String script : split) {
+                try {
+                    specificSchemaQueryExecutor.execute(script);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            inputStream.close();
+        }
         return ds;
     }
 
