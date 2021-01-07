@@ -1,0 +1,9 @@
+static-resource:
+  paths:
+    '[/**]':
+      - classpath:/
+      - classpath:/public/
+      - classpath:/static/
+      - file:///c:/upload-dir/
+    '[/bulma]':
+      - file:///c:/upload-dir/
