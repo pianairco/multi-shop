@@ -1,0 +1,12 @@
+POST http://localhost:8081/login
+Host: vavishka.ir
+username: admin
+password: 123
+JSESSIONID: 8BB57FBD4EC334BE42EE4F24B50D27F3
+
+###
+GET http://localhost:8081/test
+Host: vavishka.ir
+username: admin
+password: 123
+JSESSIONID: 8BB57FBD4EC334BE42EE4F24B50D27F3

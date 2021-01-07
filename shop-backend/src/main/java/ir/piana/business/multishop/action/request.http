@@ -1,0 +1,48 @@
+POST http://localhost:8088/api/ajax/serve
+action: sample
+activity: deleteSample
+content-type: application/json
+
+{
+  "sampleId": 101
+}
+###
+GET http://localhost:8088/api/resources/serve/images/1.png
+
+###
+POST http://localhost:8088/api/ajax/serve
+action: auth
+activity: appInfo
+content-type: application/json
+
+{
+}
+###
+POST http://localhost:8088/api/ajax/serve
+action: sample
+activity: samples
+content-type: application/json
+
+{
+}
+###
+POST http://localhost:8088/api/ajax/serve
+action: sample
+activity: sample
+content-type: application/json
+
+{
+  "title": "qwe",
+  "description": "gfh"
+}
+###
+POST http://localhost:8088/api/ajax/serve
+action: sample
+activity: addSample
+content-type: application/json
+
+{
+  "title": "ali",
+  "description": "alavi"
+}
+###

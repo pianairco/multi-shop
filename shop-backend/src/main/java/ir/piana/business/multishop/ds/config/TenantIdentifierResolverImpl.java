@@ -29,7 +29,7 @@ public class TenantIdentifierResolverImpl
 
 	@PostConstruct
 	public void init() throws SQLException {
-		defaultTenantId = "00000";
+		defaultTenantId = "support";
 //		defaultTenantId = baseExecutor.queryString("select tenant_id from SEJAM_DATASOURCES where is_default = 1");
 //		if(failedDataSources.keySet().contains(defaultTenantId) || deactivateDataSources.stream()
 //				.filter(e -> e.getTenantId().equalsIgnoreCase(defaultTenantId)).findFirst().isPresent()) {

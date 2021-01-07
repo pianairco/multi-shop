@@ -159,17 +159,17 @@ public class DataSourceService {
         refreshMultiShopDataSources();
 
         dataSourceMap.forEach((k, dataSource) -> {
-            if(!k.equalsIgnoreCase("00000"))
+            if(!k.equalsIgnoreCase("support"))
                 ((HikariDataSource)dataSource).close();
         });
         dataSourceMap.clear();
         failedDataSources.clear();
-        dataSourceMap.put("00000", supportDatasource);
+        dataSourceMap.put("support", supportDatasource);
 //        Map<String, DataSource> result = new HashMap<>();
-        for (DataSourceEntity sejamDataSourceEntity : multiShopDataSources.stream()
+        for (DataSourceEntity dataSourceEntity : multiShopDataSources.stream()
                 .filter(e -> e.isActive()).collect(Collectors.toList())) {
 //                .stream().filter(e -> e.getSchemaName().equalsIgnoreCase("saf5")).collect(Collectors.toList())) {
-            datasourceActivation(sejamDataSourceEntity, false);
+            datasourceActivation(dataSourceEntity, false);
         }
         isLock = false;
         return dataSourceMap;

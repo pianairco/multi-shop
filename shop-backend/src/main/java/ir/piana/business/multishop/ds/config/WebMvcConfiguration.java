@@ -31,12 +31,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private DataSourceService dataSourceService;
 
-	@SneakyThrows
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new MultiTenantInterceptor(
-				sejamDataSources, failedDataSources, dataSourceService));
-	}
+//	@SneakyThrows
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new MultiTenantInterceptor(
+//				sejamDataSources, failedDataSources, dataSourceService));
+//	}
 
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
