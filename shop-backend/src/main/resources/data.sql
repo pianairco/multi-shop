@@ -35,6 +35,8 @@ CREATE TABLE IF NOT EXISTS DATASOURCES (
 -- INSERT INTO DATASOURCES (id, TENANT_ID, DB_SCHEMA, DB_DRIVER, DB_URL, DB_USERNAME, DB_PASSWORD, MAX_PULL_SIZE, IS_ACTIVE) values
 -- (UNIQUE_SEQUENCE.nextval, 'vavishka.ir', 'vavishka', 'org.h2.Driver', 'jdbc:h2:file:./data/vavishka', 'vavishka', 'v', 5, 1);
 INSERT INTO DATASOURCES select * from (
-   select UNIQUE_SEQUENCE.nextval id, 'vavishka.ir' tenant_id, 'vavishka' db_schema, 'classpath:databases/vavishka.sql' db_script, 'org.h2.Driver' db_driver, 'jdbc:h2:file:./data/vavishka' db_url, 'vavishka' db_username, 'v' db_password, 5 MAX_PULL_SIZE, 1 IS_ACTIVE union
-   select UNIQUE_SEQUENCE.nextval, 'piana.ir', 'piana', 'classpath:databases/piana.sql', 'org.h2.Driver', 'jdbc:h2:file:./data/piana', 'piana', 'p', 5, 1) x
+   select UNIQUE_SEQUENCE.nextval id, 'vavishka.ir' tenant_id, 'vavishka' db_schema, '/databases/vavishka.sql' db_script, 'org.h2.Driver' db_driver, 'jdbc:h2:file:./data/vavishka' db_url, 'vavishka' db_username, 'v' db_password, 5 MAX_PULL_SIZE, 1 IS_ACTIVE union
+--    select UNIQUE_SEQUENCE.nextval id, 'vavishka.ir' tenant_id, 'vavishka' db_schema, 'classpath:databases/vavishka.sql' db_script, 'org.h2.Driver' db_driver, 'jdbc:h2:file:./data/vavishka' db_url, 'vavishka' db_username, 'v' db_password, 5 MAX_PULL_SIZE, 1 IS_ACTIVE union
+   select UNIQUE_SEQUENCE.nextval, 'piana.ir', 'piana', '/databases/piana.sql', 'org.h2.Driver', 'jdbc:h2:file:./data/piana', 'piana', 'p', 5, 1) x
+--    select UNIQUE_SEQUENCE.nextval, 'piana.ir', 'piana', 'classpath:databases/piana.sql', 'org.h2.Driver', 'jdbc:h2:file:./data/piana', 'piana', 'p', 5, 1) x
 where not exists(select * from datasources);

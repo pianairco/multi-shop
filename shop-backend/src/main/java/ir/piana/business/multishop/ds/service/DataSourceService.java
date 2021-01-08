@@ -96,8 +96,10 @@ public class DataSourceService {
         SpecificSchemaQueryExecutor specificSchemaQueryExecutor = new SpecificSchemaQueryExecutor(ds);
         specificSchemaQueryExecutor.queryInt("select 1 from dual");
         if(dataSourceEntity.getScriptPath() != null) {
-            File file = ResourceUtils.getFile(dataSourceEntity.getScriptPath());
-            InputStream inputStream = new FileInputStream(file);
+//            File file = ResourceUtils.getFile(dataSourceEntity.getScriptPath());
+//            InputStream inputStream = new FileInputStream(file);
+            InputStream inputStream = DataSourceService.class.getResourceAsStream(
+                    dataSourceEntity.getScriptPath());
             String[] split = IOUtils.toString(inputStream).split(";");
             for (String script : split) {
                 try {
