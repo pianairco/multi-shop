@@ -36,7 +36,8 @@ import java.util.Map;
 @EnableConfigurationProperties({ JpaProperties.class })
 @EnableJpaRepositories(
 		basePackages = {
-				"ir.piana.business.multishop.ds.repository"
+				"ir.piana.business.multishop.ds.repository",
+				"ir.piana.business.multishop.data.repository"
 		},
 		transactionManagerRef = "txManager")
 @EnableTransactionManagement
@@ -88,7 +89,7 @@ public class MultiTenantJpaConfiguration {
 	@DependsOn("supportExecutor")
 	public Map<String, DataSource> datasources(SpecificSchemaQueryExecutor supportExecutor) {
 		LinkedHashMap<String, DataSource> datasourceMap = new LinkedHashMap<>();
-		datasourceMap.put("00000", supportExecutor.getDatasource());
+		datasourceMap.put("support", supportExecutor.getDatasource());
 		return datasourceMap;
 	}
 
