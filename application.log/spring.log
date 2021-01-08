@@ -34211,3 +34211,266 @@ Action:
 
 Consider defining a bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' in your configuration.
 
+10:59:38.161 [main] INFO  i.p.b.m.ShopBackendApplication - Starting ShopBackendApplication using Java 1.8.0_241 on DESKTOP-52I90Q9 with PID 17164 (C:\projects\business\multi-shop\shop-backend\target\classes started by tentwo in C:\projects\business\multi-shop)
+10:59:38.168 [main] INFO  i.p.b.m.ShopBackendApplication - The following profiles are active: production,resources,store
+10:59:39.626 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+10:59:39.798 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 139 ms. Found 1 JPA repository interfaces.
+10:59:41.196 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+10:59:41.210 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+10:59:41.211 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+10:59:41.454 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+10:59:41.455 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3163 ms
+10:59:41.567 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-support - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+10:59:41.569 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Starting...
+10:59:41.951 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Start completed.
+10:59:42.394 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+10:59:42.599 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.25.Final
+10:59:43.229 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+10:59:43.698 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+10:59:44.759 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+10:59:44.794 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+10:59:45.667 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-vavishka-vavishka.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+10:59:45.667 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Starting...
+10:59:45.685 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Start completed.
+10:59:45.816 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-piana-piana.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+10:59:45.816 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Starting...
+10:59:45.836 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Start completed.
+10:59:45.997 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationRest': Unsatisfied dependency expressed through field 'googleUserRepository'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+10:59:45.999 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+10:59:46.002 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+10:59:46.008 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+10:59:46.011 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support connection closer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+10:59:46.012 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support connection adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+10:59:46.014 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [MVStore background writer nio:C:/projects/business/multi-shop/data/support.mv.db] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:3283)
+10:59:46.029 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+10:59:46.099 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field googleUserRepository in ir.piana.business.multishop.rest.AuthenticationRest required a bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' in your configuration.
+
+11:03:10.253 [main] INFO  i.p.b.m.ShopBackendApplication - Starting ShopBackendApplication using Java 1.8.0_241 on DESKTOP-52I90Q9 with PID 15052 (C:\projects\business\multi-shop\shop-backend\target\classes started by tentwo in C:\projects\business\multi-shop)
+11:03:10.257 [main] INFO  i.p.b.m.ShopBackendApplication - The following profiles are active: production,resources,store
+11:03:11.043 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11:03:11.104 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 51 ms. Found 1 JPA repository interfaces.
+11:03:11.805 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 80 (http)
+11:03:11.816 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:03:11.816 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+11:03:11.988 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:03:11.989 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1660 ms
+11:03:12.054 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-support - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:03:12.056 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Starting...
+11:03:12.201 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Start completed.
+11:03:12.447 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+11:03:12.575 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.25.Final
+11:03:12.725 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+11:03:12.970 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+11:03:13.608 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+11:03:13.623 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+11:03:14.186 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-vavishka-vavishka.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:03:14.186 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Starting...
+11:03:14.199 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Start completed.
+11:03:14.368 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-piana-piana.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:03:14.369 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Starting...
+11:03:14.378 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Start completed.
+11:03:14.474 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'authenticationRest': Unsatisfied dependency expressed through field 'googleUserRepository'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+11:03:14.475 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+11:03:14.478 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+11:03:14.483 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+11:03:14.484 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support connection closer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+11:03:14.486 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [Pool-support connection adder] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.LinkedBlockingQueue.poll(LinkedBlockingQueue.java:467)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1073)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+11:03:14.486 [main] WARN  o.a.c.loader.WebappClassLoaderBase - The web application [ROOT] appears to have started a thread named [MVStore background writer nio:C:/projects/business/multi-shop/data/support.mv.db] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ org.h2.mvstore.MVStore$BackgroundWriterThread.run(MVStore.java:3283)
+11:03:14.495 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+11:03:14.520 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field googleUserRepository in ir.piana.business.multishop.rest.AuthenticationRest required a bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'ir.piana.business.multishop.data.repository.GoogleUserRepository' in your configuration.
+
+11:04:45.535 [main] INFO  i.p.b.m.ShopBackendApplication - Starting ShopBackendApplication using Java 1.8.0_241 on DESKTOP-52I90Q9 with PID 16560 (C:\projects\business\multi-shop\shop-backend\target\classes started by tentwo in C:\projects\business\multi-shop)
+11:04:45.540 [main] INFO  i.p.b.m.ShopBackendApplication - The following profiles are active: production,resources,store
+11:04:46.310 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11:04:46.388 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 55 ms. Found 2 JPA repository interfaces.
+11:04:47.067 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 80 (http)
+11:04:47.078 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:04:47.078 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+11:04:47.229 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:04:47.230 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1615 ms
+11:04:47.289 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-support - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:04:47.290 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Starting...
+11:04:47.444 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Start completed.
+11:04:47.738 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+11:04:47.789 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.25.Final
+11:04:47.934 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+11:04:48.161 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+11:04:48.819 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+11:04:48.835 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+11:04:49.377 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-vavishka-vavishka.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:04:49.378 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Starting...
+11:04:49.391 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Start completed.
+11:04:49.508 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-piana-piana.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:04:49.508 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Starting...
+11:04:49.517 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Start completed.
+11:04:50.656 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1c528f2f, org.springframework.security.web.context.SecurityContextPersistenceFilter@72c5064f, org.springframework.security.web.header.HeaderWriterFilter@5b74bb75, org.springframework.web.filter.CorsFilter@34ff08c6, org.springframework.security.web.authentication.logout.LogoutFilter@7a13ad55, ir.piana.business.multishop.ds.config.MultiTenantFilter@e2344da, ir.piana.business.multishop.security.CustomAuthenticationFilter@71135794, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@453439e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@60e5eed0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@79b0956e, org.springframework.security.web.session.SessionManagementFilter@2aac87ab, org.springframework.security.web.access.ExceptionTranslationFilter@6686507b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5216532a]
+11:04:50.723 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+11:04:50.819 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+11:04:51.168 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 80 (http) with context path ''
+11:04:51.178 [main] INFO  i.p.b.m.ShopBackendApplication - Started ShopBackendApplication in 6.451 seconds (JVM running for 8.011)
+11:05:17.124 [http-nio-80-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:05:17.125 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+11:05:17.129 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+11:07:57.588 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+11:07:57.591 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+11:08:05.724 [main] INFO  i.p.b.m.ShopBackendApplication - Starting ShopBackendApplication using Java 1.8.0_241 on DESKTOP-52I90Q9 with PID 4252 (C:\projects\business\multi-shop\shop-backend\target\classes started by tentwo in C:\projects\business\multi-shop)
+11:08:05.728 [main] INFO  i.p.b.m.ShopBackendApplication - The following profiles are active: production,resources,store
+11:08:07.024 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11:08:07.102 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 65 ms. Found 2 JPA repository interfaces.
+11:08:07.849 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 80 (http)
+11:08:07.871 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:08:07.872 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+11:08:08.001 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:08:08.001 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2196 ms
+11:08:08.055 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-support - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:08:08.057 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Starting...
+11:08:08.221 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Start completed.
+11:08:08.548 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+11:08:08.599 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.25.Final
+11:08:08.758 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+11:08:09.061 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+11:08:09.839 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+11:08:09.861 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+11:08:10.490 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-vavishka-vavishka.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:08:10.490 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Starting...
+11:08:10.502 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Start completed.
+11:08:10.597 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-piana-piana.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:08:10.597 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Starting...
+11:08:10.605 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Start completed.
+11:08:11.613 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@aca594d, org.springframework.security.web.context.SecurityContextPersistenceFilter@33214124, org.springframework.security.web.header.HeaderWriterFilter@46c9ee28, org.springframework.web.filter.CorsFilter@736f2fb8, org.springframework.security.web.authentication.logout.LogoutFilter@ca2a03f, ir.piana.business.multishop.ds.config.MultiTenantFilter@9715d26, ir.piana.business.multishop.security.CustomAuthenticationFilter@6d8096ee, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2a9ea03f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@78e7b83, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@35d8ba22, org.springframework.security.web.session.SessionManagementFilter@19b3d3a4, org.springframework.security.web.access.ExceptionTranslationFilter@7fe0ca60, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5d035ab6]
+11:08:11.673 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+11:08:11.763 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+11:08:12.069 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 80 (http) with context path ''
+11:08:12.079 [main] INFO  i.p.b.m.ShopBackendApplication - Started ShopBackendApplication in 7.13 seconds (JVM running for 8.93)
+11:08:15.420 [http-nio-80-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:08:15.421 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+11:08:15.422 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+11:08:57.481 [Pool-support housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - Pool-support - Thread starvation or clock leap detected (housekeeper delta=49s161ms40µs400ns).
+11:08:57.482 [Pool-vavishka-vavishka.ir housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - Pool-vavishka-vavishka.ir - Thread starvation or clock leap detected (housekeeper delta=46s878ms83µs800ns).
+11:08:57.482 [Pool-piana-piana.ir housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - Pool-piana-piana.ir - Thread starvation or clock leap detected (housekeeper delta=46s775ms47µs700ns).
+11:08:58.061 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+11:08:58.066 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+11:09:08.240 [main] INFO  i.p.b.m.ShopBackendApplication - Starting ShopBackendApplication using Java 1.8.0_241 on DESKTOP-52I90Q9 with PID 15096 (C:\projects\business\multi-shop\shop-backend\target\classes started by tentwo in C:\projects\business\multi-shop)
+11:09:08.245 [main] INFO  i.p.b.m.ShopBackendApplication - The following profiles are active: production,resources,store
+11:09:09.530 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+11:09:09.642 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 99 ms. Found 2 JPA repository interfaces.
+11:09:10.669 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 80 (http)
+11:09:10.682 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+11:09:10.683 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+11:09:10.849 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:09:10.849 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2513 ms
+11:09:10.920 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-support - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:09:10.921 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Starting...
+11:09:11.105 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-support - Start completed.
+11:09:11.399 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+11:09:11.457 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.25.Final
+11:09:11.774 [main] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+11:09:12.084 [main] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+11:09:12.896 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+11:09:12.913 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+11:09:13.635 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-vavishka-vavishka.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:09:13.635 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Starting...
+11:09:13.651 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-vavishka-vavishka.ir - Start completed.
+11:09:13.771 [main] WARN  com.zaxxer.hikari.HikariConfig - Pool-piana-piana.ir - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+11:09:13.771 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Starting...
+11:09:13.785 [main] INFO  com.zaxxer.hikari.HikariDataSource - Pool-piana-piana.ir - Start completed.
+11:09:15.154 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@14b4ce6f, org.springframework.security.web.context.SecurityContextPersistenceFilter@584fb03d, org.springframework.security.web.header.HeaderWriterFilter@61aa6300, org.springframework.web.filter.CorsFilter@7c5c2b17, org.springframework.security.web.authentication.logout.LogoutFilter@320efff5, ir.piana.business.multishop.ds.config.MultiTenantFilter@18bf1bad, ir.piana.business.multishop.security.CustomAuthenticationFilter@1cb929a9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@52d181ed, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6a2057e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2ecc4be7, org.springframework.security.web.session.SessionManagementFilter@7f5f7731, org.springframework.security.web.access.ExceptionTranslationFilter@1c06f19c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@56ec6ac0]
+11:09:15.256 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+11:09:15.447 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+11:09:15.675 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 80 (http) with context path ''
+11:09:15.691 [main] INFO  i.p.b.m.ShopBackendApplication - Started ShopBackendApplication in 9.287 seconds (JVM running for 11.437)
+11:09:20.839 [http-nio-80-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+11:09:20.839 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+11:09:20.840 [http-nio-80-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+11:10:40.080 [SpringContextShutdownHook] INFO  o.s.s.c.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+11:10:40.083 [SpringContextShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
