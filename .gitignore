@@ -1,5 +1,8 @@
 HELP.md
 
+**/*.mv.db
+shop-backend/src/main/resources/public/
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

@@ -12,7 +12,8 @@ import 'buefy/dist/buefy.css'
 import GAuth from 'vue-google-oauth2'
 
 const gauthOption = {
-  clientId: '290205995528-o268sq4cttuds0f44jnre5sb6rudfsb5.apps.googleusercontent.com',
+  clientId: '290205995528-g4ieuas6ffi6vk19dftm312uqlfma2er.apps.googleusercontent.com',
+  // clientId: '290205995528-o268sq4cttuds0f44jnre5sb6rudfsb5.apps.googleusercontent.com',
   scope: 'profile email',
   prompt: 'select_account'
 }

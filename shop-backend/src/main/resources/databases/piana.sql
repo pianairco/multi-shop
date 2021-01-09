@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS users;
 
-create sequence IF NOT EXISTS piana_seq;
+create sequence IF NOT EXISTS master_seq;
 
-select piana_seq.nextval from dual;
-select piana_seq.nextval from dual;
+select master_seq.nextval from dual;
+select master_seq.nextval from dual;
 
 CREATE TABLE IF NOT EXISTS users (
-  id bigint default piana_seq.nextval primary key,
+  id bigint default master_seq.nextval primary key,
   user_id char(30),
   email varchar(256) NOT NULL,
   mobile char(11),
@@ -26,20 +26,20 @@ INSERT INTO users (id, user_id, email, email_verified, password) values
 (2, 'seo', 'seo', 1, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K');
 
 CREATE TABLE IF NOT EXISTS header (
-    id bigint default piana_seq.nextval primary key,
+    id bigint default master_seq.nextval primary key,
     path varchar(128),
     orders number(1)
 );
 
 CREATE TABLE IF NOT EXISTS samples (
-  id bigint default piana_seq.nextval primary key,
+  id bigint default master_seq.nextval primary key,
   title char(128),
   description varchar(256) NOT NULL,
   image_src varchar(256)
 );
 
 CREATE TABLE IF NOT EXISTS samples_session (
-    id bigint default piana_seq.nextval primary key,
+    id bigint default master_seq.nextval primary key,
     samples_id bigint,
     title char(128),
     description varchar(256),
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS samples_session (
 );
 
 CREATE TABLE IF NOT EXISTS samples_session_image (
-    id bigint default piana_seq.nextval primary key,
+    id bigint default master_seq.nextval primary key,
     samples_session_id bigint,
     orders int,
     image_src varchar(256),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS samples_session_image (
 );
 
 CREATE TABLE IF NOT EXISTS images (
-    id bigint default piana_seq.nextval primary key,
+    id bigint default master_seq.nextval primary key,
     image_src char(70),
     image_type char(10),
     image_data binary(100000)
