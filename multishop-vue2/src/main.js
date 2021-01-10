@@ -29,6 +29,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    appResource: {
+
+    },
     activeSessionImage: 0,
     appInfo: null,
     forms: {waiter: {wait: 0}}
