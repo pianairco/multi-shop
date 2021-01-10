@@ -14,7 +14,7 @@ public class VerifyResponseDataModel {
     private String message;
     private String card_hash;
     private String card_pan;
-    private Integer ref_id;
+    private Long ref_id;
     private String fee_type;
     private Integer fee;
 }

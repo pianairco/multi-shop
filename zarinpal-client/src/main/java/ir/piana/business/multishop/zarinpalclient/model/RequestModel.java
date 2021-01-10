@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class RequestModel {
     private Integer amount;
     private String description;
     private String callback_url;
-    private MetaDataModel metadata;
+    private List<MetaDataModel> metadata;
     private String mobile;
     private String email;
 }
