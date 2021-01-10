@@ -63,7 +63,7 @@ public class FinanceRest {
                 "https://api.zarinpal.com/pg/v4/payment/verify.json", verifyRequest, String.class);
         if(response.getStatusCode() == HttpStatus.OK) {
             VerifyResponseModel verifyResponseModel = objectMapper.readValue(response.getBody(), VerifyResponseModel.class);
-            String redirect = "api/zarinpal/success?pan=".concat(verifyResponseModel.getData().getCard_pan());
+            String redirect = "/api/zarinpal/success?pan=".concat(verifyResponseModel.getData().getCard_pan());
             httpResponse.sendRedirect(redirect);
             return null;
         }
@@ -77,7 +77,7 @@ public class FinanceRest {
 
     @GetMapping("api/zarinpal/redirect")
     public String redirect(HttpServletResponse httpResponse) throws IOException {
-        httpResponse.sendRedirect("http://varzesh3.com");
+        httpResponse.sendRedirect("/api/zarinpal/success?pan=32423");
         return null;
     }
 }
