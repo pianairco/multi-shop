@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 
 @RestController
@@ -24,27 +26,8 @@ public class FinanceRest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping("api/zarinpal/verify")
-    public ResponseEntity response(HttpServletRequest request,
-                                   @RequestParam("Authority") String authority,
-                                   @RequestParam("Status") String status) throws JsonProcessingException {
-        HttpEntity<VerifyRequestModel> verifyRequest = new HttpEntity<>(VerifyRequestModel.builder()
-                .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
-                .amount(10000)
-                .authority(authority)
-                .build());
-        ResponseEntity<String> response = restTemplate.postForEntity(
-                "https://api.zarinpal.com/pg/v4/payment/verify.json", verifyRequest, String.class);
-        if(response.getStatusCode() == HttpStatus.OK) {
-            VerifyResponseModel verifyResponseModel = objectMapper.readValue(response.getBody(), VerifyResponseModel.class);
-            String redirect = "https://www.zarinpal.com/pg/StartPay/".concat(verifyResponseModel.getData().getCard_pan());
-            return ResponseEntity.ok(redirect);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
     @GetMapping("api/zarinpal/request")
-    public String requestFromZarinpal() throws JsonProcessingException {
+    public String requestFromZarinpal(HttpServletResponse httpResponse) throws IOException {
         HttpEntity<RequestModel> request = new HttpEntity<>(RequestModel.builder()
                 .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
                 .amount(10000)
@@ -61,8 +44,40 @@ public class FinanceRest {
         if(response.getStatusCode() == HttpStatus.OK) {
             ResponseModel responseModel = objectMapper.readValue(response.getBody(), ResponseModel.class);
             String redirect = "https://www.zarinpal.com/pg/StartPay/".concat(responseModel.getData().getAuthority());
-            return "redirect:".concat(redirect);
+            httpResponse.sendRedirect(redirect);
+            return null;
         }
         throw new RuntimeException();
+    }
+
+    @GetMapping("api/zarinpal/verify")
+    public ResponseEntity response(HttpServletRequest request, HttpServletResponse httpResponse,
+                                   @RequestParam("Authority") String authority,
+                                   @RequestParam("Status") String status) throws IOException {
+        HttpEntity<VerifyRequestModel> verifyRequest = new HttpEntity<>(VerifyRequestModel.builder()
+                .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
+                .amount(10000)
+                .authority(authority)
+                .build());
+        ResponseEntity<String> response = restTemplate.postForEntity(
+                "https://api.zarinpal.com/pg/v4/payment/verify.json", verifyRequest, String.class);
+        if(response.getStatusCode() == HttpStatus.OK) {
+            VerifyResponseModel verifyResponseModel = objectMapper.readValue(response.getBody(), VerifyResponseModel.class);
+            String redirect = "api/zarinpal/success?pan=".concat(verifyResponseModel.getData().getCard_pan());
+            httpResponse.sendRedirect(redirect);
+            return null;
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("api/zarinpal/success")
+    public String getSuccess(@RequestParam("pan") String pan) {
+        return pan;
+    }
+
+    @GetMapping("api/zarinpal/redirect")
+    public String redirect(HttpServletResponse httpResponse) throws IOException {
+        httpResponse.sendRedirect("http://varzesh3.com");
+        return null;
     }
 }
