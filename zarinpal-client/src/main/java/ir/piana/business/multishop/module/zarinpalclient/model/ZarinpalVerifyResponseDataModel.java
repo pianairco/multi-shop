@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.zarinpalclient.model;
+package ir.piana.business.multishop.module.zarinpalclient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseDataModel {
+public class ZarinpalVerifyResponseDataModel {
     private Integer code;
     private String message;
-    private String authority;
+    private String card_hash;
+    private String card_pan;
+    private Long ref_id;
     private String fee_type;
     private Integer fee;
 }

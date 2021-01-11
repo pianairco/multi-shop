@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.zarinpalclient.model;
+package ir.piana.business.multishop.module.zarinpalclient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MetaDataModel {
+public class ZarinpalMetaDataModel {
     private String mobile;
     private String email;
 }

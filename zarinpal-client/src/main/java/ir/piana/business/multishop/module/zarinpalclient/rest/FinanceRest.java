@@ -1,16 +1,12 @@
-package ir.piana.business.multishop.zarinpalclient.rest;
+package ir.piana.business.multishop.module.zarinpalclient.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.business.multishop.zarinpalclient.model.*;
+import ir.piana.business.multishop.module.zarinpalclient.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,14 +22,14 @@ public class FinanceRest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping("api/zarinpal/request")
-    public String requestFromZarinpal(HttpServletResponse httpResponse) throws IOException {
-        HttpEntity<RequestModel> request = new HttpEntity<>(RequestModel.builder()
+    @PostMapping("api/module/zarinpal/payment")
+    public String requestFromZarinpal(@RequestBody PaymentRequestModel requestModel, HttpServletResponse httpResponse) throws IOException {
+        HttpEntity<ZarinpalRequestModel> request = new HttpEntity<>(ZarinpalRequestModel.builder()
                 .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
                 .amount(10000)
                 .description("test item")
                 .metadata(Arrays.asList(
-                        MetaDataModel.builder()
+                        ZarinpalMetaDataModel.builder()
                                 .mobile("09391366128")
                                 .email("rahmatii1366@gmail.com")
                                 .build()))
@@ -42,7 +38,7 @@ public class FinanceRest {
         ResponseEntity<String> response = restTemplate.postForEntity(
                 "https://api.zarinpal.com/pg/v4/payment/request.json", request, String.class);
         if(response.getStatusCode() == HttpStatus.OK) {
-            ResponseModel responseModel = objectMapper.readValue(response.getBody(), ResponseModel.class);
+            ZarinpalResponseModel responseModel = objectMapper.readValue(response.getBody(), ZarinpalResponseModel.class);
             String redirect = "https://www.zarinpal.com/pg/StartPay/".concat(responseModel.getData().getAuthority());
             httpResponse.sendRedirect(redirect);
             return null;
@@ -54,7 +50,7 @@ public class FinanceRest {
     public ResponseEntity response(HttpServletRequest request, HttpServletResponse httpResponse,
                                    @RequestParam("Authority") String authority,
                                    @RequestParam("Status") String status) throws IOException {
-        HttpEntity<VerifyRequestModel> verifyRequest = new HttpEntity<>(VerifyRequestModel.builder()
+        HttpEntity<ZarinpalVerifyRequestModel> verifyRequest = new HttpEntity<>(ZarinpalVerifyRequestModel.builder()
                 .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
                 .amount(10000)
                 .authority(authority)
@@ -62,7 +58,7 @@ public class FinanceRest {
         ResponseEntity<String> response = restTemplate.postForEntity(
                 "https://api.zarinpal.com/pg/v4/payment/verify.json", verifyRequest, String.class);
         if(response.getStatusCode() == HttpStatus.OK) {
-            VerifyResponseModel verifyResponseModel = objectMapper.readValue(response.getBody(), VerifyResponseModel.class);
+            ZarinpalVerifyResponseModel verifyResponseModel = objectMapper.readValue(response.getBody(), ZarinpalVerifyResponseModel.class);
             String redirect = "/api/zarinpal/success?pan=".concat(verifyResponseModel.getData().getCard_pan());
             httpResponse.sendRedirect(redirect);
             return null;

@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.zarinpalclient.model;
+package ir.piana.business.multishop.module.zarinpalclient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class VerifyResponseModel {
-    private VerifyResponseDataModel data;
+public class ZarinpalVerifyResponseModel {
+    private ZarinpalVerifyResponseDataModel data;
     private List<String> errors;
 }

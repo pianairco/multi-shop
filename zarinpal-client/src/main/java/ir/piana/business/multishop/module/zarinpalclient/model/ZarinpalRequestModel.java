@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.zarinpalclient.model;
+package ir.piana.business.multishop.module.zarinpalclient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,12 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestModel {
+public class ZarinpalRequestModel {
     private String merchant_id;
     private Integer amount;
     private String description;
     private String callback_url;
-    private List<MetaDataModel> metadata;
+    private List<ZarinpalMetaDataModel> metadata;
     private String mobile;
     private String email;
 }

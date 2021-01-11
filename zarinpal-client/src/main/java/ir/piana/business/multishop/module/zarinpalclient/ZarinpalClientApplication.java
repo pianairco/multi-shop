@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.zarinpalclient;
+package ir.piana.business.multishop.module.zarinpalclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;
