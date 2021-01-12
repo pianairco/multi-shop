@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +15,24 @@ import java.io.IOException;
 import java.util.Arrays;
 
 //@RestController
+//@RequestMapping("test")
 public class FinanceRestTest {
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @GetMapping("api/zarinpal/test/hello-world")
+    public String testHelloWorld(HttpServletResponse httpResponse) throws IOException {
+        return "Hello World!";
+    }
+
+    @PostMapping("api/zarinpal/test/redirect")
+    public String testRedirect(HttpServletResponse httpResponse) throws IOException {
+        httpResponse.sendRedirect("/test/api/zarinpal/test/hello-world");
+        return null;
+    }
 
     @GetMapping("api/zarinpal/request")
     public String requestFromZarinpal(HttpServletResponse httpResponse) throws IOException {

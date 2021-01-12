@@ -23,7 +23,8 @@ public class FinanceRest {
     private ObjectMapper objectMapper;
 
     @PostMapping("api/module/zarinpal/payment")
-    public String requestFromZarinpal(@RequestBody PaymentRequestModel requestModel, HttpServletResponse httpResponse) throws IOException {
+    public String requestFromZarinpal(@RequestBody PaymentRequestModel requestModel,
+                                      HttpServletResponse httpResponse) throws IOException {
         HttpEntity<ZarinpalRequestModel> request = new HttpEntity<>(ZarinpalRequestModel.builder()
                 .merchant_id("71ca587b-7b1b-451d-a26d-72155e11e88f")
                 .amount(10000)

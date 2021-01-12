@@ -2,7 +2,7 @@ package ir.piana.business.multishop.ds.service;
 
 
 import com.zaxxer.hikari.HikariDataSource;
-import ir.piana.business.multishop.ds.config.SpecificSchemaQueryExecutor;
+import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
 import ir.piana.business.multishop.ds.config.TenantContext;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import ir.piana.business.multishop.ds.repository.DataSourceRepository;

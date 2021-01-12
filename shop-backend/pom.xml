@@ -26,11 +26,11 @@
             <artifactId>shop-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>ir.piana.business</groupId>-->
-<!--            <artifactId>zarinpal-client</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>ir.piana.business</groupId>
+            <artifactId>zarinpal-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
