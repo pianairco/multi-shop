@@ -9,6 +9,7 @@ import ir.piana.business.multishop.ds.repository.DataSourceRepository;
 import ir.piana.business.multishop.exceptions.ChangeStatusException;
 import ir.piana.business.multishop.exceptions.ErrorModel;
 import ir.piana.business.multishop.exceptions.RefreshDatasourceException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
         "failedDataSources",
         "entityManagerFactoryBean", "entityManagerFactory", "txManager"})
 @Transactional(propagation = Propagation.REQUIRED)
+@Slf4j
 public class DataSourceService {
     private HikariDataSource supportDatasource;
 
@@ -51,7 +53,7 @@ public class DataSourceService {
 
     @Autowired
     @Qualifier("dataSources")
-    private Map<String, DataSource> dataSourceMap;
+    private Map<String, HikariDataSource> dataSourceMap;
 
     @Autowired
     private DataSourceRepository dataSourceRepository;
@@ -66,6 +68,7 @@ public class DataSourceService {
     public void init() throws Exception {
         this.supportDatasource = supportExecutor.getDatasource();
         refreshDataSources();
+        log.info("DataSourceService => initialized");
     }
 
     private synchronized List<DataSourceEntity> refreshMultiShopDataSources()
@@ -148,7 +151,7 @@ public class DataSourceService {
         return sejamDataSourceEntity;
     }
 
-    public synchronized Map<String, DataSource> refreshDataSources()
+    public synchronized Map<String, HikariDataSource> refreshDataSources()
             throws Exception {
         if(isLock)
             throw new RefreshDatasourceException(ErrorModel.builder()

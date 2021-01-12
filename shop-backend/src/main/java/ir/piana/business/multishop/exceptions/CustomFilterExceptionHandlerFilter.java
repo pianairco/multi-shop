@@ -35,13 +35,13 @@ import java.util.Map;
 public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
     private List<DataSourceEntity> multiShopDataSources;
     private Map<String, DataSourceEntity> failedDataSources;
-    private Map<String, DataSource> dataSourceMap;
+    private Map<String, HikariDataSource> dataSourceMap;
 
     @Autowired
     public CustomFilterExceptionHandlerFilter(
             List<DataSourceEntity> multiShopDataSources,
             Map<String, DataSourceEntity> failedDataSources,
-            Map<String, DataSource> dataSourceMap) {
+            Map<String, HikariDataSource> dataSourceMap) {
         this.multiShopDataSources = multiShopDataSources;
         this.failedDataSources = failedDataSources;
         this.dataSourceMap = dataSourceMap;

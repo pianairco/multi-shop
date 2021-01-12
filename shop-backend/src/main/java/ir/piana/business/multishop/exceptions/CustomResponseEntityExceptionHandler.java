@@ -39,7 +39,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
     @Autowired
     @Qualifier("dataSources")
-    private Map<String, DataSource> dataSourceMap;
+    private Map<String, HikariDataSource> dataSourceMap;
 
     public void checkDatabaseConnection(Exception ex) {
         String tenantId = TenantContext.getTenantId();

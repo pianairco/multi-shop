@@ -26,9 +26,9 @@
 	<modules>
 		<module>shop-backend</module>
 		<module>shop-gateway</module>
-		<module>zarinpal-client</module>
         <module>shop-common</module>
-    </modules>
+		<module>module-parent</module>
+	</modules>
 
 	<dependencyManagement>
 		<dependencies>

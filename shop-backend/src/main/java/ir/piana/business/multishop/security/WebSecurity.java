@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.security;
 
+import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.ds.config.MultiTenantFilter;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import ir.piana.business.multishop.ds.service.DataSourceService;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("dataSources")
-    private Map<String, DataSource> dataSourceMap;
+    private Map<String, HikariDataSource> dataSourceMap;
 
     @Autowired
     @Qualifier("failedDataSources")

@@ -88,8 +88,8 @@ public class MultiTenantJpaConfiguration {
 
 	@Bean(name = "dataSources")
 	@DependsOn("supportExecutor")
-	public Map<String, DataSource> datasources(SpecificSchemaQueryExecutor supportExecutor) {
-		LinkedHashMap<String, DataSource> datasourceMap = new LinkedHashMap<>();
+	public Map<String, HikariDataSource> datasources(SpecificSchemaQueryExecutor supportExecutor) {
+		LinkedHashMap<String, HikariDataSource> datasourceMap = new LinkedHashMap<>();
 		datasourceMap.put("support", supportExecutor.getDatasource());
 		return datasourceMap;
 	}

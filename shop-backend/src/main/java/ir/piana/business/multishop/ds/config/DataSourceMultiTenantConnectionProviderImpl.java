@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.ds.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -16,7 +17,7 @@ public class DataSourceMultiTenantConnectionProviderImpl
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	private Map<String, DataSource> dataSources;
+	private Map<String, HikariDataSource> dataSources;
 
 	@Override
 	protected DataSource selectAnyDataSource() {

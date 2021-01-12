@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.ds.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class TenantIdentifierResolverImpl
 
 	@Autowired
 	@Qualifier("dataSources")
-	private Map<String, DataSource> dataSources;
+	private Map<String, HikariDataSource> dataSources;
 
 	@PostConstruct
 	public void init() throws SQLException {
