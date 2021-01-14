@@ -3,8 +3,10 @@ package ir.piana.business.multishop.ds.config;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import ir.piana.business.multishop.ds.service.DataSourceService;
 import ir.piana.business.multishop.exceptions.TenantNotSpecifiedException;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
+@Order(0)
 public class MultiTenantFilter extends OncePerRequestFilter {
     private List<DataSourceEntity> multiShopDataSources;
     private Map<String, DataSourceEntity> failedDataSources;

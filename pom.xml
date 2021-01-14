@@ -28,7 +28,7 @@
 		<module>shop-gateway</module>
         <module>shop-common</module>
 		<module>module-parent</module>
-	</modules>
+    </modules>
 
 	<dependencyManagement>
 		<dependencies>

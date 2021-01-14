@@ -9,6 +9,6 @@ public class ModuleInitializer {
 
     @PostConstruct
     public void init() {
-        ModuleInitializer.class.getResourceAsStream("/zarinpal_client.sql");
+        ModuleInitializer.class.getResourceAsStream("/cart.sql");
     }
 }

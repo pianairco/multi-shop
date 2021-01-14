@@ -18,8 +18,12 @@
 	</properties>
 
 	<modules>
+		<module>auth</module>
+		<module>auth-provider</module>
 		<module>zarinpal</module>
 		<module>zarinpal-provider</module>
+		<module>shop</module>
+		<module>shop-provider</module>
 		<module>cart</module>
 		<module>cart-provider</module>
 		<module>bill</module>

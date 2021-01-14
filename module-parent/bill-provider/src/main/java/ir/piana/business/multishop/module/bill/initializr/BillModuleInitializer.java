@@ -9,6 +9,6 @@ public class BillModuleInitializer {
 
     @PostConstruct
     public void init() {
-        BillModuleInitializer.class.getResourceAsStream("/bill-system.sql");
+        BillModuleInitializer.class.getResourceAsStream("/bill.sql");
     }
 }
