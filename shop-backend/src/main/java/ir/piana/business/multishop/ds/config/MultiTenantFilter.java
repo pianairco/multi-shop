@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-@Order(0)
+@Order
 public class MultiTenantFilter extends OncePerRequestFilter {
     private List<DataSourceEntity> multiShopDataSources;
     private Map<String, DataSourceEntity> failedDataSources;

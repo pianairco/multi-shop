@@ -8,6 +8,10 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,10 +28,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//@Component
+@Order(1)
+//@DependsOn("pianaAuthenticationManager")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+//    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    @Qualifier("pianaAuthenticationManager")
     private AuthenticationManager authenticationManager;
+//    @Autowired
     private GoogleUserRepository googleUserRepository;
 
     public JWTAuthenticationFilter(

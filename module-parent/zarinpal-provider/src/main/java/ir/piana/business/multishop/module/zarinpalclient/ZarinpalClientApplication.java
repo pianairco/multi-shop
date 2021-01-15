@@ -9,15 +9,15 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ZarinpalClientApplication {
 
-	@Bean
-	public ObjectMapper getObjectMapper() {
-		return new ObjectMapper();
-	}
-
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
+//	@Bean
+//	public ObjectMapper getObjectMapper() {
+//		return new ObjectMapper();
+//	}
+//
+//	@Bean
+//	public RestTemplate getRestTemplate() {
+//		return new RestTemplate();
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ZarinpalClientApplication.class, args);

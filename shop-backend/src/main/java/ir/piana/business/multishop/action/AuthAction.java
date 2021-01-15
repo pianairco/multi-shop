@@ -2,9 +2,9 @@ package ir.piana.business.multishop.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.business.multishop.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.dev.sqlrest.AjaxController;
 import ir.piana.business.multishop.dev.sqlrest.ServiceProperties;
+import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

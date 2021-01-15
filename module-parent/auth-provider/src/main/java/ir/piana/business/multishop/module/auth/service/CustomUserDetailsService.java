@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component("CustomUserDetailsService")
+//@Component("CustomUserDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;

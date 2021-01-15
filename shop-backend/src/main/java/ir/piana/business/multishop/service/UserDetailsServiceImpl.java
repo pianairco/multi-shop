@@ -1,7 +1,7 @@
 package ir.piana.business.multishop.service;
 
-import ir.piana.business.multishop.data.entity.GoogleUserEntity;
-import ir.piana.business.multishop.data.repository.GoogleUserRepository;
+import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
+import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

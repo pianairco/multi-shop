@@ -9,15 +9,15 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class AuthApplication {
 
-	@Bean
-	public ObjectMapper getObjectMapper() {
-		return new ObjectMapper();
-	}
+//	@Bean
+//	public ObjectMapper getObjectMapper() {
+//		return new ObjectMapper();
+//	}
 
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
+//	@Bean
+//	public RestTemplate getRestTemplate() {
+//		return new RestTemplate();
+//	}
 
 	public static void main(String[] args) {
 //		System.out.println(UUID.randomUUID().toString().length());

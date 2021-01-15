@@ -28,6 +28,12 @@
 		<module>cart-provider</module>
 		<module>bill</module>
 		<module>bill-provider</module>
+		<module>order</module>
+		<module>order-provider</module>
+		<module>discount</module>
+		<module>discount-provider</module>
+		<module>delivery</module>
+		<module>delivery-provider</module>
 	</modules>
 
 	<build>

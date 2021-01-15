@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -37,13 +38,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    @Qualifier("CustomUserDetailsService")
-    private CustomUserDetailsService userDetailsService;
+    UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private CustomAuthenticationProvider authenticationProvider;
 //    @Autowired
-//    private GoogleUserRepository googleUserRepository;
+//    @Qualifier("CustomUserDetailsService")
+//    private CustomUserDetailsService userDetailsService;
+
+//    @Autowired
+//    private CustomAuthenticationProvider authenticationProvider;
+    @Autowired
+    private GoogleUserRepository googleUserRepository;
 
 
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
@@ -80,13 +84,24 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(new MultiTenantFilter(
 //                        multiShopDataSources, failedDataSources, dataSourceService),
 //                        CustomAuthenticationFilter.class)
-                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
-//                .addFilter(new JWTAuthenticationFilter(
-//                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository))
+//                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthenticationFilter(
+                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
 //                 this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
     }
+
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+
+//    @Bean
+//    public AuthenticationManager getAuthenticationManager() throws Exception {
+//        return authenticationManager();
+//    }
 
     @Bean
     public AuthenticationManager getAuthenticationManager() throws Exception {
@@ -101,9 +116,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
 //    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder)
+//                .and()
+//                .authenticationProvider(authenticationProvider);
 //    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -112,10 +134,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .authenticationProvider(authenticationProvider);
-    }
 }

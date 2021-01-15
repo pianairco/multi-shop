@@ -38,7 +38,7 @@ import java.util.Map;
 @EnableJpaRepositories(
 		basePackages = {
 				"ir.piana.business.multishop.ds.repository",
-				"ir.piana.business.multishop.data.repository"
+				"ir.piana.business.multishop.module.**.data.repository",
 		},
 		transactionManagerRef = "txManager")
 @EnableTransactionManagement

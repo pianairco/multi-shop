@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.module.cart;
+package ir.piana.business.multishop.module.shop;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.SpringApplication;

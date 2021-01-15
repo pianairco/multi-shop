@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.module.cart.initializr;
+package ir.piana.business.multishop.module.shop.initializr;
 
 import org.springframework.context.annotation.Configuration;
 
