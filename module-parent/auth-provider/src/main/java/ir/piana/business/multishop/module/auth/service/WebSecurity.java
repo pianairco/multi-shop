@@ -4,6 +4,8 @@ import ir.piana.business.multishop.module.auth.data.repository.GoogleUserReposit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +19,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 //    @Autowired
@@ -38,14 +41,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    @Qualifier("userDetailsService")
     UserDetailsServiceImpl userDetailsService;
 
 //    @Autowired
 //    @Qualifier("CustomUserDetailsService")
 //    private CustomUserDetailsService userDetailsService;
 
-//    @Autowired
-//    private CustomAuthenticationProvider authenticationProvider;
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider;
+
     @Autowired
     private GoogleUserRepository googleUserRepository;
 
@@ -64,7 +69,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET, "/**").permitAll()
 //                .anyRequest().authenticated()
 //                .antMatchers("/images/**").permitAll()
-                .antMatchers("/login").permitAll()
+//                .antMatchers("/login").permitAll()
                 .anyRequest().permitAll()
                 .and()
 //                .formLogin()
@@ -84,29 +89,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(new MultiTenantFilter(
 //                        multiShopDataSources, failedDataSources, dataSourceService),
 //                        CustomAuthenticationFilter.class)
-//                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthenticationFilter(
-                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository))
+                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthenticationFilter(
+//                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
 //                 this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
     }
 
-//    @Bean
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-
-//    @Bean
-//    public AuthenticationManager getAuthenticationManager() throws Exception {
-//        return authenticationManager();
-//    }
-
-    @Bean
-    public AuthenticationManager getAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
 
     @Bean
     public AuthenticationSuccessHandler getSuccessHandler() {
@@ -115,17 +105,30 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         return handler;
     }
 
+//    @Bean
+//    @Order(1)
+//    public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
+//        return customAuthenticationFilter;
+//    }
+
+
+    @Autowired
+    public void initialize(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder)
+                .and().authenticationProvider(authenticationProvider);
+    }
+
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder)
-//                .and()
-//                .authenticationProvider(authenticationProvider);
+//                .and().authenticationProvider(authenticationProvider);
 //    }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

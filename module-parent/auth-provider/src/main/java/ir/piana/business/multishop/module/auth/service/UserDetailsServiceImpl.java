@@ -2,21 +2,23 @@ package ir.piana.business.multishop.module.auth.service;
 
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
-@Component("UserDetailsServiceImpl")
+@Component("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
     private GoogleUserRepository googleUserRepository;
 
-    public UserDetailsServiceImpl(GoogleUserRepository googleUserRepository) {
-        this.googleUserRepository = googleUserRepository;
-    }
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

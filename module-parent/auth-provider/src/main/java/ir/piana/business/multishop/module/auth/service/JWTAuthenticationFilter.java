@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 //@Component
-@Order(1)
+//@Order(1)
 //@DependsOn("pianaAuthenticationManager")
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
