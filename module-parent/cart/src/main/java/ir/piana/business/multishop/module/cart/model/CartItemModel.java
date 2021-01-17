@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartItemModel {
     private long id;
-    private String shopItemUuid;
-    private float amount;
+    private long productItemId;
+    private String productUuid;
+    private int amount;
 }

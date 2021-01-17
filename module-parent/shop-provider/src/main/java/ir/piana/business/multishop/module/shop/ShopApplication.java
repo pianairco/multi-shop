@@ -9,16 +9,6 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class ShopApplication {
 
-	@Bean
-	public ObjectMapper getObjectMapper() {
-		return new ObjectMapper();
-	}
-
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(ShopApplication.class, args);
 	}

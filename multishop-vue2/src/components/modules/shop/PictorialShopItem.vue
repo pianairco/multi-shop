@@ -16,7 +16,7 @@
       <a class="card-footer-item button is-white">
         مشاهده
       </a>
-      <a class="card-footer-item button is-white">
+      <a class="card-footer-item button is-white" v-on:click="buy">
         خرید
       </a>
     </footer>
@@ -31,6 +31,9 @@
     props: {
       images: {
         type: Array
+      },
+      uuid: {
+        type: String
       },
       title: {
         type: String
@@ -54,6 +57,19 @@
       PictureBox
     },
     methods: {
+      async buy () {
+        await this.$axios.post(this.remoteServer + '/api/cart/add-product',
+                {
+                  productUuid: this.uuid,
+                  amount: 1
+                },
+                { 'content-type': 'application/json' }).then((res) => {
+          let appInfo = res['data'];
+          console.log('appInfo =>', appInfo)
+          this.$store.commit('setAppInfo', appInfo)
+          return appInfo
+        });
+      }
     }
   }
 </script>

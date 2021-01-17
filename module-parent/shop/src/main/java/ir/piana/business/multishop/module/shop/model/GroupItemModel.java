@@ -9,19 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemModel {
+public class GroupItemModel {
     private long id;
     private String uuid;
     private String name;
-    private String nameKey;
+    private String routerKey;
     private String description;
-    private float amount;
-    private long price;
-    private long salePrice;
-    private long unitPrice;
-    private long unitId;
-    private long unitKey;
-    private long discount;
-    private boolean isActive;
-    private float availableAmount;
 }

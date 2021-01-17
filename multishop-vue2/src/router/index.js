@@ -5,6 +5,7 @@ import Shop from '@/components/Shop'
 import Samples from '@/components/Samples'
 import Sample from '@/components/Sample'
 import Session from '@/components/Session'
+import ShopVitrine from "../components/ShopVitrine";
 
 Vue.use(VueRouter)
 
@@ -19,7 +20,15 @@ export default new VueRouter({
     {
       path: '/Shop',
       name: 'Shop',
-      component: Shop
+      component: Shop,
+      children: [
+        {
+          // UserProfile will be rendered inside User's <router-view>
+          // when /user/:id/profile is matched
+          path: 'vitrine/:routerKey',
+          component: ShopVitrine
+        }
+      ]
     },
     {
       path: '/samples',

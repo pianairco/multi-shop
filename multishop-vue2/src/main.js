@@ -34,6 +34,7 @@ const store = new Vuex.Store({
     },
     activeSessionImage: 0,
     appInfo: null,
+    groupItems: null,
     forms: {waiter: {wait: 0}}
   },
   getters: {
@@ -58,6 +59,9 @@ const store = new Vuex.Store({
     },
     setAppInfo: function (state, appInfo) {
       state.appInfo = appInfo
+    },
+    setGroupItems: function (state, groupItems) {
+      state.groupItems = groupItems;
     },
     setToForm: function(state, form) {
       console.log(JSON.stringify(form));

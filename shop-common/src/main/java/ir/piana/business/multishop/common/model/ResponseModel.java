@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.model;
+package ir.piana.business.multishop.common.model;
 
 import lombok.*;
 

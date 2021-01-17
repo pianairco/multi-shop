@@ -19,12 +19,19 @@
       console.log('Nothing gets called before me!')
       console.log(this.remoteServer);
       // let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
-      let appInfo = await this.$axios.post(this.remoteServer + '/api/ajax/serve', {},
+      await this.$axios.post(this.remoteServer + '/api/ajax/serve', {},
               { headers: { 'action': 'auth', activity: 'appInfo' } }).then((res) => {
         let appInfo = res['data'];
         console.log('appInfo =>', appInfo)
         this.$store.commit('setAppInfo', appInfo)
         return appInfo
+      });
+      await this.$axios.get(this.remoteServer + '/api/shop/group/items',
+              { }).then((res) => {
+        let groupItems = res['data'];
+        console.log('appInfo =>', groupItems)
+        this.$store.commit('setGroupItems', groupItems)
+        return groupItems
       });
       console.log("-----------------")
     },

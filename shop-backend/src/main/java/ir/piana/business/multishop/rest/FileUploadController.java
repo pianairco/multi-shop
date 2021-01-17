@@ -5,7 +5,7 @@ import ir.piana.business.multishop.common.dev.uploadrest.AfterSaveImage;
 import ir.piana.business.multishop.common.dev.uploadrest.GroupProperties;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageFileNotFoundException;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
-import ir.piana.business.multishop.model.ResponseModel;
+import ir.piana.business.multishop.common.model.ResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
