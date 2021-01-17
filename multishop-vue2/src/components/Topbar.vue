@@ -118,11 +118,11 @@
           if (!googleUser) {
             return null;
           }
-          console.log("googleUser", googleUser);
-          console.log("getId", googleUser.getId());
-          console.log("getBasicProfile", googleUser.getBasicProfile());
-          console.log("getAuthResponse", googleUser.getAuthResponse());
-          console.log("getAuthResponse", this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse());
+          // console.log("googleUser", googleUser);
+          // console.log("getId", googleUser.getId());
+          // console.log("getBasicProfile", googleUser.getBasicProfile());
+          // console.log("getAuthResponse", googleUser.getAuthResponse());
+          // console.log("getAuthResponse", this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse());
           let accessToken = this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()['access_token'];
           console.log("accessToken", accessToken);
           this.isSignIn = this.$gAuth.isAuthorized;

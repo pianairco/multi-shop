@@ -1,10 +1,10 @@
 package ir.piana.business.multishop.rest;
 
 import com.google.api.client.util.Maps;
-import ir.piana.business.multishop.dev.uploadrest.AfterSaveImage;
-import ir.piana.business.multishop.dev.uploadrest.GroupProperties;
-import ir.piana.business.multishop.dev.uploadrest.StorageFileNotFoundException;
-import ir.piana.business.multishop.dev.uploadrest.StorageService;
+import ir.piana.business.multishop.common.dev.uploadrest.AfterSaveImage;
+import ir.piana.business.multishop.common.dev.uploadrest.GroupProperties;
+import ir.piana.business.multishop.common.dev.uploadrest.StorageFileNotFoundException;
+import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
 import ir.piana.business.multishop.model.ResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

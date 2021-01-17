@@ -51,10 +51,13 @@ public class MultiTenantFilter extends OncePerRequestFilter {
 //            response.getWriter().flush();
 //            return false;
         }
-        String host = request.getHeader("Host") != null
+        String hostString = request.getHeader("Host") != null
                 && !request.getHeader("Host").startsWith("localhost") ?
                 request.getHeader("Host") : request.getHeader("dsCode") != null ?
                 request.getHeader("dsCode") : null;
+        if(hostString.contains(":"))
+            hostString = hostString.substring(0, hostString.indexOf(":"));
+        String host = hostString;
         if (request.getServletPath().startsWith("/login") || request.getServletPath().startsWith("/h2")) {
             TenantContext.setTenantId("support");
             request.setAttribute("tenantId", "support");

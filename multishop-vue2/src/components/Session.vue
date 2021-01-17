@@ -150,7 +150,7 @@
     methods: {
       uploadDetail: function () {
         this.$store.commit('addWaiterWait');
-        this.$axios.post('/api/ajax/serve', { sessionId: this.id, detail: this.detail },
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', { sessionId: this.id, detail: this.detail },
                 { headers: {'action': 'session', 'activity': 'updateSessionDetail' }})
                 // { headers: headers })
                 .then((res) => {
@@ -179,7 +179,7 @@
         this.$store.commit('addWaiterWait');
 
         // this.$axios.post('/api/images/image-upload', formData, {
-        this.$axios.post('/api/ajax/serve', { sessionId: this.id, image: image, rotate: rotate, orders: this.images.length + 1 },
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', { sessionId: this.id, image: image, rotate: rotate, orders: this.images.length + 1 },
                 {headers: {'action': 'session', 'activity': 'addSessionImage', 'group': 'insert-sample-session-image'}})
                 // { headers: headers })
                 .then((res) => {

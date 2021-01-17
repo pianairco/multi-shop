@@ -1,5 +1,7 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -8,17 +10,22 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
+import ir.piana.business.multishop.module.auth.model.AppInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -27,24 +34,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
-//@Component
-//@Order(1)
-//@DependsOn("pianaAuthenticationManager")
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-//    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-//    @Autowired
-//    @Qualifier("pianaAuthenticationManager")
     private AuthenticationManager authenticationManager;
-//    @Autowired
     private GoogleUserRepository googleUserRepository;
 
     public JWTAuthenticationFilter(
+            String loginUrl,
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder bCryptPasswordEncoder,
             GoogleUserRepository googleUserRepository) {
+        super(new AntPathRequestMatcher(loginUrl));
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.googleUserRepository = googleUserRepository;
@@ -91,7 +94,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             }*/
 
             if(googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
-                userEntity.setPassword("$2a$10$IEgruxRGFH8Ruf4l23Niou4BamMER1/NBg.zHz4xA/w8pl597R8SO");
+                userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
                 googleUserRepository.save(userEntity);
                 userEntity.setPassword("0000");
             }
@@ -114,13 +117,30 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-//        String token = JWT.create()
-//                .withSubject(((User) auth.getPrincipal()).getUsername())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000))
-//                .sign(Algorithm.HMAC512("SecretKeyToGenJWTs".getBytes()));
+        GoogleUserEntity userEntity = googleUserRepository.findByEmail(((User) auth.getPrincipal()).getUsername());
+        String token = JWT.create()
+                .withSubject(((User) auth.getPrincipal()).getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000))
+                .sign(Algorithm.HMAC512("SecretKeyToGenJWTs".getBytes()));
+        req.getSession().setAttribute("jwt-token", token);
         req.getSession().setAttribute("authentication", auth.getPrincipal());
         req.getSession().setAttribute("authorization", ((User) auth.getPrincipal()).getUsername());
-        res.sendRedirect("hello");
+        req.getSession().setAttribute("user", userEntity);
+//        res.sendRedirect("hello");
 //        res.addHeader("Authorization", "Bearer " + token);
+
+
+        AppInfo appInfo = AppInfo.builder()
+                .isLoggedIn(true)
+                .isAdmin(false)
+                .username(userEntity.getGivenName())
+                .email(userEntity.getEmail())
+                .pictureUrl(userEntity.getPictureUrl())
+                .build();
+
+        res.setStatus(HttpStatus.OK.value());
+        res.setContentType("application/json;charset=UTF-8");
+        res.getWriter().print(new ObjectMapper().writeValueAsString(appInfo));
+        res.getWriter().flush();
     }
 }

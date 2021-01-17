@@ -11,7 +11,7 @@ server:
       force-response: true
 spring:
   profiles:
-    include: resources, store, production
+    include: resources, store, production, develop
 #  config:
 #    activate:
 #      on-profile: resources, production

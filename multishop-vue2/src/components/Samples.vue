@@ -55,7 +55,7 @@
         try {
           console.log(JSON.stringify(form));
           // this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
-          this.$axios.post('/api/ajax/serve', form,
+          this.$axios.post(this.remoteServer + '/api/ajax/serve', form,
                   {headers: {'action': 'sample', 'activity': 'addSample','group': 'sample'}})
             .then((response) => {
               console.log(response.data);

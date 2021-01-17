@@ -6,10 +6,13 @@ module.exports = {
         config.module.rules.delete('eslint');
     },
     devServer: {
-        port: 80,
+        host: 'piana.ir',
+        https: true,
+        port: 443,
         proxy: {
             '/api': {
-                target: 'http://localhost:8088',
+                // target: 'https://piana.ir',
+                target: 'https://piana.ir:8043',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
@@ -17,7 +20,8 @@ module.exports = {
                 }
             },
             '/cdn': {
-                target: 'http://localhost:8088',
+                // target: 'https://piana.ir',
+                target: 'https://piana.ir:8043',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {

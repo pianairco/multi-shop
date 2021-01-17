@@ -1,8 +1,8 @@
 package ir.piana.business.multishop.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.business.multishop.dev.uploadrest.StorageService;
-import ir.piana.business.multishop.service.sql.SqlService;
+import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
+import ir.piana.business.multishop.common.dev.service.sql.SqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;

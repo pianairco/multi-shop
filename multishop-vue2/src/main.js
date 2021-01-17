@@ -83,13 +83,26 @@ const store = new Vuex.Store({
       this.state.forms[formName] =  JSON.parse(JSON.stringify(this.state.forms[formName]));
     }
   }
-})
+});
+
+// Vue.http.options.xhr = {
+//   withCredentials: true
+// };
+// Vue.http.options.emulateJSON = true;
+// Vue.http.options.emulateHTTP = true;
+// Vue.http.options.crossOrigin = true;
+
+axios.defaults.headers.common = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin"
+};
 
 Vue.mixin({
   data: function() {
     return {
       get remoteServer() {
         // return "https://vavishka.herokuapp.com/";
+        // return "https://piana.ir:8043";
         return "";
         // return "http://localhost";
       }

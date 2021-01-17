@@ -77,7 +77,7 @@
         // form['samples_id'] = this.sample.id;
         form['orders'] = this.sessions.length + 1;
         // this.$axios.post('/api/sample/session/add', form, {headers: {'file-group': 'session'}})
-        this.$axios.post('/api/ajax/serve', form,
+        this.$axios.post(this.remoteServer + '/api/ajax/serve', form,
                 { headers: { 'action': 'session', 'activity': 'addSession','group': 'session' } })
                 // {headers: {'file-group': 'session'}})
           .then((response) => {

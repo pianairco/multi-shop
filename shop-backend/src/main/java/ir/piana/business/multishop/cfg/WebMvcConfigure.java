@@ -8,6 +8,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -43,4 +44,23 @@ public class WebMvcConfigure implements WebMvcConfigurer {
 //                    .addResourceLocations("classpath:/static/", "file:///c:/upload-dir/");
         });
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOrigins("https://piana.ir");
+    }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/*")
+//                .allowedOrigins("https://piana.ir")
+//                .allowedMethods("GET", "POST", "OPTIONS", "PUT")
+//                .allowedHeaders("Content-Type", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method",
+//                        "Host",
+//                        "Access-Control-Request-Headers")
+////                .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+//                .allowCredentials(true).maxAge(3600);
+//    }
 }
