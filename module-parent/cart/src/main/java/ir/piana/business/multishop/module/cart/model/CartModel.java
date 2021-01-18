@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -14,5 +15,5 @@ import java.util.List;
 public class CartModel {
     private long id;
     private String uuid;
-    private List<CartItemModel> cartItemModels;
+    private Map<String, CartItemModel> cartItemModelMap;
 }

@@ -1,6 +1,8 @@
 package ir.piana.business.multishop.module.shop.rest;
 
 import ir.piana.business.multishop.module.shop.model.ProductItemModel;
+import ir.piana.business.multishop.module.shop.service.ShopService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,58 +18,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/shop/product")
 public class ProductRest {
-    List<ProductItemModel> productItemModels = new ArrayList<>();
 
-    @PostConstruct
-    public void init() {
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("apple").groupRouterKey("fruit").price(1000)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("orange").groupRouterKey("fruit").price(1400)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("pineapple").groupRouterKey("fruit").price(2500)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("tomato").groupRouterKey("cucurbits").price(1000)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("cucumber").groupRouterKey("cucurbits").price(1340)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("potato").groupRouterKey("cucurbits").price(1660)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("green peas").groupRouterKey("vegetable").price(900)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("french beans").groupRouterKey("vegetable").price(1500)
-                .build());
-        productItemModels.add(ProductItemModel.builder()
-                .uuid(UUID.randomUUID().toString())
-                .name("fresh beetroot").groupRouterKey("vegetable").price(1250)
-                .build());
-    }
+    @Autowired
+    private ShopService shopService;
 
     @GetMapping("items")
     public ResponseEntity<List<ProductItemModel>> getGroupItemModels() {
-        return ResponseEntity.ok(productItemModels);
+        return ResponseEntity.ok(shopService.getProductItemModels());
     }
 
     @GetMapping("items/{routerKey}")
     public ResponseEntity<List<ProductItemModel>> getGroupItemModelsByRouterKey(
-            @PathVariable String routerKey
-    ) {
-        return ResponseEntity.ok(productItemModels.stream()
+            @PathVariable String routerKey) {
+        return ResponseEntity.ok(shopService.getProductItemModels().stream()
                 .filter(p -> p.getGroupRouterKey().equalsIgnoreCase(routerKey))
                 .collect(Collectors.toList()));
     }

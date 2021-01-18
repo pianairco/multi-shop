@@ -1,9 +1,10 @@
 package ir.piana.business.multishop.module.bill.service;
 
 import ir.piana.business.multishop.module.bill.model.BillModel;
+import ir.piana.business.multishop.module.bill.model.CreateBillModel;
 
 public interface BillService {
-    String createBill(BillModel billModel);
-    BillModel retrieveBillModel(String billNumber);
+    String createBill(CreateBillModel createBillModel);
+    CreateBillModel retrieveBillModel(String billUuid);
     void paymentAdvice(String billNumber);
 }
