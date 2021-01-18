@@ -72,9 +72,9 @@ public class CartRest {
     public ResponseEntity<ResponseModel<String>> initBill(HttpServletRequest request) {
         CartModel cartModel = (CartModel) request.getSession().getAttribute("cart-model");
         if(cartModel == null) {
-            List<ProductInventory> productInventories = shopService.retrieveProductInventory(cartModel.getCartItemModels().stream()
-                    .map(i -> i.getProductUuid()).collect(Collectors.toList()));
-            cartModel.getCartItemModels().stream().map(productInventories.get())
+//            List<ProductInventory> productInventories = shopService.retrieveProductInventory(cartModel.getCartItemModels().stream()
+//                    .map(i -> i.getProductUuid()).collect(Collectors.toList()));
+//            cartModel.getCartItemModels().stream().map(productInventories.get())
             billService.createBill(CreateBillModel.builder()
                     .billType(BillType.CART)
                     .build());
