@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.zarinpalclient.initializr;
 
+import ir.piana.business.multishop.common.CommonInitializer;
 import ir.piana.business.multishop.common.data.component.SpecificSchemaQueryExecutorProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -14,23 +15,25 @@ import java.io.InputStream;
 @Component("ZarinpalModuleInitializer")
 @DependsOn("SpecificSchemaQueryExecutorProvider")
 @Slf4j
-public class ZarinpalInitializer {
+public class ZarinpalInitializer extends CommonInitializer {
     @Autowired
-    private SpecificSchemaQueryExecutorProvider queryExecutorProvider;
+    public void setQueryExecutorProvider(SpecificSchemaQueryExecutorProvider executorProvider) {
+        this.queryExecutorProvider = executorProvider;
+    }
 
     @PostConstruct
     public void init() {
-        try {
-            InputStream resourceAsStream = ZarinpalInitializer.class.getResourceAsStream("/zarinpal.sql");
-            String[] split = new String[0];
-            split = IOUtils.toString(resourceAsStream).split(";");
-
-            for (String script : split) {
-                queryExecutorProvider.executeOnAllDataSources(script);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        initData();
         log.info("ZarinpalModuleInitializer => initialized");
+    }
+
+    @Override
+    public InputStream getSupportSql() {
+        return null;
+    }
+
+    @Override
+    public InputStream getAllSchemaSql() {
+        return ZarinpalInitializer.class.getResourceAsStream("/zarinpal.sql");
     }
 }

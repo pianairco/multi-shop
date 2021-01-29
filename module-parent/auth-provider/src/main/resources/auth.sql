@@ -1,8 +1,8 @@
 create sequence IF NOT EXISTS master_seq;
 
 CREATE TABLE IF NOT EXISTS users (
-  id bigint default master_seq.nextval primary key,
-  user_id char(36),
+  id bigint primary key,
+  user_uuid char(36),
   email varchar(256) NOT NULL,
   mobile char(11),
   password char(128),
@@ -14,7 +14,15 @@ CREATE TABLE IF NOT EXISTS users (
   given_name varchar(64)
 );
 
-INSERT INTO users select * from (
-    master_seq.nextval id, 'admin' user_id, 'admin' email, 1 email_verified, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password union
-    master_seq.nextval, 'manager', 'manager', 1, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K'
+INSERT INTO users (id, user_uuid, email, email_verified, password) select * from (
+    select master_seq.nextval id, 'admin' user_uuid, 'admin' email, 1 email_verified, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password union
+    select master_seq.nextval, 'manager', 'manager', 1, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K'
 ) where not exists(select * from users);
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    id bigint default master_seq.nextval primary key,
+    user_id bigint not null,
+    role_name varchar(64) NOT NULL,
+    constraint fk_user_roles_2_user_by_id FOREIGN KEY (user_id)
+        REFERENCES users(id)
+);

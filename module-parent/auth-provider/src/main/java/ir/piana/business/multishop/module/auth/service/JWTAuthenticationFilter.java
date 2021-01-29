@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -57,6 +59,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if(authentication != null && authentication.isAuthenticated())
+                return authentication;
             GoogleUserEntity userEntity = null;
             /*if("application/x-www-form-urlencoded".equalsIgnoreCase(req.getContentType())) {
                 String s = IOUtils.toString(req.getInputStream());
@@ -95,17 +100,18 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
             if(googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
                 userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
+                userEntity.setUserId(UUID.randomUUID().toString());
                 googleUserRepository.save(userEntity);
                 userEntity.setPassword("0000");
             }
 
-            Authentication authenticate = authenticationManager.authenticate(
+            authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             userEntity.getEmail(),
                             userEntity.getPassword(),
                             new ArrayList<>())
             );
-            return authenticate;
+            return authentication;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,8 +122,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-
-        GoogleUserEntity userEntity = googleUserRepository.findByEmail(((User) auth.getPrincipal()).getUsername());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        GoogleUserEntity userEntity = ((UserModel)auth.getPrincipal()).getUserEntity();
+//        GoogleUserEntity userEntity = googleUserRepository.findByEmail(((User) auth.getPrincipal()).getUsername());
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000))
@@ -132,7 +139,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         AppInfo appInfo = AppInfo.builder()
                 .isLoggedIn(true)
-                .isAdmin(false)
+                .isAdmin(userEntity.getUserRolesEntities().stream()
+                        .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
+                        .map(e -> true).findFirst().orElse(false))
                 .username(userEntity.getGivenName())
                 .email(userEntity.getEmail())
                 .pictureUrl(userEntity.getPictureUrl())

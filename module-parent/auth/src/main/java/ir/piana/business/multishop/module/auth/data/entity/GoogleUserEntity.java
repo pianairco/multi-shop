@@ -3,6 +3,7 @@ package ir.piana.business.multishop.module.auth.data.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,7 +18,7 @@ public class GoogleUserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "id")
     private long Id;
-    @Column(name = "user_id")
+    @Column(name = "user_uuid")
     private String userId;
     @Column(name = "email")
     private String email;
@@ -37,4 +38,6 @@ public class GoogleUserEntity {
     private String familyName;
     @Column(name = "given_name")
     private String givenName;
+    @OneToMany(mappedBy = "userId", fetch = FetchType.EAGER)
+    private List<UserRolesEntity> userRolesEntities;
 }

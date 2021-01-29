@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @Service("dataSourceService")
 @DependsOn({ "supportExecutor",
         "multiShopDataSources",
+        "multiShopExecutors",
         "failedDataSources",
         "entityManagerFactoryBean", "entityManagerFactory", "txManager"})
 @Transactional(propagation = Propagation.REQUIRED)
@@ -54,6 +55,10 @@ public class DataSourceService {
     @Autowired
     @Qualifier("dataSources")
     private Map<String, HikariDataSource> dataSourceMap;
+
+    @Autowired
+    @Qualifier("multiShopExecutors")
+    private Map<String, SpecificSchemaQueryExecutor> multiShopExecutors;
 
     @Autowired
     private DataSourceRepository dataSourceRepository;
@@ -120,6 +125,7 @@ public class DataSourceService {
         try {
             HikariDataSource ds = createHikariDS(dataSourceEntity);
             dataSourceMap.put(dataSourceEntity.getTenantId(), ds);
+            multiShopExecutors.put(dataSourceEntity.getTenantId(), new SpecificSchemaQueryExecutor(ds));
 
             failedDataSources.remove(dataSourceEntity);
             dataSourceEntity.setActive(true);

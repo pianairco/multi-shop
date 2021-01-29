@@ -16,26 +16,54 @@ import java.util.Map;
 @DependsOn("dataSourceService")
 @Slf4j
 public class SpecificSchemaQueryExecutorProvider {
+//    @Autowired
+//    @Qualifier("dataSources")
+//    private Map<String, HikariDataSource> datasources;
+
     @Autowired
-    @Qualifier("dataSources")
-    private Map<String, HikariDataSource> datasources;
+    @Qualifier("supportExecutor")
+    private SpecificSchemaQueryExecutor supportExecutor;
+
+    @Autowired
+    @Qualifier("multiShopExecutors")
+    private Map<String, SpecificSchemaQueryExecutor> multiShopExecutors;
 
     @PostConstruct
     public void init() {
       log.info("SpecificSchemaQueryExecutorProvider => initialized");
     }
 
-    public SpecificSchemaQueryExecutor getSpecificSchemaQueryExecutor(String tenantId) {
-        return new SpecificSchemaQueryExecutor(datasources.get(tenantId));
-    }
-
     public void executeOnAllDataSources(String query) {
-        for(String key : datasources.keySet()) {
+        for(String key : multiShopExecutors.keySet()) {
             try {
-                new SpecificSchemaQueryExecutor(datasources.get(key)).execute(query);
+                multiShopExecutors.get(key).execute(query);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+
+    public void executeOnSupport(String query) {
+        for(String key : multiShopExecutors.keySet()) {
+            try {
+                supportExecutor.execute(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+//    public SpecificSchemaQueryExecutor getSpecificSchemaQueryExecutor(String tenantId) {
+//        return new SpecificSchemaQueryExecutor(datasources.get(tenantId));
+//    }
+
+//    public void executeOnAllDataSources(String query) {
+//        for(String key : datasources.keySet()) {
+//            try {
+//                new SpecificSchemaQueryExecutor(datasources.get(key)).execute(query);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

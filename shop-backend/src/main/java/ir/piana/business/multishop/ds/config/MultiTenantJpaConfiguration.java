@@ -94,6 +94,12 @@ public class MultiTenantJpaConfiguration {
 		return datasourceMap;
 	}
 
+	@Bean("multiShopExecutors")
+	@DependsOn("dataSources")
+	public Map<String, SpecificSchemaQueryExecutor> getMultiShopExecutors() {
+		return new LinkedHashMap<>();
+	}
+
 	@Bean("entityManagerFactoryBean")
 	@DependsOn("dataSources")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(

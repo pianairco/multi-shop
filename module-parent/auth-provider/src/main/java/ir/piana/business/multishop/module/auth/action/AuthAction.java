@@ -3,9 +3,11 @@ package ir.piana.business.multishop.module.auth.action;
 import ir.piana.business.multishop.common.dev.sqlrest.AjaxController;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
+import ir.piana.business.multishop.module.auth.service.UserModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +20,16 @@ public class AuthAction extends AjaxController.Action {
     public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> appInfo = (request, body) -> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppInfo appInfo = null;
-        if(authentication.getDetails() instanceof GoogleUserEntity) {
+        if(authentication.getPrincipal() instanceof UserModel) {
+            GoogleUserEntity userEntity = ((UserModel) authentication.getPrincipal()).getUserEntity();
             appInfo = AppInfo.builder()
                     .isLoggedIn(true)
-                    .isAdmin(true)
-                    .username(((GoogleUserEntity) authentication.getDetails()).getName())
-                    .email(((GoogleUserEntity) authentication.getDetails()).getEmail())
-                    .pictureUrl(((GoogleUserEntity) authentication.getDetails()).getPictureUrl()).build();
+                    .isAdmin(userEntity.getUserRolesEntities().stream()
+                            .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
+                            .map(e -> true).findFirst().orElse(false))
+                    .username(userEntity.getGivenName())
+                    .email(userEntity.getEmail())
+                    .pictureUrl(userEntity.getPictureUrl()).build();
         } else {
             appInfo = AppInfo.builder()
                     .isLoggedIn(false)
