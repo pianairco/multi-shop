@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +39,7 @@ public class CartRest {
                     .uuid(UUID.randomUUID().toString())
                     .cartItemModelMap(new LinkedHashMap<>())
                     .build();
+            cartModel.getCartItemModelMap().put(cartItemModel.getProductUuid(), cartItemModel);
             request.getSession().setAttribute("cart-model", cartModel);
         }
 //        Optional<CartItemModel> first = cartModel.getCartItemModelMap()..stream()
@@ -72,11 +75,26 @@ public class CartRest {
     public ResponseEntity<ResponseModel<String>> initBill(HttpServletRequest request) {
         CartModel cartModel = (CartModel) request.getSession().getAttribute("cart-model");
         if(cartModel == null) {
-//            List<ProductInventory> productInventories = shopService.retrieveProductInventory(cartModel.getCartItemModels().stream()
-//                    .map(i -> i.getProductUuid()).collect(Collectors.toList()));
-//            cartModel.getCartItemModels().stream().map(productInventories.get())
+            List<ProductInventory> productInventories = shopService.retrieveProductInventory(
+                    cartModel.getCartItemModelMap().keySet().stream().collect(Collectors.toList()));
+
+            String unavailable = productInventories.stream()
+                    .filter(p -> p.getRemainAmount() < cartModel.getCartItemModelMap().get(p.getProductUuid()).getAmount())
+                    .map(p -> String.valueOf(p.getProductUuid()))
+                    .collect(Collectors.joining(","));
+            if(!unavailable.isEmpty()) {
+                return ResponseEntity.ok(ResponseModel.<String>builder()
+                        .code(40).data(unavailable).build());
+            }
+
+            long totalPrice = productInventories.stream()
+                    .mapToLong(p -> cartModel.getCartItemModelMap().get(p.getProductUuid()).getAmount() * p.getPrice())
+                    .sum();
+
             billService.createBill(CreateBillModel.builder()
                     .billType(BillType.CART)
+                    .price(totalPrice)
+                    .referenceId(cartModel.getUuid())
                     .build());
         }
 

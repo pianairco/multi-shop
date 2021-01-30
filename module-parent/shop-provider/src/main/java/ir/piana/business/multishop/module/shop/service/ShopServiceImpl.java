@@ -64,7 +64,11 @@ public class ShopServiceImpl implements ShopService {
     public List<ProductInventory> retrieveProductInventory(List<String> productUuids) {
         List<ProductInventory> productInventoryList = productItemModels.stream()
                 .filter(p -> productUuids.contains(p.getUuid()))
-                .map(p -> ProductInventory.builder().productUuid(p.getUuid()).price(p.getPrice()).build())
+                .map(p -> ProductInventory.builder()
+                        .productUuid(p.getUuid())
+                        .price(p.getPrice())
+                        .remainAmount(p.getAmount())
+                        .build())
                 .collect(Collectors.toList());
         return productInventoryList;
     }

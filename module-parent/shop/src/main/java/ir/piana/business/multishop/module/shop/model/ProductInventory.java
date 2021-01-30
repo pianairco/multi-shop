@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ProductInventory {
     private String productUuid;
     private long price;
+    private long remainAmount;
 }

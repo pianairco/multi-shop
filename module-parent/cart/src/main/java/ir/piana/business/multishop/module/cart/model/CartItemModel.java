@@ -14,4 +14,6 @@ public class CartItemModel {
     private long productItemId;
     private String productUuid;
     private int amount;
+    private int imageUrl;
+    private int price;
 }

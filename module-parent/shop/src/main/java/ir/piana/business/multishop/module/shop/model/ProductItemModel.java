@@ -16,7 +16,7 @@ public class ProductItemModel {
     private String groupRouterKey;
     private String nameKey;
     private String description;
-    private float amount;
+    private long amount;
     private long price;
     private long salePrice;
     private long unitPrice;
