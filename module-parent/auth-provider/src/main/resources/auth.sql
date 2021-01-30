@@ -14,9 +14,12 @@ CREATE TABLE IF NOT EXISTS users (
   given_name varchar(64)
 );
 
-INSERT INTO users (id, user_uuid, email, email_verified, password) select * from (
-    select master_seq.nextval id, 'admin' user_uuid, 'admin' email, 1 email_verified, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password union
-    select master_seq.nextval, 'manager', 'manager', 1, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K'
+INSERT INTO users (id, user_uuid, email, email_verified, password, locale, given_name, picture_url) select * from (
+    select master_seq.nextval id, 'admin' user_uuid, 'admin' email, 1 email_verified,
+           '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password, 'en' locale,
+           'admin' given_name, 'unknown.png' picture_url union
+    select master_seq.nextval, 'manager', 'manager', 1,
+           '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K', 'en', 'manager', 'unknown.png'
 ) where not exists(select * from users);
 
 CREATE TABLE IF NOT EXISTS user_roles (

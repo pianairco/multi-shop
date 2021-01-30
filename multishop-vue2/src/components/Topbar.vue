@@ -82,6 +82,7 @@
 </template>
 
 <script lang="js">
+  import Vue from 'vue'
 
   export default  {
     name: 'Topbar',
@@ -94,11 +95,13 @@
         pictureUrl: null,
         rounded: true,
         isLoading: false,
-        isFullPage: true
+        isFullPage: true,
+        isSignIn: false
       }
     },
     methods: {
       handleClickLogin() {
+        console.log(Vue.config.devtools);
         this.isLoading = true;
         this.$gAuth.getAuthCode().then((authCode) => {
           //on success
@@ -114,20 +117,30 @@
       async handleClickSignIn() {
         try {
           this.isLoading = true;
-          const googleUser = await this.$gAuth.signIn();
-          if (!googleUser) {
-            return null;
+          let accessToken = null;
+          if(!Vue.config.devtools) {
+            const googleUser = await this.$gAuth.signIn();
+            if (!googleUser) {
+              return null;
+            }
+            accessToken = this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()['access_token'];
+            this.isSignIn = this.$gAuth.isAuthorized;
+            console.log("accessToken", accessToken);
+          } else {
+            accessToken = "1234"
+            console.log("accessToken", "is debug mode");
           }
+
           // console.log("googleUser", googleUser);
           // console.log("getId", googleUser.getId());
           // console.log("getBasicProfile", googleUser.getBasicProfile());
           // console.log("getAuthResponse", googleUser.getAuthResponse());
           // console.log("getAuthResponse", this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse());
-          let accessToken = this.$gAuth.GoogleAuth.currentUser.get().getAuthResponse()['access_token'];
-          console.log("accessToken", accessToken);
-          this.isSignIn = this.$gAuth.isAuthorized;
+
           let self = this;
-          this.$axios.post(this.remoteServer + '/api/sign-in', { 'accessToken': accessToken }, { headers: { 'Content-Type': 'APPLICATION/JSON' } })
+          this.$axios.post(this.remoteServer + '/api/sign-in',
+              { 'accessToken': accessToken },
+              { headers: { 'Content-Type': 'APPLICATION/JSON' } })
             .then((response) => {
               this.isLoading = false;
               console.log(response.data);

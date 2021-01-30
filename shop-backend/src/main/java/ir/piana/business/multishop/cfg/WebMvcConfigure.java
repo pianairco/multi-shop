@@ -49,7 +49,7 @@ public class WebMvcConfigure implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
-                .allowedOrigins("https://piana.ir");
+                .allowedOrigins("https://piana.ir", "https://localhost");
     }
 
 //    @Override

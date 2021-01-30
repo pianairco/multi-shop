@@ -6,3 +6,6 @@ server:
     key-store-password: AsadMasad@1366
     key-alias: multishop
     enabled: true
+debug:
+  tenant:
+    if-null: piana.ir

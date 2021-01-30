@@ -3,6 +3,7 @@ package ir.piana.business.multishop.ds.config;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import ir.piana.business.multishop.ds.service.DataSourceService;
 import ir.piana.business.multishop.exceptions.TenantNotSpecifiedException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,9 @@ public class MultiTenantFilter extends OncePerRequestFilter {
     private Map<String, DataSourceEntity> failedDataSources;
     private DataSourceService dataSourceService;
 
+    @Value("${debug.tenant.if-null}")
+    private String ifTenantNull;
+
     public MultiTenantFilter(List<DataSourceEntity> multiShopDataSources,
                                   Map<String, DataSourceEntity> failedDataSources,
                                   DataSourceService dataSourceService) {
@@ -55,9 +59,10 @@ public class MultiTenantFilter extends OncePerRequestFilter {
                 && !request.getHeader("Host").startsWith("localhost") ?
                 request.getHeader("Host") : request.getHeader("dsCode") != null ?
                 request.getHeader("dsCode") : null;
-        if(hostString.contains(":"))
+        if(hostString != null && hostString.contains(":"))
             hostString = hostString.substring(0, hostString.indexOf(":"));
-        String host = hostString;
+        String host = hostString == null ?
+                (ifTenantNull != null && !ifTenantNull.isEmpty() ? ifTenantNull : null) : hostString;
         if (request.getServletPath().startsWith("/login") || request.getServletPath().startsWith("/h2")) {
             TenantContext.setTenantId("support");
             request.setAttribute("tenantId", "support");

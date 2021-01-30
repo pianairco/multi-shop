@@ -31,6 +31,7 @@ public class AuthRest {
         return ResponseEntity.ok(appInfo);
     }
 
+    @CrossOrigin
     @PostMapping(path = "app-info",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
