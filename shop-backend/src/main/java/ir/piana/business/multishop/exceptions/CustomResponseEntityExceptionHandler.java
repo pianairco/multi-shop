@@ -3,7 +3,7 @@ package ir.piana.business.multishop.exceptions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
-import ir.piana.business.multishop.ds.config.TenantContext;
+import ir.piana.business.multishop.common.ds.utils.TenantContext;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;

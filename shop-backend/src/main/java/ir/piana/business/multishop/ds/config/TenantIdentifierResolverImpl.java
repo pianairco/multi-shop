@@ -1,6 +1,7 @@
 package ir.piana.business.multishop.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import ir.piana.business.multishop.common.ds.utils.TenantContext;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Map;
 

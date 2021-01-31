@@ -3,7 +3,7 @@ package ir.piana.business.multishop.ds.service;
 
 import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
-import ir.piana.business.multishop.ds.config.TenantContext;
+import ir.piana.business.multishop.common.ds.utils.TenantContext;
 import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import ir.piana.business.multishop.ds.repository.DataSourceRepository;
 import ir.piana.business.multishop.exceptions.ChangeStatusException;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -96,7 +95,7 @@ public class DataSourceService {
         ds.setJdbcUrl(dataSourceEntity.getUrl());
         ds.setUsername(dataSourceEntity.getUsername());
         ds.setPassword(dataSourceEntity.getPassword());
-        ds.setPoolName("Pool-" + dataSourceEntity.getSchemaName() + "-" + dataSourceEntity.getTenantId());
+        ds.setPoolName(dataSourceEntity.getTenantId());
         ds.setMaximumPoolSize(dataSourceEntity.getMaxPullSize());
         ds.setConnectionTimeout(5000);
         ds.setIdleTimeout(5000);

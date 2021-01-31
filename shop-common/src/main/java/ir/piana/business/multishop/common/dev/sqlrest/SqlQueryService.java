@@ -1,16 +1,30 @@
 package ir.piana.business.multishop.common.dev.sqlrest;
 
+import com.zaxxer.hikari.HikariDataSource;
+import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
+import ir.piana.business.multishop.common.ds.utils.TenantContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class SqlQueryService {
 //    @Autowired
-    private JdbcTemplate jdbcTemplate;
+//    private JdbcTemplate jdbcTemplate;
+
+//    @Autowired
+//    HikariDataSource dataSource;
+
+    @Autowired
+    @Qualifier("multiShopExecutors")
+    Map<String, SpecificSchemaQueryExecutor> executorMap;
 
     public <T> T execute(ServiceProperties.SQL sql, Object[] params) {
         if (sql.getType().equalsIgnoreCase("select")) {
@@ -42,26 +56,46 @@ public class SqlQueryService {
 
     public Map<String, Object> select(String query, Object[] sqlParams) {
         try {
-            return jdbcTemplate.queryForMap(query, sqlParams);
+            return executorMap.get(TenantContext.getTenantId()).queryMap(query, sqlParams);
+//            return executorMap.get(dataSource.getPoolName()).queryMap(query, sqlParams);
+//            return jdbcTemplate.queryForMap(query, sqlParams);
+        } catch (SQLException ex) {
+            return null;
         } catch (EmptyResultDataAccessException ex) {
             return null;
         }
     }
 
     public List<Map<String, Object>> list(String query, Object[] sqlParams) {
-        return jdbcTemplate.queryForList(query, sqlParams);
+        try {
+            return executorMap.get(TenantContext.getTenantId()).queryListOfMap(query, sqlParams);
+//            return executorMap.get(dataSource.getPoolName()).queryListOfMap(query, sqlParams);
+        } catch (SQLException e) {
+            return null;
+        }
+//        return jdbcTemplate.queryForList(query, sqlParams);
     }
 
     public <T> T selectObject(String query, Object[] sqlParams, Class<T> requiredType) {
         try {
-            return (T) jdbcTemplate.queryForObject(query, sqlParams, requiredType);
+            return (T) executorMap.get(TenantContext.getTenantId()).queryObject(query, requiredType, sqlParams);
+//            return (T) executorMap.get(dataSource.getPoolName()).queryObject(query, requiredType, sqlParams);
+//            return (T) jdbcTemplate.queryForObject(query, sqlParams, requiredType);
         } catch (EmptyResultDataAccessException ex) {
+            return null;
+        } catch (SQLException e) {
             return null;
         }
     }
 
     public Long selectSequenceValue(String sequenceName) {
-        return jdbcTemplate.queryForObject("select " + sequenceName + ".nextval from dual", Long.class);
+        try {
+            return executorMap.get(TenantContext.getTenantId()).queryLong("select " + sequenceName + ".nextval from dual");
+//            return executorMap.get(dataSource.getPoolName()).queryLong("select " + sequenceName + ".nextval from dual");
+        } catch (SQLException e) {
+            return null;
+        }
+//        return jdbcTemplate.queryForObject("select " + sequenceName + ".nextval from dual", Long.class);
     }
 
     public Long insert(String query, String sequenceName, Object[] sqlParams) {
@@ -73,17 +107,33 @@ public class SqlQueryService {
 //                break;
 //            }
 //        }
-        jdbcTemplate.update(query, sqlParams);
+        try {
+            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+//            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
+        } catch (SQLException e) {
+            return 1l;
+        }
+//        jdbcTemplate.update(query, sqlParams);
 //        jdbcTemplate.update(query, ArrayUtils.addAll(new Object[] {id}, sqlParams));
 //        return id;
         return 0l;
     }
 
     public void update(String query, Object[] sqlParams) {
-        jdbcTemplate.update(query, sqlParams);
+        try {
+            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+//            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
+        } catch (SQLException e) {
+        }
+//        jdbcTemplate.update(query, sqlParams);
     }
 
     public void delete(String query, Object[] sqlParams) {
-        jdbcTemplate.update(query, sqlParams);
+        try {
+            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+//            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
+        } catch (SQLException e) {
+        }
+//        jdbcTemplate.update(query, sqlParams);
     }
 }

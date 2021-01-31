@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -56,7 +57,7 @@ public class MultiTenantJpaConfiguration {
 		supportDs.setJdbcUrl(databaseConfig.getSupport().getUrl());
 		supportDs.setUsername(databaseConfig.getSupport().getUsername());
 		supportDs.setPassword(databaseConfig.getSupport().getPassword());
-		supportDs.setPoolName("Pool-support");
+		supportDs.setPoolName("support");
 		supportDs.setMaximumPoolSize(databaseConfig.getPoolSize());
 		supportDs.setConnectionTimeout(5000);
 		supportDs.setIdleTimeout(5000);
@@ -93,6 +94,14 @@ public class MultiTenantJpaConfiguration {
 		datasourceMap.put("support", supportExecutor.getDatasource());
 		return datasourceMap;
 	}
+
+//	@Bean(name = "jdbcTemplates")
+//	@DependsOn("supportExecutor")
+//	public Map<String, JdbcTemplate> jdbcTemplates(SpecificSchemaQueryExecutor supportExecutor) {
+//		LinkedHashMap<String, HikariDataSource> datasourceMap = new LinkedHashMap<>();
+//		datasourceMap.put("support", supportExecutor.getDatasource());
+//		return datasourceMap;
+//	}
 
 	@Bean("multiShopExecutors")
 	@DependsOn("dataSources")

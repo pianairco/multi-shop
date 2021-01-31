@@ -87,7 +87,7 @@ public class DatabaseStorageService implements StorageService {
             ImageIO.write(scaledImg, format, os);
             // Passing: ​(RenderedImage im, String formatName, OutputStream output)
 
-            sqlQueryService.insert("insert into images (id, image_src, image_type, image_data) values (vavishka_seq.nextval, ?, ?, ?)",
+            sqlQueryService.insert("insert into images (id, image_src, image_type, image_data) values (master_seq.nextval, ?, ?, ?)",
                     "", new Object[] { filename, "image/" + format, os.toByteArray() });
 
             return "/" + filename;

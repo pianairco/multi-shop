@@ -56,8 +56,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
+    public Authentication attemptAuthentication(
+            HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null && authentication.isAuthenticated())
@@ -75,16 +75,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             } else */
             if("application/json".equalsIgnoreCase(req.getContentType())) {
                 String accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
-                String email = null;
-                String name = null;
-                String picture = null;
-                String locale = null;
                 if(accessToken != null && accessToken.equalsIgnoreCase("1234")) {
                     GoogleUserEntity admin = googleUserRepository.findByEmail("admin");
-                    email = admin.getEmail();
-                    name = admin.getName();
-                    picture = admin.getPictureUrl();
-                    locale = admin.getLocale();
                     userEntity = GoogleUserEntity.builder()
                             .email(admin.getEmail())
                             .givenName(admin.getGivenName())

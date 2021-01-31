@@ -2,10 +2,7 @@ package ir.piana.business.multishop.common.data.util;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanListHandler;
-import org.apache.commons.dbutils.handlers.ColumnListHandler;
-import org.apache.commons.dbutils.handlers.MapListHandler;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.commons.dbutils.handlers.*;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -36,25 +33,62 @@ public class SpecificSchemaQueryExecutor {
     }
 
     public <T> List<T> queryList(String query, Class type) throws SQLException {
+        return queryList(query, type, new Object[0]);
+    }
+
+    public <T> List<T> queryList(String query, Class type, Object[] sqlParams) throws SQLException {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
             BeanListHandler beanListHandler = new BeanListHandler<>(type);
 
-            List list = (List<Object>)runner.query(conn, query, beanListHandler);
+            List list = (List<Object>)runner.query(conn, query, beanListHandler,sqlParams);
             return list;
         } finally {
             ds.evictConnection(conn);
         }
     }
 
+    public <T> T queryObject(String query, Class type, Object[] sqlParams) throws SQLException {
+        Connection conn = ds.getConnection();
+        try {
+            QueryRunner runner = new QueryRunner();
+            BeanListHandler beanListHandler = new BeanListHandler<>(type);
+
+            T object = (T)runner.query(conn, query, beanListHandler,sqlParams);
+            return object;
+        } finally {
+            ds.evictConnection(conn);
+        }
+    }
+
+    public Map<String, Object> queryMap(String query) throws SQLException {
+        return queryMap(query, new Object[0]);
+    }
+
+    public Map<String, Object> queryMap(String query, Object[] sqlParams) throws SQLException {
+        Connection conn = ds.getConnection();
+        try {
+            QueryRunner runner = new QueryRunner();
+            MapHandler beanMapHandler = new MapHandler();
+
+            return runner.query(conn, query, beanMapHandler, sqlParams);
+        } finally {
+            ds.evictConnection(conn);
+        }
+    }
+
     public List<Map<String, Object>> queryListOfMap(String query) throws SQLException {
+        return queryListOfMap(query, new Object[0]);
+    }
+
+    public List<Map<String, Object>> queryListOfMap(String query, Object[] sqlParams) throws SQLException {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
             MapListHandler beanListHandler = new MapListHandler();
 
-            return runner.query(conn, query, beanListHandler);
+            return runner.query(conn, query, beanListHandler, sqlParams);
         } finally {
             ds.evictConnection(conn);
         }
@@ -126,10 +160,14 @@ public class SpecificSchemaQueryExecutor {
     }
 
     public boolean execute(String query) throws SQLException {
+        return execute(query, new Object[0]);
+    }
+
+    public boolean execute(String query, Object[] sqlParams) throws SQLException {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            int execute = runner.execute(conn, query);
+            int execute = runner.execute(conn, query, sqlParams);
             return execute > 0;
         } finally {
             ds.evictConnection(conn);

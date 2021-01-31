@@ -23,6 +23,14 @@
                                        :form-name="'uploader1'"
                                        :property-name="'image'">
         </pictorial-sample-item-creator>
+        <b-loading :is-full-page="isFullPage" v-model="isLoading" :can-cancel="false">
+          <b-icon
+                  pack="fas"
+                  icon="sync-alt"
+                  size="is-large"
+                  custom-class="fa-spin">
+          </b-icon>
+        </b-loading>
       </div>
     </div>
   </div>
@@ -47,7 +55,9 @@
         samples: [],
         // sharedState: store.state,
         editedId: 0,
-        message: ''
+        message: '',
+        isLoading: false,
+        isFullPage: true
       }
     },
     methods: {
@@ -55,14 +65,17 @@
         try {
           console.log(JSON.stringify(form));
           // this.$axios.post('/api/sample/add', form, {headers: {'file-group': 'sample'}})
+          this.isLoading = true;
           this.$axios.post(this.remoteServer + '/api/ajax/serve', form,
                   {headers: {'action': 'sample', 'activity': 'addSample','group': 'sample'}})
             .then((response) => {
               console.log(response.data);
               this.samples.push(response.data);
               console.log(this.samples);
+              this.isLoading = false;
             }).catch((err) => {
               this.message = err;
+              this.isLoading = false;
             });
         } catch (e) {
           console.log(e)

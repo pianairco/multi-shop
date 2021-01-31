@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.utils;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

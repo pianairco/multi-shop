@@ -99,14 +99,14 @@ app:
               type: insert
               query: insert into samples_session (id, samples_id, title, description, icon_src, orders) values(?, ?, ?, ?, ?, ?)
               resultType: object
-              params: 1=!id:vavishka_seq,2=sampleId,3=title,4=description,5=@imageSrc:icon.base64&icon.rotate&#group,6=orders
+              params: 1=!id:master_seq,2=sampleId,3=title,4=description,5=@imageSrc:icon.base64&icon.rotate&#group,6=orders
               result: id=@id,title=title,description=description,iconSrc=@imageSrc
         addSessionImage:
           - sql:
               type: insert
               query: insert into samples_session_image (id, samples_session_id, image_src, orders) values(?, ?, ?, ?)
               resultType: object
-              params: 1=!id:vavishka_seq,2=sessionId,3=@imageSrc:image&rotate&#group,4=orders
+              params: 1=!id:master_seq,2=sessionId,3=@imageSrc:image&rotate&#group,4=orders
               result: id=@id,imageSrc=@imageSrc,orders=orders
         sessions:
           - sql:
@@ -137,8 +137,8 @@ app:
               type: insert
               query: insert into samples (id, title, description, image_src) values(?, ?, ?, ?)
               resultType: object
-              sequenceName: vavishka_seq
-              params: 1=!id:vavishka_seq,2=title,3=description,4=@imageSrc:image.base64&image.rotate&#group
+              sequenceName: master_seq
+              params: 1=!id:master_seq,2=title,3=description,4=@imageSrc:image.base64&image.rotate&#group
               result: id=@id,title=title,description=description,imageSrc=@imageSrc
         deleteSample:
           - sql:
