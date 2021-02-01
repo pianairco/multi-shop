@@ -204,6 +204,7 @@
 </script>
 
 <style scoped lang="css">
+
   #bulma-sample-page {
     padding-top: 20px;
     padding-bottom: 20px;

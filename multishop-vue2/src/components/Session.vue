@@ -53,7 +53,7 @@
 <!--        <textarea v-if="!detail" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>-->
         <textarea v-if="appInfo && appInfo.isAdmin" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>
 
-        <button v-if="appInfo && appInfo.isAdmin" v-on:click="uploadDetail" class="button is-success is-small is-fullwidth" style="margin-top: 8px">Upload
+        <button v-if="appInfo && appInfo.isAdmin" v-on:click="uploadDetail" class="button is-success is-small is-fullwidth" style="margin-top: 8px">بارگذاری
           <i class="fa fa-upload" style="margin-right: 6px"></i>
         </button>
 

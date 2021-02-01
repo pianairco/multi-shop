@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.sql.SQLException;
 import java.util.*;
 
 @RestController
@@ -44,7 +45,7 @@ public class SampleSessionRest {
     @Transactional
     public ResponseEntity addSession(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group){
+            @RequestHeader("file-group") String group) throws SQLException {
         String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
@@ -73,7 +74,7 @@ public class SampleSessionRest {
     @Transactional
     public ResponseEntity editSession(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group){
+            @RequestHeader("file-group") String group) throws SQLException {
         String imageSrc = null;
         if(sampleItem.get("image") != null) {
             imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
@@ -96,7 +97,7 @@ public class SampleSessionRest {
     @Transactional
     public ResponseEntity deleteSession(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group) {
+            @RequestHeader("file-group") String group) throws SQLException {
         sqlService.delete(group, new Object[]{sampleItem.get("id")});
         return ResponseEntity.ok().build();
     }
@@ -106,7 +107,7 @@ public class SampleSessionRest {
     @Transactional
     public ResponseEntity addSessionImage(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group){
+            @RequestHeader("file-group") String group) throws SQLException {
         String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
@@ -129,7 +130,7 @@ public class SampleSessionRest {
     @Transactional
     public ResponseEntity deleteSessionImage(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("business") String queryName){
+            @RequestHeader("business") String queryName) throws SQLException {
         Integer id = (Integer)sampleItem.get("id");
         sqlService.deleteByQueryName(queryName, new Object[]{id});
         Map map = new LinkedHashMap();
@@ -140,7 +141,7 @@ public class SampleSessionRest {
     @PostMapping(path = "sample/session/images", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity getSessionImages(@RequestBody Map<String, Object> sampleItem) {
+    public ResponseEntity getSessionImages(@RequestBody Map<String, Object> sampleItem) throws SQLException {
         List<Map<String, Object>> mapList = sqlService.listByName("get-session-images",
                 new Object[]{sampleItem.get("id")});
         SortedMap<String, Map<String, Object>> map  = new TreeMap<>();
@@ -153,7 +154,7 @@ public class SampleSessionRest {
     @GetMapping(path = "sample/session/images",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity getSessionImages2(@RequestParam("id") int id) {
+    public ResponseEntity getSessionImages2(@RequestParam("id") int id) throws SQLException {
         List<Map<String, Object>> mapList = sqlService.listByName("get-session-images",
                 new Object[]{id});
         SortedMap<String, Map<String, Object>> map  = new TreeMap<>();
@@ -166,7 +167,7 @@ public class SampleSessionRest {
     @GetMapping(path = "sample/session/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity sessionsById(@PathVariable("id") Long id) {
+    public ResponseEntity sessionsById(@PathVariable("id") Long id) throws SQLException {
         List<Map<String, Object>> list = sqlService.list("session", new Object[]{id});
         return ResponseEntity.ok(list);
     }
@@ -174,7 +175,7 @@ public class SampleSessionRest {
     @GetMapping(path = "sample/session/map/id", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity sessionMapById(@PathParam("id") long id) {
+    public ResponseEntity sessionMapById(@PathParam("id") long id) throws SQLException {
         List<Map<String, Object>> list = sqlService.list("sample-session", new Object[]{id});
         SortedMap<String, Map<String, Object>> map  = new TreeMap<>();
         for (Map m : list) {

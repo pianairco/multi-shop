@@ -140,10 +140,14 @@ public class SpecificSchemaQueryExecutor {
     }
 
     public long queryLong(String query) throws SQLException {
+        return queryLong(query, new Object[0]);
+    }
+
+    public long queryLong(String query, Object[] sqlParams) throws SQLException {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            Object value = runner.query(conn, query, new ScalarHandler<>());
+            Object value = runner.query(conn, query, sqlParams, new ScalarHandler<>());
             return value instanceof BigDecimal ? ((BigDecimal)value).longValue() : (Long) value;
         } finally {
             ds.evictConnection(conn);

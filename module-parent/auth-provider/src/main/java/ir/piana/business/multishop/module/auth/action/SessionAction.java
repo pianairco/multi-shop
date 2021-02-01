@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -26,12 +27,17 @@ public class SessionAction {
         String iconSrc = storageService.store((String) sampleItem.get("icon"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
-        long id = sqlService.insert(group, "vavishka_seq",
-                new Object[]{sampleItem.get("samples_id"),
-                        sampleItem.get("title"),
-                        sampleItem.get("description"),
-                        iconSrc,
-                        sampleItem.get("orders")});
+        long id = 0;
+        try {
+            id = sqlService.insert(group, "vavishka_seq",
+                    new Object[]{sampleItem.get("samples_id"),
+                            sampleItem.get("title"),
+                            sampleItem.get("description"),
+                            iconSrc,
+                            sampleItem.get("orders")});
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Map map = new LinkedHashMap();
         map.put("id", id);
         map.put("samples_id", sampleItem.get("samples_id"));
@@ -40,8 +46,12 @@ public class SessionAction {
         map.put("orders", sampleItem.get("orders"));
         map.put("icon_src", iconSrc);
 
-        long id2 = sqlService.insertByQueryName("insert-session-image", "vavishka_seq",
-                new Object[]{iconSrc, id, 1});
+        try {
+            long id2 = sqlService.insertByQueryName("insert-session-image", "vavishka_seq",
+                    new Object[]{iconSrc, id, 1});
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return ResponseEntity.ok(map);
     };

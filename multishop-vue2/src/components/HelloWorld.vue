@@ -1,91 +1,39 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="container" id="bulma-sample-page">
+    <!--    <button v-on:click="testAdd">ew</button>-->
+
+    <div class="columns is-mobile is-multiline">
+      <div class="column is-full-mobile is-one-quarter-desktop">
+        <pictorial-menu-item-creator
+                v-if="appInfo && appInfo.isAdmin"
+                :sampleId="sampleId" v-on:add-item="addSession" :form-name="'uploader1'" :icon-property-name="'icon'">
+        </pictorial-menu-item-creator>
+        <aside class="menu">
+          <!--style=" overflow-y: auto; display: flex; flex-direction: column; max-height: 800px;"-->
+          <ul class="menu-list" >
+            <li v-for="session in sessions">
+              <pictorial-menu-item
+                      :sample-id="sampleId"
+                      v-on:session-selected="sessionSelected"
+                      v-if="session['id'] != editedId"
+                      :active-id="activeId"
+                      :id="session['id']"
+                      :image="'/api/resources/serve/images/' + session['iconSrc']"
+                      :description="session['description']"
+                      :title="session['title']"></pictorial-menu-item>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Topbar from "./Topbar";
 export default {
   name: 'HelloWorld',
+  components: {Topbar},
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'

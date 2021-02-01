@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class SampleRest {
     @Transactional
     public ResponseEntity addSample(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group){
+            @RequestHeader("file-group") String group) throws SQLException {
         String imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
 //        sqlService.update(group,
 //                new Object[]{sampleItem.get("title"), sampleItem.get("description"), imageSrc});
@@ -53,7 +54,7 @@ public class SampleRest {
     @Transactional
     public ResponseEntity editSample(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group){
+            @RequestHeader("file-group") String group) throws SQLException {
         String imageSrc = null;
         if(sampleItem.get("image") != null) {
             imageSrc = storageService.store((String) sampleItem.get("image"), group, 0);
@@ -76,7 +77,7 @@ public class SampleRest {
     @Transactional
     public ResponseEntity deleteSample(
             @RequestBody Map<String, Object> sampleItem,
-            @RequestHeader("file-group") String group) {
+            @RequestHeader("file-group") String group) throws SQLException {
         sqlService.delete(group, new Object[]{sampleItem.get("id")});
         return ResponseEntity.ok().build();
     }
@@ -84,7 +85,7 @@ public class SampleRest {
     @GetMapping(path = "samples",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public ResponseEntity samples() {
+    public ResponseEntity samples() throws SQLException {
         List<Map<String, Object>> samples = sqlService.list("sample", null);
         return ResponseEntity.ok(samples);
     }

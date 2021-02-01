@@ -6,12 +6,18 @@ import Samples from '@/components/Samples'
 import Sample from '@/components/Sample'
 import Session from '@/components/Session'
 import ShopVitrine from "../components/ShopVitrine";
+import HelloWorld from "../components/HelloWorld";
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
   routes: [
     { path: '/', redirect: '/Home' },
+    {
+      path: '/HelloWorld',
+      name: 'HelloWorld',
+      component: HelloWorld
+    },
     {
       path: '/Home',
       name: 'Home',

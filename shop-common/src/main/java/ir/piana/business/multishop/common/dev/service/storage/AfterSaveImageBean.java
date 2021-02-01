@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -21,8 +22,12 @@ public class AfterSaveImageBean extends UploadController.AfterSaveImageAction {
     BiFunction<HttpServletRequest, String, ResponseEntity> deleteSampleSessionImageBusiness = (request, path) -> {
         Object id = AfterSaveImage.getValueObject(request.getHeader("id"));
 
-        sqlService.updateByQueryName("delete-session-image",
-                new Object[]{id});
+        try {
+            sqlService.updateByQueryName("delete-session-image",
+                    new Object[]{id});
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", id);
         return ResponseEntity.ok(map);
@@ -31,8 +36,12 @@ public class AfterSaveImageBean extends UploadController.AfterSaveImageAction {
     BiFunction<HttpServletRequest, String, ResponseEntity> replaceSampleSessionImageBusiness = (request, path) -> {
         Object id = AfterSaveImage.getValueObject(request.getHeader("id"));
 
-        sqlService.updateByQueryName("replace-session-image",
-                new Object[]{path, id});
+        try {
+            sqlService.updateByQueryName("replace-session-image",
+                    new Object[]{path, id});
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", id);
         map.put("image_src", path);
@@ -45,8 +54,13 @@ public class AfterSaveImageBean extends UploadController.AfterSaveImageAction {
 
         Long orders = sqlService.selectLong("select max(orders) + 1 from samples_session_image where samples_session_id = ?", new Object[] {sessionId});
 
-        long id = sqlService.insertByQueryName("insert-session-image", "vavishka_seq",
-                new Object[]{path, sessionId, orders});
+        long id = 0;
+        try {
+            id = sqlService.insertByQueryName("insert-session-image", "vavishka_seq",
+                    new Object[]{path, sessionId, orders});
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("id", id);
