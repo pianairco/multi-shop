@@ -1,12 +1,19 @@
 package ir.piana.business.multishop.common.data.util;
 
 import com.zaxxer.hikari.HikariDataSource;
+import ir.piana.business.multishop.common.util.StringUtil;
+import org.apache.commons.dbutils.BasicRowProcessor;
+import org.apache.commons.dbutils.BeanProcessor;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.dbutils.handlers.*;
 
+import javax.persistence.Column;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +26,22 @@ public class SpecificSchemaQueryExecutor {
 
     public HikariDataSource getDatasource() {
         return ds;
+    }
+
+    BeanListHandler fetchBeanListHandler(Class type) {
+        Map<String, String> columnToPropertyOverrides = new LinkedHashMap<>();
+        Field[] declaredFields = type.getDeclaredFields();
+        for (Field field : declaredFields) {
+            Column annotation = field.getAnnotation(Column.class);
+            if(annotation != null)
+                columnToPropertyOverrides.put(annotation.name(), field.getName());
+            else
+                columnToPropertyOverrides.put(StringUtil.camelToSnake(field.getName()), field.getName());
+        }
+
+        RowProcessor rowProcessor = new BasicRowProcessor(new BeanProcessor(columnToPropertyOverrides));
+        BeanListHandler beanListHandler = new BeanListHandler<>(type, rowProcessor);
+        return beanListHandler;
     }
 
     public List<String> queryListOfString(String query) throws SQLException {
@@ -40,7 +63,8 @@ public class SpecificSchemaQueryExecutor {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            BeanListHandler beanListHandler = new BeanListHandler<>(type);
+
+            BeanListHandler beanListHandler = fetchBeanListHandler(type);
 
             List list = (List<Object>)runner.query(conn, query, beanListHandler,sqlParams);
             return list;
@@ -53,7 +77,7 @@ public class SpecificSchemaQueryExecutor {
         Connection conn = ds.getConnection();
         try {
             QueryRunner runner = new QueryRunner();
-            BeanListHandler beanListHandler = new BeanListHandler<>(type);
+            BeanListHandler beanListHandler = fetchBeanListHandler(type);
 
             T object = (T)runner.query(conn, query, beanListHandler,sqlParams);
             return object;

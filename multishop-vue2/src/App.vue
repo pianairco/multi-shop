@@ -20,6 +20,13 @@
       console.log(this.remoteServer);
       // let appInfo = await this.$axios.get('http://localhost' + '/api/app-info').then((res) => {
       // await this.$axios.post(this.remoteServer + '/api/ajax/serve', {},
+      await this.$axios.get('resources/captcha', { headers: { withCredentials: true } })
+          .then(res => {
+            console.log(res);
+          }, err => {
+            console.log(err);
+          });
+
       await this.$axios.post(this.remoteServer + '/api/app-info', {},
               { headers: { } }).then((res) => {
         let appInfo = res['data'];
