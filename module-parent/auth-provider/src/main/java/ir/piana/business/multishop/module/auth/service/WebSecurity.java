@@ -66,9 +66,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/sign-in", "/api/sign-up", "/api/app-info").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/sign-in",
+                        "/api/sign-up",
+                        "/api/app-info"/*,
+                        "/h2/console/**"*/)
+                .permitAll()
+                .antMatchers(HttpMethod.POST, "/api/ajax/serve").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/**").authenticated()
-                .antMatchers(HttpMethod.POST, "/api/ajax/serve").hasRole("user")
+//                .antMatchers(HttpMethod.POST, "/api/ajax/serve").hasRole("user")
 //                .antMatchers(HttpMethod.POST, "/vavishka-shop/login").permitAll()
 //                .antMatchers(HttpMethod.POST, "/action").permitAll()//.authenticated()
 //                .antMatchers(HttpMethod.POST, "/logout").authenticated()

@@ -28,7 +28,7 @@ public class MultiTenantFilter extends OncePerRequestFilter {
     private Map<String, DataSourceEntity> failedDataSources;
     private DataSourceService dataSourceService;
 
-    @Value("${debug.tenant.if-null}")
+    @Value("${debug.tenant.if-null:piana.ir}")
     private String ifTenantNull;
 
     public MultiTenantFilter(List<DataSourceEntity> multiShopDataSources,
