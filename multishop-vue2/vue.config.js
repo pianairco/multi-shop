@@ -6,15 +6,15 @@ module.exports = {
         config.module.rules.delete('eslint');
     },
     devServer: {
-        // host: 'localhost',
-        host: 'piana.ir',
+        host: 'localhost',
+        // host: 'piana.ir',
         https: true,
         port: 443,
         proxy: {
             '/api': {
                 // target: 'https://piana.ir',
-                target: 'https://piana.ir:8043',
-                // target: 'https://localhost:8043',
+                // target: 'https://piana.ir:8443',
+                target: 'https://localhost:8443',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
@@ -23,8 +23,8 @@ module.exports = {
             },
             '/cdn': {
                 // target: 'https://piana.ir',
-                target: 'https://piana.ir:8043',
-                // target: 'https://localhost:8043',
+                // target: 'https://piana.ir:8443',
+                target: 'https://localhost:8443',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
@@ -33,12 +33,22 @@ module.exports = {
             },
             '/resources': {
                 // target: 'https://piana.ir',
-                target: 'https://piana.ir:8043',
-                // target: 'https://localhost:8043',
+                // target: 'https://piana.ir:8443',
+                target: 'https://localhost:8443',
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
                     '^/resources': '/resources'
+                }
+            },
+            '/h2': {
+                // target: 'https://piana.ir',
+                // target: 'https://piana.ir:8443',
+                target: 'https://localhost:8443',
+                changeOrigin: true,
+                secure: false,
+                pathRewrite: {
+                    '^/h2': '/h2'
                 }
             }
         }
