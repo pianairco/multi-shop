@@ -145,7 +145,7 @@ public class FileSystemStorageService implements StorageService {
             Files.copy(is, this.rootLocation.resolve(filePath),
                     StandardCopyOption.REPLACE_EXISTING);
 
-            return "/" + filePath;
+            return filePath;
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file!", e);

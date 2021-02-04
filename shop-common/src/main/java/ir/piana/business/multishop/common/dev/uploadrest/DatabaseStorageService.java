@@ -90,7 +90,7 @@ public class DatabaseStorageService implements StorageService {
             sqlQueryService.insert("insert into images (id, image_src, image_type, image_data) values (master_seq.nextval, ?, ?, ?)",
                     "", new Object[] { filename, "image/" + format, os.toByteArray() });
 
-            return "/" + filename;
+            return filename;
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file!", e);
