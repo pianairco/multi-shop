@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -51,7 +53,8 @@ public class AjaxController {
     private ParameterParser parameterParser;
 
     @Autowired
-    @Qualifier("databaseStorageService")
+    @Qualifier("fileSystemStorageService")
+//    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
     @Autowired
@@ -68,13 +71,22 @@ public class AjaxController {
         Collections.sort(dollorKeys, Comparator.comparingInt(String::length).reversed());
     }
 
-    @RequestMapping(value = "resources/serve/{resource-path}/{resource-name}", method = RequestMethod.GET)
-    public ResponseEntity handleResource(HttpServletRequest request,
-                                         @PathVariable("resource-path") String resourcePath,
-                                         @PathVariable("resource-name") String resourceName) {
+    private ResponseEntity handleResource(
+            HttpServletRequest request,
+            String resourcePath,
+            String resourceName) {
         if(!serviceProperties.resources.containsKey(resourcePath))
             return notFound.apply(request);
         ServiceProperties.Activity activity = serviceProperties.resources.get(resourcePath);
+        if (activity.getStorage() != null && activity.getStorage().equalsIgnoreCase("true")) {
+            try{
+                Resource resource = storageService.loadAsResource(resourceName);
+                return ResponseEntity.ok(resource);
+            } catch (Exception e) {
+                if(activity.getSql() == null && activity.getFunction() == null)
+                    return notFound.apply(request);
+            }
+        }
         if (activity.getFunction() != null) {
             return notImplement.apply(request);
         } else if (activity.getSql() != null) {
@@ -129,6 +141,24 @@ public class AjaxController {
 
         }
         return notFound.apply(request);
+    }
+
+    @RequestMapping(value = "resources/serve/{resource-path}/{resource-name}/**", method = RequestMethod.GET)
+    public ResponseEntity handleResource1(HttpServletRequest request,
+                                         @PathVariable("resource-path") String resourcePath,
+                                         @PathVariable("resource-name") String resourceName) {
+        String lastPart = null;
+        if(request.getServletPath().length() > ("/api/resources/serve/" + resourcePath + "/" + resourceName + "/").length()) {
+            resourceName += "/" + request.getServletPath().substring(("/api/resources/serve/" + resourcePath + "/" + resourceName + "/").length());
+        }
+        return handleResource(request, resourcePath, resourceName);
+    }
+
+    @RequestMapping(value = "resources/serve/{resource-path}/{resource-name}", method = RequestMethod.GET)
+    public ResponseEntity handleResource2(HttpServletRequest request,
+                                         @PathVariable("resource-path") String resourcePath,
+                                         @PathVariable("resource-name") String resourceName) {
+        return handleResource(request, resourcePath, resourceName);
     }
 
     @RequestMapping(value = "/ajax/serve", method = RequestMethod.POST,

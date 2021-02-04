@@ -31,6 +31,7 @@ public class ServiceProperties {
     public static class Activity {
         private String function;
         private SQL sql;
+        private String storage;
 
         public Activity() {
         }
@@ -49,6 +50,14 @@ public class ServiceProperties {
 
         public void setSql(SQL sql) {
             this.sql = sql;
+        }
+
+        public String getStorage() {
+            return storage;
+        }
+
+        public void setStorage(String storage) {
+            this.storage = storage;
         }
     }
 

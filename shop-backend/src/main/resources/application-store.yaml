@@ -58,6 +58,7 @@ app:
   service:
     resources:
       images:
+        storage: true
         sql:
           type: select
           query: select image_type, image_data from images where image_src = ?
