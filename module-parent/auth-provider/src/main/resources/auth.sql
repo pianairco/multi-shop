@@ -16,11 +16,9 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- image => https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c
 INSERT INTO users (id, user_uuid, email, email_verified, password, locale, given_name, picture_url) select * from (
-    select 1 id, 'admin' user_uuid, 'admin' email, 1 email_verified,
+    select 1 id, 'admin' user_uuid, 'rahmatii1366@gmail.com' email, 1 email_verified,
            '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password, 'fa' locale,
-           'admin' given_name, 'resources/unknown.png' picture_url union
-    select 2, 'manager', 'manager', 1,
-           '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K', 'fa', 'manager', 'resources/unknown.png'
+           'admin' given_name, 'https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c' picture_url
 ) where not exists(select * from users);
 
 CREATE TABLE IF NOT EXISTS user_roles (
@@ -33,7 +31,5 @@ CREATE TABLE IF NOT EXISTS user_roles (
 
 INSERT INTO user_roles (id, user_id, role_name) select * from (
     select 1 id, 1 user_id, 'ROLE_ADMIN' role_name union
-    select 2, 1, 'ROLE_USER' union
-    select 3, 2, 'ROLE_USER' union
-    select 4, 2, 'ROLE_MANAGER'
+    select 2, 1, 'ROLE_USER'
 ) where not exists(select * from user_roles);
