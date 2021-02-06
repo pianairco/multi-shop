@@ -47,7 +47,7 @@
           v-on:select-session-image="selectSessionImage"></session-picture-select>
       </div>
       <div class="columns is-mobile is-multiline" style="margin: 20px 0px;">
-        <div v-if="appInfo && !appInfo.isAdmin" class="content" style="overflow-x: hidden; overflow-y: auto; height: 72px;">
+        <div v-if="appInfo && !appInfo.isAdmin" class="content" style="overflow-x: hidden; overflow-y: auto; height: 256px;">
           {{detail}}
         </div>
 <!--        <textarea v-if="!detail" class="textarea" placeholder="توضیحات" v-model="detail" rows="16"></textarea>-->
