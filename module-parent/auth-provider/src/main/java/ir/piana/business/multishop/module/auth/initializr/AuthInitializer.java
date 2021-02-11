@@ -24,16 +24,17 @@ public class AuthInitializer extends CommonInitializer {
     @PostConstruct
     public void init() {
         initData();
-        log.info("ZarinpalModuleInitializer => initialized");
+        log.info("AuthModuleInitializer => initialized");
     }
 
     @Override
     public InputStream getSupportSql() {
-        return null;
+        return AuthInitializer.class.getResourceAsStream("/auth.sql");
     }
 
     @Override
     public InputStream getAllSchemaSql() {
-        return AuthInitializer.class.getResourceAsStream("/auth.sql");
+        return null;
+//        return AuthInitializer.class.getResourceAsStream("/auth.sql");
     }
 }

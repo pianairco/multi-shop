@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>ir.piana.business</groupId>
-            <artifactId>zarinpal-client</artifactId>
+            <artifactId>zarinpal-provider</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

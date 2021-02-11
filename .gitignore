@@ -4,6 +4,7 @@ HELP.md
 **/*.mv.db
 **/*.trace.db
 shop-backend/src/main/resources/public/
+shop-backend/src/main/resources/control-panel/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

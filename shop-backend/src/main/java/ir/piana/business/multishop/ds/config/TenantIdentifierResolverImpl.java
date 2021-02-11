@@ -1,8 +1,8 @@
 package ir.piana.business.multishop.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import ir.piana.business.multishop.common.ds.utils.TenantContext;
-import ir.piana.business.multishop.ds.entity.DataSourceEntity;
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.cache.TenantContext;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,10 +19,6 @@ public class TenantIdentifierResolverImpl
 		implements CurrentTenantIdentifierResolver {
 
 	private String defaultTenantId;
-
-	@Autowired
-	@Qualifier("failedDataSources")
-	private Map<String, DataSourceEntity> failedDataSources;
 
 	@Autowired
 	@Qualifier("dataSources")

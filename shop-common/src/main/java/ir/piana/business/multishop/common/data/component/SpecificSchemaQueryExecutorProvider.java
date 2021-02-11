@@ -1,6 +1,5 @@
 package ir.piana.business.multishop.common.data.component;
 
-import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.sql.SQLException;
-import java.util.Map;
 
 @Service("SpecificSchemaQueryExecutorProvider")
 @DependsOn("dataSourceService")
@@ -24,32 +22,26 @@ public class SpecificSchemaQueryExecutorProvider {
     @Qualifier("supportExecutor")
     private SpecificSchemaQueryExecutor supportExecutor;
 
-    @Autowired
-    @Qualifier("multiShopExecutors")
-    private Map<String, SpecificSchemaQueryExecutor> multiShopExecutors;
-
     @PostConstruct
     public void init() {
       log.info("SpecificSchemaQueryExecutorProvider => initialized");
     }
 
-    public void executeOnAllDataSources(String query) {
-        for(String key : multiShopExecutors.keySet()) {
-            try {
-                multiShopExecutors.get(key).execute(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    public void executeOnAllDataSources(String query) {
+//        for(String key : multiShopExecutors.keySet()) {
+//            try {
+//                multiShopExecutors.get(key).execute(query);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public void executeOnSupport(String query) {
-        for(String key : multiShopExecutors.keySet()) {
-            try {
-                supportExecutor.execute(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            supportExecutor.execute(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

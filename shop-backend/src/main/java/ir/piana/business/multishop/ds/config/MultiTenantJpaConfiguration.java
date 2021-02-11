@@ -2,7 +2,6 @@ package ir.piana.business.multishop.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
-import ir.piana.business.multishop.ds.entity.DataSourceEntity;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.MultiTenancyStrategy;
 import org.hibernate.cfg.Environment;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -24,13 +22,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -38,8 +33,8 @@ import java.util.Map;
 @EnableConfigurationProperties({ JpaProperties.class })
 @EnableJpaRepositories(
 		basePackages = {
-				"ir.piana.business.multishop.ds.repository",
 				"ir.piana.business.multishop.module.**.data.repository",
+				"ir.piana.business.multishop.common.data.repository"
 		},
 		transactionManagerRef = "txManager")
 @EnableTransactionManagement
@@ -77,36 +72,14 @@ public class MultiTenantJpaConfiguration {
 		return specificSchemaQueryExecutor;
 	}
 
-	@Bean("multiShopDataSources")
-	public List<DataSourceEntity> getActiveDataSources() {
-		return new ArrayList<>();
-	}
-
-	@Bean(name = "failedDataSources" )
-	public Map<String, DataSourceEntity> getFailedDataSources() {
-		return new LinkedHashMap<>();
-	}
-
 	@Bean(name = "dataSources")
 	@DependsOn("supportExecutor")
-	public Map<String, HikariDataSource> datasources(SpecificSchemaQueryExecutor supportExecutor) {
+	public Map<String, HikariDataSource> datasources(SpecificSchemaQueryExecutor supportExecutor) throws SQLException {
 		LinkedHashMap<String, HikariDataSource> datasourceMap = new LinkedHashMap<>();
+		String domain = supportExecutor.queryString("select param_value from app_info where app_param = 'domain'");
+		datasourceMap.put(domain, supportExecutor.getDatasource());
 		datasourceMap.put("support", supportExecutor.getDatasource());
 		return datasourceMap;
-	}
-
-//	@Bean(name = "jdbcTemplates")
-//	@DependsOn("supportExecutor")
-//	public Map<String, JdbcTemplate> jdbcTemplates(SpecificSchemaQueryExecutor supportExecutor) {
-//		LinkedHashMap<String, HikariDataSource> datasourceMap = new LinkedHashMap<>();
-//		datasourceMap.put("support", supportExecutor.getDatasource());
-//		return datasourceMap;
-//	}
-
-	@Bean("multiShopExecutors")
-	@DependsOn("dataSources")
-	public Map<String, SpecificSchemaQueryExecutor> getMultiShopExecutors() {
-		return new LinkedHashMap<>();
 	}
 
 	@Bean("entityManagerFactoryBean")

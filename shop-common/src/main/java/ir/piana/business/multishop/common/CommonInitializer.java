@@ -27,17 +27,17 @@ public abstract class CommonInitializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try (InputStream resourceAsStream = getAllSchemaSql()) {
-            if(resourceAsStream != null) {
-                String[] split = new String[0];
-                split = IOUtils.toString(resourceAsStream).split(";");
-
-                for (String script : split) {
-                    queryExecutorProvider.executeOnAllDataSources(script);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try (InputStream resourceAsStream = getAllSchemaSql()) {
+//            if(resourceAsStream != null) {
+//                String[] split = new String[0];
+//                split = IOUtils.toString(resourceAsStream).split(";");
+//
+//                for (String script : split) {
+////                    queryExecutorProvider.executeOnAllDataSources(script);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }

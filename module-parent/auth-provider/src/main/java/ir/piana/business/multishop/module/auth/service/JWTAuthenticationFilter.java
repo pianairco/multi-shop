@@ -76,7 +76,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             if("application/json".equalsIgnoreCase(req.getContentType())) {
                 String accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
                 if(accessToken != null && accessToken.equalsIgnoreCase("1234")) {
-                    GoogleUserEntity admin = googleUserRepository.findByEmail("admin");
+                    GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
                     userEntity = GoogleUserEntity.builder()
                             .email(admin.getEmail())
                             .givenName(admin.getGivenName())
