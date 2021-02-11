@@ -6,6 +6,7 @@ import {HomeViewComponent} from "./views/home-view/home-view.component";
 import {FormMakerComponent} from "./components/form-maker/form-maker.component";
 import {LoginComponent} from "./views/login/login.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
+import {PasswordSettingComponent} from "./views/password-setting/password-setting.component";
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
           { path: 'tile', component: TileComponent, children:[
               { path: '', redirectTo: '/home', pathMatch: 'full' },
               { path: 'home', component: HomeViewComponent },
-              { path: 'add-user/:groupName/:formName', component: FormMakerComponent }
+              { path: 'add-user/:groupName/:formName', component: FormMakerComponent },
+              { path: 'password-setting', component: PasswordSettingComponent }
             ] },
         ]
       },

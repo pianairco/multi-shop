@@ -185,6 +185,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .isAdmin(userEntity.getUserRolesEntities().stream()
                         .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
                         .map(e -> true).findFirst().orElse(false))
+                .isFormPassword(userEntity.getFormPassword() == null ? false : true)
                 .username(userEntity.getGivenName())
                 .email(userEntity.getEmail())
                 .pictureUrl(userEntity.getPictureUrl())

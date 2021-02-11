@@ -1,17 +1,17 @@
 <nav class="navbar is-black" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="#">
+    <a class="navbar-item" href="#" >
       <img src="../../assets/images/topbar-logo.png" width="112" height="28">
     </a>
 
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+    <a #toggled (click)="forceShowClick()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
 
-  <div id="navbarBasicExample" class="navbar-menu">
+  <div id="navbarBasicExample" [class.is-active]="istoggled && forceShow" class="navbar-menu" >
     <div class="navbar-start">
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">راهبری</a>
@@ -49,7 +49,7 @@
             <a class="navbar-item">
               اطلاعات کاربری
             </a>
-            <a class="navbar-item">
+            <a class="navbar-item" [routerLink]="['/tile/password-setting']">
               تغییر رمز
             </a>
             <hr class="navbar-divider">

@@ -3,7 +3,11 @@ import axios from "axios";
 import {PianaStorageService} from "./piana-storage.service";
 import {LoadingService} from "./loading.service";
 import {ConstantService} from "./constant.service";
-import {GoogleLoginProvider} from "angularx-social-login";
+import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
+
+const googleLoginOptions = {
+  scope: 'profile email'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +15,23 @@ import {GoogleLoginProvider} from "angularx-social-login";
 export class AuthenticationService {
 
   constructor(
+    private authService: SocialAuthService,
     private constantService: ConstantService,
     private loadingService: LoadingService,
     private pianaStorageService: PianaStorageService) { }
+
+
+
 
   async googleSignIn () {
     try {
       console.log("service googleSignIn")
       let accessToken = null;
       this.loadingService.changeState(true);
-      if(!isDevMode()) {
-        // this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      if(isDevMode()) {
+        let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
+        accessToken = socialUser['authToken'];
+        console.log(accessToken, socialUser)
         //   .then(res => {
         //     console.log(res);
         //   }, err => {
@@ -64,6 +74,12 @@ export class AuthenticationService {
       // this.timeStamp = this.timeStamp + 1;
       throw err;
     }
+  }
+
+  changePassword(password, passwordRepeat) {
+    return axios.post('api/change-password',
+      {password: password, passwordRepeat: passwordRepeat},
+      {headers: {'content-type': 'application/json'}});
   }
 
   async logout() {

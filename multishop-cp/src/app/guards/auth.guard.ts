@@ -62,9 +62,16 @@ export class AuthGuard implements CanActivate {
       }
     } else {
       if (appInfo['isLoggedIn'] === true) {
-        // logged in so return true
-        // console.log(localStorage.getItem('currentUser'))
-        return true;
+        if (appInfo['isFormPassword'] === true) {
+          // logged in so return true
+          // console.log(localStorage.getItem('currentUser'))
+          this.router.navigate(['/tile/password-setting'], { queryParams: { returnUrl: state.url }});
+          return false;
+        } else {
+          // logged in so return true
+          // console.log(localStorage.getItem('currentUser'))
+          return true;
+        }
       } else {
         // not logged in so redirect to login page with the return url
         // console.log(state.url)

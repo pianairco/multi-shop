@@ -20,6 +20,7 @@ import { FormMakerComponent } from './components/form-maker/form-maker.component
 import { NotificationComponent } from './components/notification/notification.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import {SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider} from 'angularx-social-login';
+import { PasswordSettingComponent } from './views/password-setting/password-setting.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider} from 'a
     TileComponent,
     FormMakerComponent,
     NotificationComponent,
-    LoadingComponent
+    LoadingComponent,
+    PasswordSettingComponent
   ],
   imports: [
     BrowserModule,

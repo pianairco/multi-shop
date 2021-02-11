@@ -86,6 +86,19 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
         response.getWriter().flush();
     }
 
+    public void unknownExceptionHandler(
+            Exception ex, HttpServletResponse response) throws IOException {
+        checkDatabaseConnection(ex);
+        ErrorModel errorModel = ErrorModel.builder()
+                .errorCode(500)
+                .descriptionEN("an exception is occurred!")
+                .build();
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.getWriter().print(new ObjectMapper().writeValueAsString(errorModel));
+        response.getWriter().flush();
+    }
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
@@ -99,6 +112,8 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
                 httpCommonRuntimeExceptionHandler((HttpCommonRuntimeException)e, httpServletResponse);
             } else if(e instanceof SiteRefreshException) {
                 siteRefreshExceptionHandler((SiteRefreshException)e, httpServletResponse);
+            } else {
+                unknownExceptionHandler(e, httpServletResponse);
             }
         }
     }

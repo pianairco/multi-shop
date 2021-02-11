@@ -16,7 +16,7 @@ export class NotificationComponent implements OnInit {
     this.notificationService.currentMessage.subscribe(message => {
       this.selectedMessage = message;
       console.log(message);
-      if (this.selectedMessage instanceof NotificationModel) {
+      if (this.selectedMessage instanceof NotificationModel && this.selectedMessage.isShow) {
         console.log(this.selectedMessage)
 
         this.showMessage = true;
@@ -29,5 +29,6 @@ export class NotificationComponent implements OnInit {
 
   clear() {
     this.showMessage = false;
+    this.notificationService.clear();
   }
 }
