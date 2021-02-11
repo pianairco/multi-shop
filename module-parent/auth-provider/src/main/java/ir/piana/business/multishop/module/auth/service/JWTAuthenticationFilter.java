@@ -8,13 +8,17 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
+import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
+import ir.piana.business.multishop.module.auth.model.LoginInfo;
+import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,12 +38,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    private Environment env;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private AuthenticationManager authenticationManager;
     private GoogleUserRepository googleUserRepository;
@@ -48,11 +52,87 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             String loginUrl,
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder bCryptPasswordEncoder,
-            GoogleUserRepository googleUserRepository) {
+            GoogleUserRepository googleUserRepository,
+            Environment env) {
         super(new AntPathRequestMatcher(loginUrl));
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.googleUserRepository = googleUserRepository;
+        this.env = env;
+    }
+
+    Authentication byForm(HttpServletRequest request, HttpServletResponse res) throws IOException {
+        Captcha simpleCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
+        LoginInfo loginInfo = null;
+        if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
+            loginInfo = LoginInfo.builder().captcha(simpleCaptcha.getAnswer())
+                    .username("rahmatii1366@gmail.com")
+                    .password("1234")
+                    .build();
+        } else {
+            loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
+        }
+
+        if(!simpleCaptcha.isCorrect(loginInfo.getCaptcha()))
+            throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
+//                if(loginInfo != null) {
+//                    userEntity = userRepository.findByUsername(loginInfo.getUsername());
+//                }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        "form:" + new String(Base64.getEncoder().encode(loginInfo.getUsername().getBytes(StandardCharsets.UTF_8))),
+                        loginInfo.getPassword(),
+//                        "form:" + new String(Base64.getEncoder().encode(loginInfo.getPassword().getBytes(StandardCharsets.UTF_8))),
+                        new ArrayList<>())
+        );
+
+        return authentication;
+    }
+
+    Authentication byGoogle(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        GoogleUserEntity userEntity = null;
+        String accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
+        if (accessToken != null && accessToken.equalsIgnoreCase("1234")) {
+            GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
+            userEntity = GoogleUserEntity.builder()
+                    .email(admin.getEmail())
+                    .givenName(admin.getGivenName())
+                    .locale(admin.getLocale())
+                    .pictureUrl(admin.getPictureUrl())
+                    .password("1234")
+                    .build();
+        } else {
+            GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
+
+
+            Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
+                    "Oauth2").build();
+            Userinfo userinfo = oauth2.userinfo().get().execute();
+            userEntity = GoogleUserEntity.builder()
+                    .email(userinfo.getEmail())
+                    .givenName(userinfo.getGivenName())
+                    .locale(userinfo.getLocale())
+                    .pictureUrl(userinfo.getPicture())
+                    .password("0000")
+                    .build();
+        }
+
+        if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
+            userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
+            userEntity.setUserId(UUID.randomUUID().toString());
+            googleUserRepository.save(userEntity);
+            userEntity.setPassword("0000");
+        }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getEmail().getBytes(StandardCharsets.UTF_8))),
+//                        userEntity.getEmail(),
+//                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getPassword().getBytes(StandardCharsets.UTF_8))),
+                        userEntity.getPassword(),
+                        new ArrayList<>()));
+        return authentication;
     }
 
     @Override
@@ -62,63 +142,19 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null && authentication.isAuthenticated())
                 return authentication;
-            GoogleUserEntity userEntity = null;
-            /*if("application/x-www-form-urlencoded".equalsIgnoreCase(req.getContentType())) {
-                String s = IOUtils.toString(req.getInputStream());
-                Map<String, String> split = Splitter.on('&')
-                        .withKeyValueSeparator('=')
-                        .split(s);
-                userEntity = GoogleUserEntity.builder()
-                        .username(split.get("username"))
-                        .password(split.get("password"))
-                        .build();
-            } else */
-            if("application/json".equalsIgnoreCase(req.getContentType())) {
-                String accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
-                if(accessToken != null && accessToken.equalsIgnoreCase("1234")) {
-                    GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
-                    userEntity = GoogleUserEntity.builder()
-                            .email(admin.getEmail())
-                            .givenName(admin.getGivenName())
-                            .locale(admin.getLocale())
-                            .pictureUrl(admin.getPictureUrl())
-                            .password("1234")
-                            .build();
-                } else {
-                    GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
 
-
-                    Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
-                            "Oauth2").build();
-                    Userinfo userinfo = oauth2.userinfo().get().execute();
-                    userEntity = GoogleUserEntity.builder()
-                            .email(userinfo.getEmail())
-                            .givenName(userinfo.getGivenName())
-                            .locale(userinfo.getLocale())
-                            .pictureUrl(userinfo.getPicture())
-                            .password("0000")
-                            .build();
+            if(req.getContentType() != null &&
+                    (req.getContentType().startsWith("APPLICATION/JSON") ||
+                            req.getContentType().startsWith("application/json"))) {
+                if (req.getHeader("auth-type").equalsIgnoreCase("g-oauth2"))
+                    return byGoogle(req, res);
+                else if(req.getHeader("auth-type").equalsIgnoreCase("form")) {
+                    return byForm(req, res);
                 }
-
-            } /*else {
-                userEntity = new ObjectMapper()
-                        .readValue(req.getInputStream(), GoogleUserEntity.class);
-            }*/
-
-            if(googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
-                userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
-                userEntity.setUserId(UUID.randomUUID().toString());
-                googleUserRepository.save(userEntity);
-                userEntity.setPassword("0000");
+                else
+                    throw new RuntimeException();
             }
-
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            userEntity.getEmail(),
-                            userEntity.getPassword(),
-                            new ArrayList<>())
-            );
-            return authentication;
+            throw new RuntimeException();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

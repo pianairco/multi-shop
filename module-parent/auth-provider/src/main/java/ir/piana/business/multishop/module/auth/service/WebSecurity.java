@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -60,6 +61,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private GoogleUserRepository googleUserRepository;
 
+    @Autowired
+    private Environment env;
 
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
     @Override
@@ -104,7 +107,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                        CustomAuthenticationFilter.class)
 //                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
                 .addFilterBefore(new JWTAuthenticationFilter("/api/sign-in",
-                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository), UsernamePasswordAuthenticationFilter.class)
+                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository, env),
+                        UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), authTokenModelRepository),
 //                        UsernamePasswordAuthenticationFilter.class);
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))

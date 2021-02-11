@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.servlet;
+package ir.piana.business.multishop.module.auth.servlet;
 
 import nl.captcha.Captcha;
 import nl.captcha.servlet.CaptchaServletUtil;
@@ -39,11 +39,11 @@ public class CaptchaServlet extends HttpServlet {
         this.numbersAnswerProducer = numbersAnswerProducer;
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TextProducer renderer = new NumbersAnswerProducer(numbersAnswerProducer);
         Captcha captcha = (new Captcha.Builder(width, height))
                 .addText(renderer).addNoise().build();
-        CaptchaServletUtil.writeImage(response, captcha.getImage());
-        request.getSession().setAttribute("simpleCaptcha", captcha);
+        CaptchaServletUtil.writeImage(resp, captcha.getImage());
+        req.getSession().setAttribute("simpleCaptcha", captcha);
     }
 }

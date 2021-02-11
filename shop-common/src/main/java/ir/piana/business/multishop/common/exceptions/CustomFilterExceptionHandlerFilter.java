@@ -39,6 +39,24 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
         }
     }
 
+    public void httpCommonRuntimeExceptionHandler(
+            HttpCommonRuntimeException ex, HttpServletResponse response) throws IOException {
+        checkDatabaseConnection(ex);
+
+        ErrorModel errorModel = ErrorModel.builder()
+                .errorCode(ex.getCode())
+                .message(ex.getMessage())
+                .build();
+
+        response.setStatus(ex.getHttpStatus().value());
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+        response.getWriter().print(new ObjectMapper().writeValueAsString(errorModel));
+        response.getWriter().flush();
+//        return ResponseEntity.status(errorModel.getErrorCode())
+//                .header("content-type", MediaType.APPLICATION_JSON_VALUE + "; charset=utf-8")
+//                .body(errorModel);
+    }
+
     public void tenantNotSpecifiedExceptionHandler(
             TenantNotSpecifiedException ex, HttpServletResponse response) throws IOException {
         checkDatabaseConnection(ex);
@@ -77,6 +95,8 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             if(e instanceof TenantNotSpecifiedException) {
                 tenantNotSpecifiedExceptionHandler((TenantNotSpecifiedException)e, httpServletResponse);
+            } else if (e instanceof HttpCommonRuntimeException) {
+                httpCommonRuntimeExceptionHandler((HttpCommonRuntimeException)e, httpServletResponse);
             } else if(e instanceof SiteRefreshException) {
                 siteRefreshExceptionHandler((SiteRefreshException)e, httpServletResponse);
             }

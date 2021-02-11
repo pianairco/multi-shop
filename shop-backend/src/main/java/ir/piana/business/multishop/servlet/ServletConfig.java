@@ -12,8 +12,8 @@ public class ServletConfig implements ServletContextInitializer {
     public void onStartup(ServletContext servletContext) {
         servletContext.addServlet("H2Console", WebServlet.class)
                 .addMapping("/h2/console/*");
-        servletContext.addServlet("captcha", CaptchaServlet.class)
-                .addMapping("/resources/captcha");
+//        servletContext.addServlet("captcha", CaptchaServlet.class)
+//                .addMapping("/resources/captcha");
     }
 
 //    @Bean

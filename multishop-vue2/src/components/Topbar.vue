@@ -141,17 +141,17 @@
           this.$axios.post(this.remoteServer + '/api/sign-in',
               { 'accessToken': accessToken },
               { headers: { 'Content-Type': 'APPLICATION/JSON' } })
-            .then((response) => {
-              this.isLoading = false;
-              console.log(response.data);
-              // this.sessions.push(response.data);
-              this.pictureUrl = response.data['pictureUrl'];
-              this.$store.commit('setAppInfo', response.data);
-              console.log(this.pictureUrl)
-            }).catch((err) => {
-              self.isLoading = false;
-              this.message = err
-            });
+              .then((response) => {
+                this.isLoading = false;
+                console.log(response.data);
+                // this.sessions.push(response.data);
+                this.pictureUrl = response.data['pictureUrl'];
+                this.$store.commit('setAppInfo', response.data);
+                console.log(this.pictureUrl)
+              }).catch((err) => {
+            self.isLoading = false;
+            this.message = err
+          });
         } catch (error) {
           this.isLoading = false;
           //on fail do something

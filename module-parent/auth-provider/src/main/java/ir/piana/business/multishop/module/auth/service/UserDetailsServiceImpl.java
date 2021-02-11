@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,13 +26,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String encodedUsername) throws UsernameNotFoundException {
+        String username = null;
+        boolean isForm = false;
+        if(encodedUsername.contains(":")) {
+            String[] split = encodedUsername.split(":");
+            username = new String(Base64.getDecoder().decode(username = split[1]));
+            if(split[0].equalsIgnoreCase("form")) {
+                isForm = true;
+            } else {
+//                ToDo
+            }
+        }
+
         GoogleUserEntity googleUserEntity = googleUserRepository.findByEmail(username);
         if (googleUserEntity == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(encodedUsername);
         }
         List<GrantedAuthority> authorities = googleUserEntity.getUserRolesEntities().stream()
                 .map(e -> new SimpleGrantedAuthority(e.getRoleName())).collect(Collectors.toList());
-        return new UserModel(googleUserEntity.getEmail(), googleUserEntity.getPassword(), authorities, googleUserEntity);
+        return new UserModel(googleUserEntity.getEmail(),
+                isForm ? googleUserEntity.getFormPassword() : googleUserEntity.getPassword(),
+                authorities, googleUserEntity);
     }
 }

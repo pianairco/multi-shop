@@ -26,6 +26,8 @@ public class GoogleUserEntity {
     private String mobile;
     @Column
     private String password;
+    @Column(name = "form_password")
+    private String formPassword;
     @Column(name = "email_verified")
     private boolean emailVerified;
     @Column

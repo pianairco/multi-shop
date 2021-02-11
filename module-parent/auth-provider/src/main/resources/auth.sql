@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS users (
   email varchar(256) NOT NULL,
   mobile char(11),
   password char(128),
+  form_password char(128),
   email_verified number(1),
   name varchar(64),
   picture_url varchar(256),
@@ -15,9 +16,9 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- image => https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c
-INSERT INTO users (id, user_uuid, email, email_verified, password, locale, given_name, picture_url) select * from (
+INSERT INTO users (id, user_uuid, email, email_verified, password, form_password, locale, given_name, picture_url) select * from (
     select 1 id, 'admin' user_uuid, 'rahmatii1366@gmail.com' email, 1 email_verified,
-           '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password, 'fa' locale,
+           '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' password, '$2a$10$kcXK1Vjmy79dMr.T7j5AJuWAlrGTqKWu/dk7kPFYESJGHqdCdO4.K' form_password, 'fa' locale,
            'admin' given_name, 'https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c' picture_url
 ) where not exists(select * from users);
 
