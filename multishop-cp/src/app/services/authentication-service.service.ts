@@ -6,7 +6,8 @@ import {ConstantService} from "./constant.service";
 import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
 
 const googleLoginOptions = {
-  scope: 'profile email'
+  scope: 'profile email',
+  prompt: 'select_account'
 }; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
 
 @Injectable({

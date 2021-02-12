@@ -16,9 +16,11 @@ import java.util.List;
 public class GoogleUserEntity {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
-    @Column(name = "id")
-    private long Id;
-    @Column(name = "user_uuid")
+    @Column(name = "ID")
+    private long id;
+    @Column(name = "AGENT_ID")
+    private long agentId;
+    @Column(name = "USER_UUID")
     private String userId;
     @Column(name = "email")
     private String email;

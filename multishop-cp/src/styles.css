@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+.container .columns {
+  margin: 0px;
+}
+
+.menu-active-link {
+  background-color: #ffe3ed;
+}
+
+.active-link {
+  background-color: #ff4a6c;
+}

@@ -19,7 +19,7 @@ public class SiteEntity {
     private long id;
 
     @Column(name = "AGENT_ID")
-    private String agentId;
+    private long agentId;
 
     @Column(name = "TENANT_ID")
     private String tenantId;

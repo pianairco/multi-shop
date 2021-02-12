@@ -62,11 +62,13 @@ export class AuthGuard implements CanActivate {
       }
     } else {
       if (appInfo['isLoggedIn'] === true) {
-        if (appInfo['isFormPassword'] === true) {
-          // logged in so return true
-          // console.log(localStorage.getItem('currentUser'))
-          this.router.navigate(['/tile/password-setting'], { queryParams: { returnUrl: state.url }});
-          return false;
+        if (appInfo['isFormPassword'] === false) {
+          if(state['url'].startsWith('tile/password-setting') || state['url'].startsWith('/tile/password-setting')) {
+            return true;
+          } else {
+            this.router.navigate(['/tile/password-setting'], { queryParams: { returnUrl: state.url }});
+            return false;
+          }
         } else {
           // logged in so return true
           // console.log(localStorage.getItem('currentUser'))

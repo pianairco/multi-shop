@@ -21,6 +21,9 @@ import { NotificationComponent } from './components/notification/notification.co
 import { LoadingComponent } from './components/loading/loading.component';
 import {SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider} from 'angularx-social-login';
 import { PasswordSettingComponent } from './views/password-setting/password-setting.component';
+import { SiteSettingComponent } from './views/site-setting/site-setting.component';
+import { MySitesComponent } from './views/my-sites/my-sites.component';
+import { NewSiteComponent } from './views/new-site/new-site.component';
 
 
 @NgModule({
@@ -35,7 +38,10 @@ import { PasswordSettingComponent } from './views/password-setting/password-sett
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
-    PasswordSettingComponent
+    PasswordSettingComponent,
+    SiteSettingComponent,
+    MySitesComponent,
+    NewSiteComponent
   ],
   imports: [
     BrowserModule,

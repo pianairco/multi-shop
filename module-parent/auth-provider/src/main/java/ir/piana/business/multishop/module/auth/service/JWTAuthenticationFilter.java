@@ -8,6 +8,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
+import ir.piana.business.multishop.common.data.entity.AgentEntity;
+import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
@@ -47,6 +49,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private AuthenticationManager authenticationManager;
     private GoogleUserRepository googleUserRepository;
+    private AgentProvider agentProvider;
 
     public JWTAuthenticationFilter(
             String loginUrl,
@@ -67,7 +70,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
             loginInfo = LoginInfo.builder().captcha(simpleCaptcha.getAnswer())
                     .username("rahmatii1366@gmail.com")
-                    .password("1234")
+                    .password("0000")
                     .build();
         } else {
             loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
@@ -100,7 +103,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     .givenName(admin.getGivenName())
                     .locale(admin.getLocale())
                     .pictureUrl(admin.getPictureUrl())
-                    .password("1234")
+                    .password("0000")
                     .build();
         } else {
             GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
@@ -119,8 +122,10 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         }
 
         if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
-            userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
-            userEntity.setUserId(UUID.randomUUID().toString());
+            AgentEntity agentEntity = agentProvider.createAgentEntity(UUID.randomUUID().toString());
+            userEntity.setPassword(bCryptPasswordEncoder.encode("1234"));
+            userEntity.setUserId(agentEntity.getUsername());
+            userEntity.setAgentId(agentEntity.getId());
             googleUserRepository.save(userEntity);
             userEntity.setPassword("0000");
         }
