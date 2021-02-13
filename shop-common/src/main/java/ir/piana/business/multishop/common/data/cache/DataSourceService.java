@@ -57,6 +57,7 @@ public class DataSourceService {
         log.info("DataSourceService => initialized");
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public boolean checkAndAddDatasource(String tenantId) {
         if(dataSourceMap.containsKey(tenantId))
             return true;

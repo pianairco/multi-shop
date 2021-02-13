@@ -1,0 +1,37 @@
+<div *ngIf="initialized" class="columns is-multiline" [style]="formDef['layout']['style']">
+  <div *ngFor="let item of formDef['fields'] | keyvalue; let i = index; let odd = odd"
+       [className]="parseColumn(formDef['fields'][item.key]['size'])">
+    <div *ngIf="formDef['fields'][item.key]['type'] === 'text'" class="field">
+      <label class="label">{{formDef['fields'][item.key]['title']}}</label>
+      <div class="control">
+        <input class="input" type="text"
+               [(ngModel)]="form[formDef['fields'][item.key]['field']]"
+               [attr.placeholder]="formDef['fields'][item.key]['placeholder']">
+      </div>
+    </div>
+
+    <div *ngIf="formDef['fields'][item.key]['type'] === 'password'" class="field">
+      <label class="label">{{formDef['fields'][item.key]['title']}}</label>
+      <div class="control">
+        <input class="input" type="password"
+               [(ngModel)]="form[formDef['fields'][item.key]['field']]"
+               [attr.placeholder]="formDef['fields'][item.key]['placeholder']">
+      </div>
+    </div>
+
+    <label *ngIf="formDef['fields'][item.key]['type'] === 'boolean'" class="checkbox">
+      <input type="checkbox"
+             [(ngModel)]="form[formDef['fields'][item.key]['field']]">
+      {{formDef['fields'][item.key]['title']}}
+    </label>
+  </div>
+</div>
+<div class="columns is-multiline" [style]="formDef['layout']['style']">
+  <div *ngFor="let item of formDef['buttons'] | keyvalue; let i = index; let odd = odd"
+       [className]="parseColumn(formDef['buttons'][item.key]['size'])">
+    <button [className]="formDef['buttons'][item.key]['class'].concat(' button is-fullwidth')"
+            (click)="applyActivities(formDef['buttons'][item.key]['activities'])">
+      {{formDef['buttons'][item.key]['title']}}</button>
+  </div>
+</div>
+

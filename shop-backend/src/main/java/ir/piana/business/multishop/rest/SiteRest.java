@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.rest;
 
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.entity.SiteUserEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
@@ -35,6 +36,9 @@ public class SiteRest {
     @Autowired
     private SiteUserRepository siteUserRepository;
 
+    @Autowired
+    private AppDataCache appDataCache;
+
     @PostMapping(path = "add", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
@@ -44,7 +48,7 @@ public class SiteRest {
         UserModel userModel = (UserModel) authentication.getPrincipal();
         SiteEntity siteEntity = SiteEntity.builder()
                 .agentId(userModel.getUserEntity().getAgentId())
-                .tenantId(body.get("tenantId"))
+                .tenantId(body.get("tenantId") + "." + appDataCache.getDomain())
                 .creationDate(simpleDateFormat.format(new Date()))
                 .creationTime(simpleTimeFormat.format(new Date()))
                 .modificationDate(simpleDateFormat.format(new Date()))

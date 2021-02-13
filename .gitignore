@@ -5,6 +5,7 @@ HELP.md
 **/*.trace.db
 shop-backend/src/main/resources/public/
 shop-backend/src/main/resources/control-panel/
+shop-backend/src/main/resources/multishop-ui/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

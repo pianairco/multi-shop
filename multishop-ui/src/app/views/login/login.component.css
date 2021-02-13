@@ -1,0 +1,9 @@
+.modal-background {
+  background-color: aquamarine;
+  background-size: cover;
+  background-image: url('../../../assets/images/login-bg.jpg');
+}
+
+/*.modal-card {*/
+/*  width: 400px;*/
+/*}*/

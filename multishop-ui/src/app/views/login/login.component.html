@@ -1,0 +1,51 @@
+<div class="modal" [class.is-active]="showModal" >
+  <div class="modal-background"></div>
+  <div class="modal-card" >
+<!--    <header class="modal-card-head">-->
+<!--      <p class="modal-card-title has-text-centered">ورود</p>-->
+<!--    </header>-->
+    <section class="modal-card-body" style="min-height: 296px">
+      <div class="field">
+        <label class="label">نام کاربری</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="" [(ngModel)]="loginInfo.username">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">کلمه عبور</label>
+        <div class="control">
+          <input class="input" type="password" placeholder="" [(ngModel)]="loginInfo.password">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">کد امنیتی</label>
+        <div class="field has-addons">
+          <span class="control">
+            <input class="input" type="text" placeholder="" [(ngModel)]="loginInfo.captcha">
+          </span>
+          <span class="control">
+            <img [src]="getLinkPicture()" />
+          </span>
+        </div>
+      </div>
+    </section>
+    <section class="modal-card-foot" style="min-height: 110px">
+      <div class="container">
+        <div class="columns is-multiline">
+          <div class="column is-12">
+            <button class="button is-success is-fullwidth" (click)="login()">ورود</button>
+          </div>
+          <div class="column is-12">
+            <button class="button is-danger is-fullwidth" (click)="handleClickGoogleSignIn()">
+              <span>ورود با گوگل</span>
+              <!--            <span>Sign in with Google</span>-->
+              <span class="icon is-small">
+              <i class="fab fa-google"></i>
+            </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
