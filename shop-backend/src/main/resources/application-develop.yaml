@@ -11,4 +11,4 @@ server:
     enabled: true
 debug:
   tenant:
-    if-null: piana.ir
+    if-null: vavishka.piana.ir

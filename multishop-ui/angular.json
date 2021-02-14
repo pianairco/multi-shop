@@ -70,7 +70,7 @@
           "options": {
             "ssl": true,
             "proxyConfig": "src/proxy.conf.js",
-            "host": "shop.piana.ir",
+            "host": "localhost",
             "port": 443,
             "browserTarget": "multishop-ui:build"
           },
