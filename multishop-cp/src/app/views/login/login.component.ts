@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
   captchaCounter: number = 0;
   returnUrl: string;
+  subDomain = null;
 
   constructor(
     private authService: SocialAuthService,
@@ -30,10 +31,14 @@ export class LoginComponent implements OnInit {
     private constantService: ConstantService,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {
+    this.route.queryParams.subscribe(params => {
+      this.subDomain = params['sub-domain'];
+    });
+  }
 
   ngOnInit(): void {
-    console.log("on login component init")
+    console.log("on login component init", this.subDomain)
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
@@ -88,9 +93,17 @@ export class LoginComponent implements OnInit {
       //     this.isLoading = false;
       //     console.log("error", error);
       //   });
-      let appInfo = await this.authenticationService.googleSignIn();
+      console.log(this.subDomain)
+      console.log("ssssssssssssssss")
+
+        let appInfo = await this.authenticationService.googleSignIn(this.subDomain);
+      if(this.subDomain) {
+        parent.postMessage("dgsgs","*");
+        window.close();
+      }
       this.loadingService.changeState(false);
       this.router.navigate([this.returnUrl]);
+
     } catch (error) {
       this.loadingService.changeState(false);
       console.log(error)

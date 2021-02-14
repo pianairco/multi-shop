@@ -5,11 +5,11 @@ const PROXY_CONFIG = [
       "/h2",
       "/resource"
     ],
-    target: "https://localhost:8443",
+    target: "https://shop.piana.ir:8443",
     secure: false,
     changeOrigin: true,
-    cookieDomainRewrite: "localhost",
-    withCredentials: true,
+    cookieDomainRewrite: "shop.piana.ir",
+    withCredentials: false,
     onProxyRes: (proxyRes, req, res) => {
       // console.log(proxyRes);
       // console.log(req.headers['Set-Cookie']);

@@ -15,9 +15,10 @@ const routes: Routes = [
   {
     path: '', canActivate:[AuthGuard], children: [
       { path: '', children: [
-          { path: '', redirectTo: '/tile/home', pathMatch: 'full' },
+          { path: '', redirectTo: '/tile/home-view', pathMatch: 'full' },
           { path: 'tile', component: TileComponent, children:[
               { path: '', redirectTo: '/home', pathMatch: 'full' },
+              { path: 'home-view', component: HomeViewComponent, canActivate:[AuthGuard] },
               { path: 'home', component: HomeViewComponent },
               { path: 'add-user/:groupName/:formName', component: FormMakerComponent },
               { path: 'password-setting', component: PasswordSettingComponent },

@@ -67,9 +67,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.csrf().disable()
+//        http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/sign-in",
+                .antMatchers(HttpMethod.POST,
+                        "/api/sign-in",
+                        "/api/sign-in/sub-domain",
                         "/api/sign-up",
                         "/api/app-info"/*,
                         "/h2/console/**"*/)

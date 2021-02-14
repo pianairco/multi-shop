@@ -21,10 +21,18 @@ export class AuthenticationService {
     private loadingService: LoadingService,
     private pianaStorageService: PianaStorageService) { }
 
+  async getToken () {
+    try {
+      console.log("service googleSignIn")
+      let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
+      let accessToken = socialUser['authToken'];
+      return accessToken;
+    } catch (e) {
 
+    }
+  }
 
-
-  async googleSignIn () {
+  async googleSignIn (subDomain) {
     try {
       console.log("service googleSignIn")
       let accessToken = null;
@@ -45,7 +53,7 @@ export class AuthenticationService {
         return;
       }
       let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
-        { 'accessToken': accessToken },
+        { 'accessToken': accessToken, subDomain: subDomain },
         { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
       let appInfo = res['data'];
       this.pianaStorageService.putObject('appInfo', appInfo);

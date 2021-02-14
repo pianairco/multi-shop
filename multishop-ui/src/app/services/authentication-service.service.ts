@@ -21,7 +21,15 @@ export class AuthenticationService {
     private loadingService: LoadingService,
     private pianaStorageService: PianaStorageService) { }
 
+  async getToken () {
+    try {
+      console.log("service googleSignIn")
+      let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
+      let accessToken = socialUser['authToken'];
+    } catch (e) {
 
+    }
+  }
 
 
   async googleSignIn () {

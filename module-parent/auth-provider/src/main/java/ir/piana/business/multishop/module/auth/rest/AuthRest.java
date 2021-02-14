@@ -17,9 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -32,6 +35,8 @@ public class AuthRest {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    Map<String, String> subDomainMap = new LinkedHashMap<>();
 
     @PostMapping(path = "sign-out", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppInfo> signOut(@RequestBody Map map, HttpSession session) throws IOException {
@@ -94,4 +99,20 @@ public class AuthRest {
 //        }
 //        return ResponseEntity.ok(appInfo);
     }
+
+    @CrossOrigin
+    @PostMapping(path = "sign-in/sub-domain", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map> signInBySubDomain(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody Map body, HttpSession session) throws IOException {
+        UUID uuid = UUID.randomUUID();
+        String tenantId = (String) request.getAttribute("tenantId");
+        subDomainMap.put(uuid.toString(), tenantId);
+        body.clear();
+        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + tenantId);
+//        response.sendRedirect("https://piana.ir:8443/#/login?sub-domain=" + uuid.toString());
+        return ResponseEntity.ok(body);
+    }
+
 }
