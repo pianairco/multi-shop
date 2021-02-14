@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AuthGuard} from "../../../multishop-cp/src/app/guards/auth.guard";
-import {TileComponent} from "../../../multishop-cp/src/app/views/tile/tile.component";
-import {HomeViewComponent} from "../../../multishop-cp/src/app/views/home-view/home-view.component";
-import {FormMakerComponent} from "../../../multishop-cp/src/app/components/form-maker/form-maker.component";
-import {PasswordSettingComponent} from "../../../multishop-cp/src/app/views/password-setting/password-setting.component";
-import {SiteSettingComponent} from "../../../multishop-cp/src/app/views/site-setting/site-setting.component";
-import {MySitesComponent} from "../../../multishop-cp/src/app/views/my-sites/my-sites.component";
-import {NewSiteComponent} from "../../../multishop-cp/src/app/views/new-site/new-site.component";
-import {LoginComponent} from "../../../multishop-cp/src/app/views/login/login.component";
-import {PageNotFoundComponent} from "../../../multishop-cp/src/app/views/page-not-found/page-not-found.component";
+import {AuthGuard} from "./guards/auth.guard";
+import {TileComponent} from "./views/tile/tile.component";
+import {HomeViewComponent} from "./views/home-view/home-view.component";
+import {FormMakerComponent} from "./components/form-maker/form-maker.component";
+import {PasswordSettingComponent} from "./views/password-setting/password-setting.component";
+import {SiteSettingComponent} from "./views/site-setting/site-setting.component";
+import {MySitesComponent} from "./views/my-sites/my-sites.component";
+import {NewSiteComponent} from "./views/new-site/new-site.component";
+import {LoginComponent} from "./views/login/login.component";
+import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {

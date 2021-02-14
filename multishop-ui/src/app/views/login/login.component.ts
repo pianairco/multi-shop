@@ -3,10 +3,8 @@ import {AuthenticationService} from "../../services/authentication-service.servi
 import {ActivatedRoute, Router} from "@angular/router";
 import {PianaStorageService} from "../../services/piana-storage.service";
 import {LoadingService} from "../../services/loading.service";
-import axios from "axios";
 import {ConstantService} from "../../services/constant.service";
-import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
-import { isDevMode } from '@angular/core';
+import {SocialAuthService} from "angularx-social-login";
 
 @Component({
   selector: 'app-login',
