@@ -16,8 +16,12 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.Cache;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @SpringBootApplication(exclude = {
 		DataSourceAutoConfiguration.class,
@@ -31,6 +35,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 		StoreMenuProperties.class
 })
 public class ShopBackendApplication {
+//	@Bean("spring-resource-chain-cache")
+//	public String cacheName() {
+//		return "piana";
+//	}
+
+//	@Bean("piana-cache")
+//	public Cache cache() {
+//		return new ConcurrentMapCache("spring-resource-chain-cache",
+//				new ConcurrentHashMap<>(), true);
+//	}
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

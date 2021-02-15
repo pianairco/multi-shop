@@ -33,7 +33,9 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
     this.route.queryParams.subscribe(params => {
+      console.log("--------- param -----------")
       this.subDomain = params['sub-domain'];
+      console.log("param change: ", this.subDomain)
     });
   }
 
@@ -93,14 +95,14 @@ export class LoginComponent implements OnInit {
       //     this.isLoading = false;
       //     console.log("error", error);
       //   });
+      console.log("----------- handle --------------")
       console.log(this.subDomain)
-      console.log("ssssssssssssssss")
 
         let appInfo = await this.authenticationService.googleSignIn(this.subDomain);
-      if(this.subDomain) {
-        parent.postMessage("dgsgs","*");
-        window.close();
-      }
+      // if(this.subDomain) {
+      //   parent.postMessage("dgsgs","*");
+      //   window.close();
+      // }
       this.loadingService.changeState(false);
       this.router.navigate([this.returnUrl]);
 

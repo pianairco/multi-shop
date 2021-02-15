@@ -110,7 +110,8 @@ public class AuthRest {
         String tenantId = (String) request.getAttribute("tenantId");
         subDomainMap.put(uuid.toString(), tenantId);
         body.clear();
-        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + tenantId);
+        body.put("redirect", "https://localhost:8443/#/login?sub-domain=" + tenantId);
+//        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + tenantId);
 //        response.sendRedirect("https://piana.ir:8443/#/login?sub-domain=" + uuid.toString());
         return ResponseEntity.ok(body);
     }
