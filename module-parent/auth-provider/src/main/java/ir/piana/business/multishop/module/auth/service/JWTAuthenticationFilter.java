@@ -8,6 +8,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.entity.AgentEntity;
 import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
@@ -15,6 +16,7 @@ import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
+import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,17 +52,23 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private AuthenticationManager authenticationManager;
     private GoogleUserRepository googleUserRepository;
     private AgentProvider agentProvider;
+    private CrossDomainAuthenticationService crossDomainAuthenticationService;
+    private AppDataCache appDataCache;
 
     public JWTAuthenticationFilter(
             String loginUrl,
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder bCryptPasswordEncoder,
             GoogleUserRepository googleUserRepository,
+            CrossDomainAuthenticationService crossDomainAuthenticationService,
+            AppDataCache appDataCache,
             Environment env) {
         super(new AntPathRequestMatcher(loginUrl));
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.googleUserRepository = googleUserRepository;
+        this.crossDomainAuthenticationService = crossDomainAuthenticationService;
+        this.appDataCache = appDataCache;
         this.env = env;
     }
 
@@ -95,8 +103,20 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     Authentication byGoogle(HttpServletRequest req, HttpServletResponse res) throws IOException {
         GoogleUserEntity userEntity = null;
-        String accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
-        if (accessToken != null && accessToken.equalsIgnoreCase("1234")) {
+        String host = (String) req.getAttribute("host");
+        String accessToken = null;
+        if(host != null && host.equalsIgnoreCase(appDataCache.getDomain())) {
+            accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
+        } else {
+            String uuid = new ObjectMapper().readTree(req.getInputStream()).findValue("uuid").asText();
+            SubDomainInfo subDomainInfo = crossDomainAuthenticationService.getSubDomainInfo(uuid);
+            if(subDomainInfo != null && subDomainInfo.getAccessToken() != null) {
+                accessToken = subDomainInfo.getAccessToken();
+            }
+        }
+        if(accessToken == null) {
+            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+        } else if (accessToken.equalsIgnoreCase("1234")) {
             GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
             userEntity = GoogleUserEntity.builder()
                     .email(admin.getEmail())
@@ -107,7 +127,6 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     .build();
         } else {
             GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
-
 
             Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
                     "Oauth2").build();

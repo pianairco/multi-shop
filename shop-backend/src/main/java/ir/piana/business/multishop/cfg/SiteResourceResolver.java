@@ -21,9 +21,8 @@ public class SiteResourceResolver extends PathResourceResolver {
             String requestPath,
             List<? extends Resource> locations,
             ResourceResolverChain chain) {
-        String host = (String) request.getAttribute("tenant");
-        if(host != null && host.equalsIgnoreCase(appDataCache.getDomain()))
-            requestPath = "control-panel/".concat(requestPath);
+        String resourcePrefix = (String) request.getAttribute("resource-prefix");
+        requestPath = resourcePrefix.concat(requestPath);
         return super.resolveResourceInternal(request, requestPath, locations, chain);
     }
 

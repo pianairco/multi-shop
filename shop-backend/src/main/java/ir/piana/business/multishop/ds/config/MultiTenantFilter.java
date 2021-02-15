@@ -62,6 +62,11 @@ public class MultiTenantFilter extends OncePerRequestFilter {
                 (ifTenantNull != null && !ifTenantNull.isEmpty() ? ifTenantNull : null) : hostString;
         request.setAttribute("tenant", host);
         request.setAttribute("host", host);
+        if(appDataCache.getDomain().equalsIgnoreCase(host)) {
+            request.setAttribute("resource-prefix", "multishop-cp/");
+        } else {
+            request.setAttribute("resource-prefix", "multishop-ui/");
+        }
         if (host == null) {
             throw new TenantNotSpecifiedException();
         } else if (host.equalsIgnoreCase(appDataCache.getDomain())) {

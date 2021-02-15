@@ -38,26 +38,37 @@ export class AuthenticationService {
       let accessToken = null;
       this.loadingService.changeState(true);
       if(isDevMode()) {
-        let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
-        accessToken = socialUser['authToken'];
-        console.log(accessToken, socialUser)
+        console.log("is-dev")
+        accessToken = "1234";
         //   .then(res => {
         //     console.log(res);
         //   }, err => {
         //     console.log(err);
         //   });
       } else {
-        accessToken = "1234";
+        console.log("is-prod")
+        let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
+        accessToken = socialUser['authToken'];
+        // console.log(accessToken, socialUser)
       }
       if(accessToken == null) {
         return;
       }
-      let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
-        { 'accessToken': accessToken, subDomain: subDomain },
-        { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
-      let appInfo = res['data'];
-      this.pianaStorageService.putObject('appInfo', appInfo);
-      return appInfo;
+      if(subDomain != null) {
+        let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in/sub-domain/set-token',
+          { 'accessToken': accessToken, uuid: subDomain },
+          { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
+        if(res.status == 200) {
+          return "close";
+        }
+      } else {
+        let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
+          { 'accessToken': accessToken, subDomain: subDomain },
+          { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
+        let appInfo = res['data'];
+        this.pianaStorageService.putObject('appInfo', appInfo);
+        return appInfo;
+      }
     } catch (error) {
       throw error;
       //on fail do something

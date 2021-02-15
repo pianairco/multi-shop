@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../shop-backend/src/main/resources/control-panel",
+            "outputPath": "../shop-backend/src/main/resources/multishop-cp",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

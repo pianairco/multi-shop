@@ -19,7 +19,15 @@ export class ChildViewComponent implements OnInit {
   }
 
   close() {
-    parent.postMessage("sfasafsafa", "https://shop.piana.ir");
-    window.close();
+    console.log(window)
+    console.log(window.opener)
+    console.log(window.opener.closed)
+    if (window.opener != null && !window.opener.closed) {
+      var txtName = window.opener.document.getElementById("resInput");
+      txtName.value = "dddddddd";
+    }
+    parent.postMessage("sfasafsafa", "*");
+    // parent.postMessage("sfasafsafa", "https://shop.piana.ir");
+    // window.close();
   }
 }

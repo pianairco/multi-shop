@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -62,6 +63,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private GoogleUserRepository googleUserRepository;
 
     @Autowired
+    private AppDataCache appDataCache;
+
+    @Autowired
+    private CrossDomainAuthenticationService crossDomainAuthenticationService;
+
+    @Autowired
     private Environment env;
 
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
@@ -73,6 +80,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,
                         "/api/sign-in",
                         "/api/sign-in/sub-domain",
+                        "/api/sign-in/sub-domain/set-token",
                         "/api/sign-up",
                         "/api/app-info"/*,
                         "/h2/console/**"*/)
@@ -110,7 +118,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                        CustomAuthenticationFilter.class)
 //                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
                 .addFilterBefore(new JWTAuthenticationFilter("/api/sign-in",
-                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository, env),
+                                authenticationManager(), bCryptPasswordEncoder,
+                                googleUserRepository,
+                                crossDomainAuthenticationService, appDataCache,
+                                env),
                         UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), authTokenModelRepository),
 //                        UsernamePasswordAuthenticationFilter.class);

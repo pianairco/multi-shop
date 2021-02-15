@@ -32,18 +32,20 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router) {
-    this.route.queryParams.subscribe(params => {
-      console.log("--------- param -----------")
-      this.subDomain = params['sub-domain'];
-      console.log("param change: ", this.subDomain)
-    });
+    // this.route.queryParams.subscribe(params => {
+    //   console.log("--------- param -----------")
+    //   this.subDomain = params['sub-domain'];
+    //   console.log("param change: ", this.subDomain)
+    // });
   }
 
   ngOnInit(): void {
     console.log("on login component init", this.subDomain)
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-
+    this.subDomain = this.route.snapshot.queryParams['sub-domain'];
+    //   console.log("--------- param -----------")
+    console.log(this.subDomain, this.returnUrl)
     this.loginInfo = {
       username: '',
         password: '',
@@ -81,7 +83,6 @@ export class LoginComponent implements OnInit {
   }
 
   async handleClickGoogleSignIn() {
-    let accessToken = "1234"
     this.loadingService.changeState(true);
     try {
 
@@ -97,12 +98,11 @@ export class LoginComponent implements OnInit {
       //   });
       console.log("----------- handle --------------")
       console.log(this.subDomain)
-
-        let appInfo = await this.authenticationService.googleSignIn(this.subDomain);
-      // if(this.subDomain) {
-      //   parent.postMessage("dgsgs","*");
-      //   window.close();
-      // }
+      let appInfo = await this.authenticationService.googleSignIn(this.subDomain);
+      console.log(appInfo)
+      if(appInfo === "close") {
+        window.close()
+      }
       this.loadingService.changeState(false);
       this.router.navigate([this.returnUrl]);
 
