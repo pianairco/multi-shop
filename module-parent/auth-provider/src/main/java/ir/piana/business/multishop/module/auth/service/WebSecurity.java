@@ -81,6 +81,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         "/api/sign-in",
                         "/api/sign-in/sub-domain",
                         "/api/sign-in/sub-domain/set-token",
+                        "/api/sign-in/sub-domain/set-login-info",
                         "/api/sign-up",
                         "/api/app-info"/*,
                         "/h2/console/**"*/)

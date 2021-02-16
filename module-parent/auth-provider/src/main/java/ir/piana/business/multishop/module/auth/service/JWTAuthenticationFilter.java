@@ -266,17 +266,17 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 } else {
                     if(loginInfo != null && !CommonUtils.isNull(loginInfo.getUuid())) {
                         SubDomainInfo subDomainInfo = crossDomainAuthenticationService
-                                .getSubDomainInfo(loginInfo.getUuid());
+                                .removeSubDomainInfoString(loginInfo.getUuid());
                         if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
                                 subDomainInfo.getLoginType().equalsIgnoreCase("g-oauth2"))
-                            byGoogle(subDomainInfo.getLoginInfo().getAccessToken());
+                            return byGoogle(subDomainInfo.getLoginInfo().getAccessToken());
                         else if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
                                 subDomainInfo.getLoginType().equalsIgnoreCase("form")) {
-                            Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
+//                            Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
                             return byForm(subDomainInfo.getLoginInfo().getUsername(),
                                     subDomainInfo.getLoginInfo().getPassword(),
                                     subDomainInfo.getLoginInfo().getCaptcha(),
-                                    sessionCaptcha);
+                                    (Captcha) subDomainInfo.getSessionCaptcha());
                         }
                     } else {
                         throw new RuntimeException();

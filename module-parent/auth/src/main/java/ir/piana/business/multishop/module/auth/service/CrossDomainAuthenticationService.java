@@ -9,5 +9,6 @@ public interface CrossDomainAuthenticationService {
     String createInstance(HttpServletRequest request);
     SubDomainInfo getSubDomainInfo(String uuid);
     boolean addAccessToken(String uuid, String accessToken);
-    boolean addLoginInfo(String uuid, LoginInfo loginInfo);
+    boolean addLoginInfo(String uuid, LoginInfo loginInfo, Object captcha);
+    SubDomainInfo removeSubDomainInfoString(String uuid);
 }

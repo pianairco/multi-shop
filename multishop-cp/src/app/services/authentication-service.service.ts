@@ -14,6 +14,7 @@ const googleLoginOptions = {
   providedIn: 'root'
 })
 export class AuthenticationService {
+  appInfo = null;
 
   constructor(
     private authService: SocialAuthService,
@@ -29,6 +30,22 @@ export class AuthenticationService {
       return accessToken;
     } catch (e) {
 
+    }
+  }
+
+  async getAppInfo() {
+    let res = await axios.post('api/app-info', {}, {headers: {}});
+    if (res.status === 200) {
+      this.appInfo = res['data'];
+      // console.log(appInfo);
+      // console.log(JSON.stringify(appInfo));
+      // console.log(localStorage.getItem('appInfo'));
+
+      this.pianaStorageService.putObject('appInfo', this.appInfo);
+      // localStorage.setItem('currentUser', JSON.stringify(appInfo))
+      // console.log(this.pianaStorageService.getObject('appInfo')['username'])
+      // console.log(this.pianaStorageService.getFieldValue('appInfo', 'username'))
+      // console.log(JSON.parse(localStorage.getItem('appInfo'))['username'])
     }
   }
 

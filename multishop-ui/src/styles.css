@@ -4,7 +4,8 @@
 }
 
 .menu-active-link {
-  background-color: #ffe3ed;
+  background-color: #2b2b2b;
+  color: #dca1ba !important;
 }
 
 .active-link {

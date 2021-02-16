@@ -1,5 +1,24 @@
 create sequence IF NOT EXISTS master_seq;
 
+CREATE TABLE IF NOT EXISTS PRODUCT_CATEGORIZATION (
+    ID bigint primary key,
+    TITLE varchar(256),
+    ROUTER_LINK varchar(64),
+    ORDERS number(3),
+    SITE_ID bigint,
+    constraint FK_PRODUCT_CATEGORIZATION_SITE_ID foreign key (SITE_ID) references SITE(ID),
+    constraint UK_PRODUCT_CATEGORIZATION_TITLE unique (SITE_ID, TITLE),
+    constraint UK_PRODUCT_CATEGORIZATION_ROUTER_LINK unique (SITE_ID, ROUTER_LINK),
+    constraint UK_PRODUCT_CATEGORIZATION_ORDERS unique (SITE_ID, ORDERS)
+);
+
+INSERT INTO PRODUCT_CATEGORIZATION select * from (
+    select 1 ID, 'گروه یک' TITLE, 'pack1' ROUTER_LINK, 1 ORDERS, 2 SITE_ID UNION
+    select 2 ID, 'گروه دو' TITLE, 'pack2' ROUTER_LINK, 2 ORDERS, 2 SITE_ID UNION
+    select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 2 SITE_ID
+) where not exists(select * from PRODUCT_CATEGORIZATION);
+
+
 CREATE TABLE IF NOT EXISTS header (
     ID bigint primary key,
     PATH varchar(128),

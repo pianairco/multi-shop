@@ -45,12 +45,17 @@ public class CrossDomainAuthenticationServiceImpl implements CrossDomainAuthenti
     }
 
     @Override
-    public boolean addLoginInfo(String uuid, LoginInfo loginInfo) {
+    public boolean addLoginInfo(String uuid, LoginInfo loginInfo, Object captcha) {
         SubDomainInfo subDomainInfo = subDomainInfoMap.get(uuid);
         if (subDomainInfo == null)
             return false;
         subDomainInfo.setLoginType("form");
+        subDomainInfo.setSessionCaptcha(captcha);
         subDomainInfo.setLoginInfo(loginInfo);
         return true;
+    }
+
+    public SubDomainInfo removeSubDomainInfoString(String uuid) {
+        return subDomainInfoMap.remove(uuid);
     }
 }

@@ -8,19 +8,14 @@ import {RootComponent} from "./views/root/root.component";
 import {TopbarComponent} from "./components/topbar/topbar.component";
 import {FooterComponent} from "./components/footer/footer.component";
 import {HomeViewComponent} from "./views/home-view/home-view.component";
-import {LoginComponent} from "./views/login/login.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
 import {TileComponent} from "./views/tile/tile.component";
 import {FormMakerComponent} from "./components/form-maker/form-maker.component";
 import {NotificationComponent} from "./components/notification/notification.component";
 import {LoadingComponent} from "./components/loading/loading.component";
-import {PasswordSettingComponent} from "./views/password-setting/password-setting.component";
-import {SiteSettingComponent} from "./views/site-setting/site-setting.component";
-import {MySitesComponent} from "./views/my-sites/my-sites.component";
-import {NewSiteComponent} from "./views/new-site/new-site.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+// import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import {AuthenticationService} from "./services/authentication-service.service";
 import {InitializerService} from "./services/initializer.service";
 import { PictureUploadComponent } from './modules/picture-upload/picture-upload.component';
@@ -35,6 +30,9 @@ import { PictorialMenuItemCreatorComponent } from './modules/sample/pictorial-me
 import { PictorialSampleItemComponent } from './modules/sample/pictorial-sample-item/pictorial-sample-item.component';
 import { PictorialSampleItemCreatorComponent } from './modules/sample/pictorial-sample-item-creator/pictorial-sample-item-creator.component';
 import { ShopGroupComponent } from './modules/group/shop-group/shop-group.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ShopComponent } from './views/shop/shop.component';
+import { ProductsGallaryComponent } from './views/products-gallary/products-gallary.component';
 
 @NgModule({
   declarations: [
@@ -42,16 +40,11 @@ import { ShopGroupComponent } from './modules/group/shop-group/shop-group.compon
     TopbarComponent,
     FooterComponent,
     HomeViewComponent,
-    LoginComponent,
     PageNotFoundComponent,
     TileComponent,
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
-    PasswordSettingComponent,
-    SiteSettingComponent,
-    MySitesComponent,
-    NewSiteComponent,
     PictureUploadComponent,
     PictureBoxComponent,
     ColumnPictureUploadComponent,
@@ -63,7 +56,10 @@ import { ShopGroupComponent } from './modules/group/shop-group/shop-group.compon
     PictorialMenuItemCreatorComponent,
     PictorialSampleItemComponent,
     PictorialSampleItemCreatorComponent,
-    ShopGroupComponent
+    ShopGroupComponent,
+    HeaderComponent,
+    ShopComponent,
+    ProductsGallaryComponent
   ],
   imports: [
     BrowserModule,
@@ -71,26 +67,26 @@ import { ShopGroupComponent } from './modules/group/shop-group/shop-group.compon
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     AuthenticationService,
     InitializerService,
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '290205995528-g4ieuas6ffi6vk19dftm312uqlfma2er.apps.googleusercontent.com'
-            )
-          }
-        ]
-      } as SocialAuthServiceConfig,
-    },
+    // {
+    //   provide: 'SocialAuthServiceConfig',
+    //   useValue: {
+    //     autoLogin: false,
+    //     providers: [
+    //       {
+    //         id: GoogleLoginProvider.PROVIDER_ID,
+    //         provider: new GoogleLoginProvider(
+    //           '290205995528-g4ieuas6ffi6vk19dftm312uqlfma2er.apps.googleusercontent.com'
+    //         )
+    //       }
+    //     ]
+    //   } as SocialAuthServiceConfig,
+    // },
     {
       provide: APP_INITIALIZER,
       useFactory: (initializerService: InitializerService) => () => initializerService.load(),

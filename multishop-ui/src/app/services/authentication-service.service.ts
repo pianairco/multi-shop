@@ -1,9 +1,9 @@
-import {Injectable, isDevMode} from '@angular/core';
+import {Injectable} from '@angular/core';
 import axios from "axios";
 import {PianaStorageService} from "./piana-storage.service";
 import {LoadingService} from "./loading.service";
 import {ConstantService} from "./constant.service";
-import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
+// import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
 
 const googleLoginOptions = {
   scope: 'profile email',
@@ -14,94 +14,86 @@ const googleLoginOptions = {
   providedIn: 'root'
 })
 export class AuthenticationService {
+  uuid = null;
+  appInfo: AppInfo = {
+    "username": null,
+    "email": null,
+    "pictureUrl": null,
+    "isLoggedIn": false,
+    "isFormPassword": false,
+    "isAdmin": false};
+
+  setAppInfo(tempAppInfo: AppInfo) {
+    this.appInfo.email = tempAppInfo.email;
+    this.appInfo.username = tempAppInfo.username;
+    this.appInfo.pictureUrl = tempAppInfo.pictureUrl;
+    this.appInfo.isLoggedIn = tempAppInfo.isLoggedIn;
+    this.appInfo.isFormPassword = tempAppInfo.isFormPassword;
+    this.appInfo.isAdmin = tempAppInfo.isAdmin;
+  }
 
   constructor(
-    private authService: SocialAuthService,
+    /*private authService: SocialAuthService,*/
     private constantService: ConstantService,
     private loadingService: LoadingService,
     private pianaStorageService: PianaStorageService) { }
 
-  async getToken () {
-    try {
-      console.log("service googleSignIn")
-      let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
-      let accessToken = socialUser['authToken'];
-    } catch (e) {
+  isLoggedIn(): boolean {
+    return this.appInfo.isLoggedIn;
+  }
 
+  async initialToSignIn() {
+    try {
+      let res = await axios.post('api/sign-in/sub-domain', {}, {headers: {"content-type": "application/json"}});
+      this.uuid = res.data['uuid'];
+      return res.data['redirect'];
+    } catch(err) {
+      console.log(err)
     }
   }
 
-
-  async googleSignIn () {
-    try {
-      console.log("service googleSignIn")
-      let accessToken = null;
-      this.loadingService.changeState(true);
-      if(isDevMode()) {
-        let socialUser = await this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
-        accessToken = socialUser['authToken'];
-        console.log(accessToken, socialUser)
-        //   .then(res => {
-        //     console.log(res);
-        //   }, err => {
-        //     console.log(err);
-        //   });
-      } else {
-        accessToken = "1234";
-      }
-      if(accessToken == null) {
-        return;
-      }
-      let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
-        { 'accessToken': accessToken },
-        { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
-      let appInfo = res['data'];
-      this.pianaStorageService.putObject('appInfo', appInfo);
-      return appInfo;
-    } catch (error) {
-      throw error;
-      //on fail do something
-    }
-  }
-
-  async login(loginInfo: {
-    username: '',
-    password: '',
-    captcha: ''
-  }) {
-    try {
-      let res = await axios.post('api/sign-in', loginInfo, {headers: {'auth-type': 'form'}});
-      console.log(res);
-      let appInfo = res['data'];
+  async getAppInfo() {
+    let res = await axios.post('api/app-info', {}, {headers: {}});
+    if (res.status === 200) {
+      this.setAppInfo(res['data']);
       // console.log(appInfo);
       // console.log(JSON.stringify(appInfo));
-      // localStorage.setItem('currentUser', JSON.stringify(appInfo));
-      this.pianaStorageService.putObject('appInfo', appInfo);
-      // console.log(localStorage.getItem('currentUser'));
-      return appInfo;
-    } catch (err) {
-      // this.timeStamp = this.timeStamp + 1;
-      throw err;
+      // console.log(localStorage.getItem('appInfo'));
+
+      this.pianaStorageService.putObject('appInfo', this.appInfo);
+      // localStorage.setItem('currentUser', JSON.stringify(appInfo))
+      // console.log(this.pianaStorageService.getObject('appInfo')['username'])
+      // console.log(this.pianaStorageService.getFieldValue('appInfo', 'username'))
+      // console.log(JSON.parse(localStorage.getItem('appInfo'))['username'])
     }
   }
 
-  changePassword(password, passwordRepeat) {
-    return axios.post('api/change-password',
-      {password: password, passwordRepeat: passwordRepeat},
-      {headers: {'content-type': 'application/json'}});
+  async login() {
+    try {
+      let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
+        { uuid: this.uuid },
+        { headers: { 'Content-Type': 'APPLICATION/JSON' } });
+      console.log(res);
+      this.setAppInfo(res['data']);
+      this.pianaStorageService.putObject('appInfo', this.appInfo);
+      return this.appInfo;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async logout() {
     console.log("auth service logout")
     // remove user from local storage to log user out
     try {
-      let appInfo = this.pianaStorageService.getObject('appInfo');
-      if(appInfo == null)
+      // let appInfo = this.pianaStorageService.getObject('appInfo');
+      if(this.appInfo == null)
         return;
       let res = await axios.post('api/sign-out', {headers: {}});
       console.log(res);
       if(res.status == 200) {
-        this.pianaStorageService.putObject('appInfo', res['data']);
+        this.setAppInfo(new AppInfo());
+        // this.pianaStorageService.putObject('appInfo', res['data']);
         // localStorage.removeItem('currentUser');
       }
     } catch (err) {
@@ -109,4 +101,13 @@ export class AuthenticationService {
       throw err;
     }
   }
+}
+
+export class AppInfo {
+  username: string;
+  email: string;
+  pictureUrl: string;
+  isLoggedIn: boolean;
+  isFormPassword: boolean;
+  isAdmin: boolean;
 }

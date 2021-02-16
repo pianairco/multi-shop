@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS SITE (
 
 INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, IS_ACTIVE) select * from (
    select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 1 IS_ACTIVE union
-   select 2, 1, 'flower.piana.ir', 1
+   select 2, 1, 'shop.piana.ir', 1 union
+   select 3, 1, 'ring.ir', 1
 ) where not exists(select * from SITE);
 
 CREATE TABLE IF NOT EXISTS SITE_ROLE (
@@ -74,7 +75,9 @@ INSERT INTO SITE_USER (ID, AGENT_ID, SITE_ID) select * from (
     select 1 ID, 1 AGENT_ID, 1 SITE_ID union
     select 2, 2, 1 union
     select 3, 1, 2 union
-    select 4, 2, 2
+    select 4, 2, 2 union
+    select 5, 1, 3 union
+    select 6, 2, 3
 ) where not exists(select * from SITE_USER);
 
 CREATE TABLE IF NOT EXISTS SITE_USER_ROLE (
@@ -89,5 +92,7 @@ INSERT INTO SITE_USER_ROLE (ID, SITE_USER_ID, SITE_ROLE_ID) select * from (
     select 1 ID, 1 SITE_USER_ID, 1 SITE_ROLE_ID union
     select 2, 2, 2 union
     select 3, 3, 1 union
-    select 4, 4, 2
+    select 4, 4, 2 union
+    select 5, 5, 1 union
+    select 6, 6, 2
 ) where not exists(select * from SITE_USER_ROLE);

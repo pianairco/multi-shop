@@ -1,0 +1,5 @@
+#my-back {
+  background-size: cover;
+  backgroundRepeat: 'no-repeat';
+  background-image: url('../../../assets/images/header.svg');
+}

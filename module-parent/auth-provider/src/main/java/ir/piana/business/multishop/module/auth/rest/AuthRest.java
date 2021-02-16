@@ -2,12 +2,14 @@ package ir.piana.business.multishop.module.auth.rest;
 
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.module.auth.action.AuthAction;
+import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
 import ir.piana.business.multishop.module.auth.service.UserModel;
+import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -135,14 +137,23 @@ public class AuthRest {
     }
 
     @CrossOrigin
-    @PostMapping(path = "sign-in/sub-domain/set-login-info", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "sign-in/sub-domain/set-login-info",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map> signInBySubDomainSetLoginInfo(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {
-        if(!crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo)) {
-            return ResponseEntity.notFound().build();
+        GoogleUserEntity byEmail = userRepository.findByEmail(loginInfo.getUsername());
+        Captcha sessionCaptcha = (Captcha)session.getAttribute("simpleCaptcha");
+        if(byEmail != null &&
+                sessionCaptcha != null &&
+                bCryptPasswordEncoder.matches(loginInfo.getPassword(), byEmail.getPassword()) &&
+                sessionCaptcha.isCorrect(loginInfo.getCaptcha())) {
+            if(crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo, sessionCaptcha)) {
+                return ResponseEntity.ok().build();
+            }
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.notFound().build();
     }
 }

@@ -13,13 +13,9 @@
 
   <div id="navbarBasicExample" [class.is-active]="istoggled && forceShow" class="navbar-menu" >
     <div class="navbar-start">
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">راهبری</a>
-
-        <div class="navbar-dropdown">
-          <a class="navbar-item" [routerLink]="['/tile/site-setting']" routerLinkActive="menu-active-link">نمایش سایت ها</a>
-        </div>
-      </div>
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+      <a class="navbar-item" [routerLink]="['/tile/home']" routerLinkActive="menu-active-link">خانه</a>
+      <a class="navbar-item" [routerLink]="['/tile/shop']" routerLinkActive="menu-active-link">فروشگاه</a>
 
 <!--      <div class="navbar-item has-dropdown is-hoverable">-->
 <!--        <a class="navbar-link">تنظیمات</a>-->
@@ -41,25 +37,34 @@
     </div>
 
     <div class="navbar-end">
-      <div class="navbar-start">
-        <button class="navbar-item" (click)="loginClick()">login</button>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">مدیریت کاربری</a>
-
-          <div class="navbar-dropdown" style="left: 0px; right: unset">
-            <a class="navbar-item">
-              اطلاعات کاربری
-            </a>
-            <a class="navbar-item" [routerLink]="['/tile/password-setting']">
-              تغییر رمز
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item" [routerLink]="['/logout']">
-              خروج
-            </a>
-          </div>
+      <div class="navbar-item">
+        <div class="buttons">
+          <button class="button is-danger"
+                  *ngIf="!authenticationService.isLoggedIn()"
+                  (click)="openLoginWindow()">ورود</button>
+          <button *ngIf="authenticationService.isLoggedIn()"
+                  class="button is-success" >پنل کاربری</button>
+          <button *ngIf="authenticationService.isLoggedIn()"
+                  class="button is-danger" >خروج</button>
         </div>
       </div>
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">مدیریت کاربری</a>-->
+
+<!--        <div class="navbar-dropdown" style="left: 0px; right: unset">-->
+<!--          <a class="navbar-item">-->
+<!--            اطلاعات کاربری-->
+<!--          </a>-->
+<!--          <a class="navbar-item" [routerLink]="['/tile/password-setting']">-->
+<!--            تغییر رمز-->
+<!--          </a>-->
+<!--          <hr class="navbar-divider">-->
+<!--          <a class="navbar-item" [routerLink]="['/logout']">-->
+<!--            خروج-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+
     </div>
 <!--    <div class="navbar-end">-->
 <!--      <div class="navbar-item">-->

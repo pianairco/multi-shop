@@ -14,4 +14,5 @@ public class SubDomainInfo {
     private String accessToken;
     private String loginType;
     private LoginInfo loginInfo;
+    private Object sessionCaptcha;
 }

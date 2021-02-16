@@ -13,7 +13,8 @@ export class InitializerService {
     private authenticationService: AuthenticationService) { }
 
   load(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return this.authenticationService.getAppInfo();
+    /*return new Promise((resolve, reject) => {
       // let appInfo = {
       //   username: "anonymousUser",
       //   email: null,
@@ -44,7 +45,7 @@ export class InitializerService {
       }, err => {
         reject(err);
       });
-    });
+    });*/
     // try {
     //   let res = await axios.post('api/app-info', {}, {headers: {}});
     // } catch (err) {
