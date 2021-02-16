@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +36,21 @@ public class CrossDomainAuthenticationServiceImpl implements CrossDomainAuthenti
         SubDomainInfo subDomainInfo = subDomainInfoMap.get(uuid);
         if (subDomainInfo == null)
             return false;
-        subDomainInfo.setAccessToken(accessToken);
+        subDomainInfo.setLoginType("g-oauth2");
+        subDomainInfo.setLoginInfo(LoginInfo.builder()
+                .uuid(uuid)
+                .accessToken(accessToken).build());
+//        subDomainInfo.setAccessToken(accessToken);
+        return true;
+    }
+
+    @Override
+    public boolean addLoginInfo(String uuid, LoginInfo loginInfo) {
+        SubDomainInfo subDomainInfo = subDomainInfoMap.get(uuid);
+        if (subDomainInfo == null)
+            return false;
+        subDomainInfo.setLoginType("form");
+        subDomainInfo.setLoginInfo(loginInfo);
         return true;
     }
 }

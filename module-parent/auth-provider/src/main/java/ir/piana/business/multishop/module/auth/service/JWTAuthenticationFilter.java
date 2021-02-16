@@ -12,6 +12,7 @@ import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.entity.AgentEntity;
 import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
+import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
@@ -72,23 +73,56 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         this.env = env;
     }
 
-    Authentication byForm(HttpServletRequest request, HttpServletResponse res) throws IOException {
+    Authentication byForm(String username, String password, String captcha, Captcha sessionCaptcha) throws IOException {
+        if(!sessionCaptcha.isCorrect(captcha)) {
+            throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
+        } else if(CommonUtils.isNull(username) || CommonUtils.isNull(password)) {
+            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+        }
+//        if(loginInfo != null) {
+//            userEntity = userRepository.findByUsername(loginInfo.getUsername());
+//        }
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        "form:" + new String(Base64.getEncoder().encode(username.getBytes(StandardCharsets.UTF_8))),
+                        password,
+//                        "form:" + new String(Base64.getEncoder().encode(loginInfo.getPassword().getBytes(StandardCharsets.UTF_8))),
+                        new ArrayList<>())
+        );
+
+        return authentication;
+    }
+
+    /*Authentication byForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Captcha simpleCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
+        String host = (String) request.getAttribute("host");
         LoginInfo loginInfo = null;
-        if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
-            loginInfo = LoginInfo.builder().captcha(simpleCaptcha.getAnswer())
-                    .username("rahmatii1366@gmail.com")
-                    .password("0000")
-                    .build();
+        if(host != null && host.equalsIgnoreCase(appDataCache.getDomain())) {
+            if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
+                loginInfo = LoginInfo.builder().captcha(simpleCaptcha.getAnswer())
+                        .username("rahmatii1366@gmail.com")
+                        .password("0000")
+                        .build();
+            } else {
+                loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
+            }
         } else {
-            loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
+            String uuid = new ObjectMapper().readTree(request.getInputStream()).findValue("uuid").asText();
+            SubDomainInfo subDomainInfo = crossDomainAuthenticationService.getSubDomainInfo(uuid);
+            if(subDomainInfo != null && subDomainInfo.getLoginInfo() != null) {
+                loginInfo = subDomainInfo.getLoginInfo();
+            }
         }
 
-        if(!simpleCaptcha.isCorrect(loginInfo.getCaptcha()))
+        if(!simpleCaptcha.isCorrect(loginInfo.getCaptcha())) {
             throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
-//                if(loginInfo != null) {
-//                    userEntity = userRepository.findByUsername(loginInfo.getUsername());
-//                }
+        } else if(loginInfo == null) {
+            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+        }
+//        if(loginInfo != null) {
+//            userEntity = userRepository.findByUsername(loginInfo.getUsername());
+//        }
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -99,23 +133,12 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         );
 
         return authentication;
-    }
+    }*/
 
-    Authentication byGoogle(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    Authentication byGoogle(String accessToken) throws IOException {
         GoogleUserEntity userEntity = null;
-        String host = (String) req.getAttribute("host");
-        String accessToken = null;
-        if(host != null && host.equalsIgnoreCase(appDataCache.getDomain())) {
-            accessToken = new ObjectMapper().readTree(req.getInputStream()).findValue("accessToken").asText();
-        } else {
-            String uuid = new ObjectMapper().readTree(req.getInputStream()).findValue("uuid").asText();
-            SubDomainInfo subDomainInfo = crossDomainAuthenticationService.getSubDomainInfo(uuid);
-            if(subDomainInfo != null && subDomainInfo.getAccessToken() != null) {
-                accessToken = subDomainInfo.getAccessToken();
-            }
-        }
         if(accessToken == null) {
-            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+            throw new HttpCommonRuntimeException(HttpStatus.valueOf(401), 1, "access token not provided");
         } else if (accessToken.equalsIgnoreCase("1234")) {
             GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
             userEntity = GoogleUserEntity.builder()
@@ -159,24 +182,114 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return authentication;
     }
 
+//    Authentication byGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        GoogleUserEntity userEntity = null;
+//        String host = (String) request.getAttribute("host");
+//        String accessToken = null;
+//        if(host != null && host.equalsIgnoreCase(appDataCache.getDomain())) {
+//            accessToken = new ObjectMapper().readTree(request.getInputStream()).findValue("accessToken").asText();
+//        } else {
+//            String uuid = new ObjectMapper().readTree(request.getInputStream()).findValue("uuid").asText();
+//            SubDomainInfo subDomainInfo = crossDomainAuthenticationService.getSubDomainInfo(uuid);
+//            if(subDomainInfo != null && subDomainInfo.getAccessToken() != null) {
+//                accessToken = subDomainInfo.getAccessToken();
+//            }
+//        }
+//        if(accessToken == null) {
+//            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+//        } else if (accessToken.equalsIgnoreCase("1234")) {
+//            GoogleUserEntity admin = googleUserRepository.findByEmail("rahmatii1366@gmail.com");
+//            userEntity = GoogleUserEntity.builder()
+//                    .email(admin.getEmail())
+//                    .givenName(admin.getGivenName())
+//                    .locale(admin.getLocale())
+//                    .pictureUrl(admin.getPictureUrl())
+//                    .password("0000")
+//                    .build();
+//        } else {
+//            GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
+//
+//            Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
+//                    "Oauth2").build();
+//            Userinfo userinfo = oauth2.userinfo().get().execute();
+//            userEntity = GoogleUserEntity.builder()
+//                    .email(userinfo.getEmail())
+//                    .givenName(userinfo.getGivenName())
+//                    .locale(userinfo.getLocale())
+//                    .pictureUrl(userinfo.getPicture())
+//                    .password("0000")
+//                    .build();
+//        }
+//
+//        if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
+//            AgentEntity agentEntity = agentProvider.createAgentEntity(UUID.randomUUID().toString());
+//            userEntity.setPassword(bCryptPasswordEncoder.encode("1234"));
+//            userEntity.setUserId(agentEntity.getUsername());
+//            userEntity.setAgentId(agentEntity.getId());
+//            googleUserRepository.save(userEntity);
+//            userEntity.setPassword("0000");
+//        }
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getEmail().getBytes(StandardCharsets.UTF_8))),
+////                        userEntity.getEmail(),
+////                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getPassword().getBytes(StandardCharsets.UTF_8))),
+//                        userEntity.getPassword(),
+//                        new ArrayList<>()));
+//        return authentication;
+//    }
+
     @Override
     public Authentication attemptAuthentication(
-            HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
+            HttpServletRequest request, HttpServletResponse res) throws AuthenticationException {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if(authentication != null && authentication.isAuthenticated())
                 return authentication;
 
-            if(req.getContentType() != null &&
-                    (req.getContentType().startsWith("APPLICATION/JSON") ||
-                            req.getContentType().startsWith("application/json"))) {
-                if (req.getHeader("auth-type").equalsIgnoreCase("g-oauth2"))
-                    return byGoogle(req, res);
-                else if(req.getHeader("auth-type").equalsIgnoreCase("form")) {
-                    return byForm(req, res);
+            String host = (String) request.getAttribute("host");
+            if(request.getContentType() != null &&
+                    (request.getContentType().startsWith("APPLICATION/JSON") ||
+                            request.getContentType().startsWith("application/json"))) {
+                LoginInfo loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
+                if(host.equalsIgnoreCase(appDataCache.getDomain())) {
+                    if (loginInfo != null && !CommonUtils.isNull(loginInfo.getAccessToken()))
+                        return byGoogle(loginInfo.getAccessToken());
+                    else if(loginInfo != null && !CommonUtils.isNull(loginInfo.getUsername())) {
+                        Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
+                        return byForm(
+                                loginInfo.getUsername(), loginInfo.getPassword(), loginInfo.getCaptcha(), sessionCaptcha);
+                    } else {
+                        throw new RuntimeException();
+                    }
+                } else {
+                    if(loginInfo != null && !CommonUtils.isNull(loginInfo.getUuid())) {
+                        SubDomainInfo subDomainInfo = crossDomainAuthenticationService
+                                .getSubDomainInfo(loginInfo.getUuid());
+                        if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
+                                subDomainInfo.getLoginType().equalsIgnoreCase("g-oauth2"))
+                            byGoogle(subDomainInfo.getLoginInfo().getAccessToken());
+                        else if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
+                                subDomainInfo.getLoginType().equalsIgnoreCase("form")) {
+                            Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
+                            return byForm(subDomainInfo.getLoginInfo().getUsername(),
+                                    subDomainInfo.getLoginInfo().getPassword(),
+                                    subDomainInfo.getLoginInfo().getCaptcha(),
+                                    sessionCaptcha);
+                        }
+                    } else {
+                        throw new RuntimeException();
+                    }
                 }
-                else
-                    throw new RuntimeException();
+
+//                if (request.getHeader("auth-type").equalsIgnoreCase("g-oauth2"))
+//                    return byGoogle(request, res);
+//                else if(request.getHeader("auth-type").equalsIgnoreCase("form")) {
+//                    return byForm(request, res);
+//                }
+//                else
+//                    throw new RuntimeException();
             }
             throw new RuntimeException();
         } catch (IOException e) {

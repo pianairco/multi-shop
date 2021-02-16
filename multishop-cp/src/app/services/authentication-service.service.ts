@@ -63,7 +63,7 @@ export class AuthenticationService {
         }
       } else {
         let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in',
-          { 'accessToken': accessToken, subDomain: subDomain },
+          { 'accessToken': accessToken },
           { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'g-oauth2' } });
         let appInfo = res['data'];
         this.pianaStorageService.putObject('appInfo', appInfo);
@@ -79,17 +79,28 @@ export class AuthenticationService {
     username: '',
     password: '',
     captcha: ''
-  }) {
+    uuid: ''
+  }, subDomain) {
     try {
-      let res = await axios.post('api/sign-in', loginInfo, {headers: {'auth-type': 'form'}});
-      console.log(res);
-      let appInfo = res['data'];
-      // console.log(appInfo);
-      // console.log(JSON.stringify(appInfo));
-      // localStorage.setItem('currentUser', JSON.stringify(appInfo));
-      this.pianaStorageService.putObject('appInfo', appInfo);
-      // console.log(localStorage.getItem('currentUser'));
-      return appInfo;
+      if(subDomain != null) {
+        loginInfo.uuid = subDomain;
+        let res = await axios.post(this.constantService.getRemoteServer() + '/api/sign-in/sub-domain/set-login-info',
+          loginInfo,
+          { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'form' } });
+        if(res.status == 200) {
+          return "close";
+        }
+      } else {
+        let res = await axios.post('api/sign-in', loginInfo, {headers: {'auth-type': 'form'}});
+        console.log(res);
+        let appInfo = res['data'];
+        // console.log(appInfo);
+        // console.log(JSON.stringify(appInfo));
+        // localStorage.setItem('currentUser', JSON.stringify(appInfo));
+        this.pianaStorageService.putObject('appInfo', appInfo);
+        // console.log(localStorage.getItem('currentUser'));
+        return appInfo;
+      }
     } catch (err) {
       // this.timeStamp = this.timeStamp + 1;
       throw err;

@@ -4,6 +4,7 @@ import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.module.auth.action.AuthAction;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
+import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
 import ir.piana.business.multishop.module.auth.service.UserModel;
@@ -131,5 +132,17 @@ public class AuthRest {
             return ResponseEntity.notFound().build();
         }
       return ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "sign-in/sub-domain/set-login-info", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map> signInBySubDomainSetLoginInfo(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {
+        if(!crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

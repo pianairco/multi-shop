@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
   loginInfo: {
     username: '',
     password: '',
-    captcha: ''
+    captcha: '',
+    uuid: ''
   }
   captchaCounter: number = 0;
   returnUrl: string;
@@ -49,7 +50,8 @@ export class LoginComponent implements OnInit {
     this.loginInfo = {
       username: '',
         password: '',
-        captcha: ''
+        captcha: '',
+        uuid: ''
     }
 
     // axios.get('resources/captcha', { headers: { withCredentials: true } })
@@ -65,10 +67,15 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let promise = this.authenticationService.login(this.loginInfo);
+    let promise = this.authenticationService.login(this.loginInfo, this.subDomain);
     promise.then(appInfo => {
-      console.log(appInfo);
-      this.router.navigate([this.returnUrl]);
+      if(appInfo === "close") {
+        console.log("window force closed!")
+        window.close()
+      } else {
+        console.log(appInfo);
+        this.router.navigate([this.returnUrl]);
+      }
     }, err => {
       console.log(err);
       this.captchaCounter++;
@@ -103,10 +110,10 @@ export class LoginComponent implements OnInit {
       if(appInfo === "close") {
         console.log("window force closed!")
         window.close()
+      } else {
+        this.loadingService.changeState(false);
+        this.router.navigate([this.returnUrl]);
       }
-      this.loadingService.changeState(false);
-      this.router.navigate([this.returnUrl]);
-
     } catch (error) {
       this.loadingService.changeState(false);
       console.log(error)

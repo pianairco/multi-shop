@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class SubDomainInfo {
     private String tenant;
     private String accessToken;
+    private String loginType;
+    private LoginInfo loginInfo;
 }

@@ -13,4 +13,6 @@ public class LoginInfo {
     private String username;
     private String password;
     private String captcha;
+    private String uuid;
+    private String accessToken;
 }
