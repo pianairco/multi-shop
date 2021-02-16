@@ -10,3 +10,19 @@ Host: vavishka.ir
 username: admin
 password: 123
 JSESSIONID: 8BB57FBD4EC334BE42EE4F24B50D27F3
+###
+POST https://piana.ir:8443/api/app-info
+Content-Type: application/json;charset=UTF-8
+Host: piana.ir
+
+{
+}
+###
+POST https://piana.ir:8443/api/sign-in/sub-domain/set-token
+content-type: application/json
+Host: piana.ir
+
+{
+  "accessToken": "ya29.A0AfH6SMC48F5BfS8dOmn1wFq3tjRYGqdq5yvZrGQ_PunUMXWmdXWtOWxTtZWiIaSjpuat09QX1kVRtP3nPhLY0qCvEYr5shFG8hsq5u7tqjNeQPkEqhkQeS6v_MfLwduJgBe5zVawSK34QfwbAHyLiesYrrS3QNs",
+  "uuid": "21c07ebd-d2b3-4134-b0e8-48cf019f8e9b"
+}

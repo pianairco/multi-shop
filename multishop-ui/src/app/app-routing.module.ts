@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: '', canActivate:[AuthGuard], children: [
       { path: '', children: [
-          { path: '', redirectTo: '/tile/home-view', pathMatch: 'full' },
+          { path: '', redirectTo: '/home-view', pathMatch: 'full' },
           { path: 'tile', component: TileComponent, children:[
               { path: '', redirectTo: '/home', pathMatch: 'full' },
               { path: 'home', component: HomeViewComponent },

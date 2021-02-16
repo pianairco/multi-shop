@@ -101,6 +101,7 @@ export class LoginComponent implements OnInit {
       let appInfo = await this.authenticationService.googleSignIn(this.subDomain);
       console.log(appInfo)
       if(appInfo === "close") {
+        console.log("window force closed!")
         window.close()
       }
       this.loadingService.changeState(false);

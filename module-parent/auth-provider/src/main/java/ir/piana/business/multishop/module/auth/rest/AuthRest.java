@@ -127,7 +127,7 @@ public class AuthRest {
             @RequestBody Map body, HttpSession session) throws IOException {
         String uuid = (String) body.get("uuid");
         String accessToken = (String) body.get("accessToken");
-        if(crossDomainAuthenticationService.addAccessToken(uuid, accessToken)) {
+        if(!crossDomainAuthenticationService.addAccessToken(uuid, accessToken)) {
             return ResponseEntity.notFound().build();
         }
       return ResponseEntity.ok().build();
