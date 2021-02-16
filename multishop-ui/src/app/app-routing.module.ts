@@ -10,7 +10,6 @@ import {MySitesComponent} from "./views/my-sites/my-sites.component";
 import {NewSiteComponent} from "./views/new-site/new-site.component";
 import {LoginComponent} from "./views/login/login.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
-import {ChildViewComponent} from "./views/child-view/child-view.component";
 
 const routes: Routes = [
   {
@@ -32,7 +31,6 @@ const routes: Routes = [
         ]
       },
       { path: 'home-view', component: HomeViewComponent, canActivate:[AuthGuard] },
-      { path: 'child-view', component: ChildViewComponent, canActivate:[AuthGuard] },
       { path: 'login', component: LoginComponent, canActivate:[AuthGuard] },
       { path: 'logout', component: LoginComponent, canActivate:[AuthGuard] },
     ]

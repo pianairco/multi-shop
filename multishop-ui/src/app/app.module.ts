@@ -35,7 +35,6 @@ import { PictorialMenuItemCreatorComponent } from './modules/sample/pictorial-me
 import { PictorialSampleItemComponent } from './modules/sample/pictorial-sample-item/pictorial-sample-item.component';
 import { PictorialSampleItemCreatorComponent } from './modules/sample/pictorial-sample-item-creator/pictorial-sample-item-creator.component';
 import { ShopGroupComponent } from './modules/group/shop-group/shop-group.component';
-import {ChildViewComponent} from "./views/child-view/child-view.component";
 
 @NgModule({
   declarations: [
@@ -43,7 +42,6 @@ import {ChildViewComponent} from "./views/child-view/child-view.component";
     TopbarComponent,
     FooterComponent,
     HomeViewComponent,
-    ChildViewComponent,
     LoginComponent,
     PageNotFoundComponent,
     TileComponent,
