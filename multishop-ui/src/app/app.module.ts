@@ -33,9 +33,9 @@ import { ShopGroupComponent } from './modules/group/shop-group/shop-group.compon
 import { HeaderComponent } from './components/header/header.component';
 import { ShopComponent } from './views/shop/shop.component';
 import { ProductsGallaryComponent } from './views/products-gallary/products-gallary.component';
-import { ProductCategorizationComponent } from './components/shop/product-categorization/product-categorization.component';
-import { ProductCategoryComponent } from './components/shop/product-category/product-category.component';
-import { ProductCategoryCreatorComponent } from './components/shop/product-category-creator/product-category-creator.component';
+import { ProductCategorizationComponent } from './views/shop/product-categorization/product-categorization.component';
+import { ProductCategoryComponent } from './views/shop/product-category/product-category.component';
+import { ProductCategoryCreatorComponent } from './views/shop/product-category-creator/product-category-creator.component';
 
 @NgModule({
   declarations: [

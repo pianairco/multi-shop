@@ -1,9 +1,25 @@
 <div class="container is-fluid">
   <div class="columns" style="margin: 0px;">
-    <div class="column is-3" style="background-color: inherit;">
-      <app-product-categorization [categorization]="categorization"></app-product-categorization>
+    <div class="column is-4-tablet is-2-desktop" style="background-color: inherit;">
+      <aside class="menu">
+        <app-product-category-creator
+          #insert
+          [insertable]="true"
+          (insertClick)="insertNewCategory($event)">
+        </app-product-category-creator>
+        <p class="menu-label">
+          دسته بندی ها
+        </p>
+        <ul class="menu-list">
+          <li *ngFor="let cat of categorization">
+            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"
+               routerLinkActive="menu-active-link">{{cat['title']}}</a>
+          </li>
+        </ul>
+      </aside>
+<!--      <app-product-categorization [categorization]="categorization"></app-product-categorization>-->
     </div>
-    <div class="column is-9" style="background-color: inherit; height: 800px;">
+    <div class="column is-8-tablet is-10-desktop" style="background-color: inherit; height: 800px;">
       <router-outlet></router-outlet>
     </div>
   </div>

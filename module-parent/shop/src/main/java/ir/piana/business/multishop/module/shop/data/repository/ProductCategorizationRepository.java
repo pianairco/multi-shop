@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ProductCategorizationRepository extends JpaRepository<ProductCategorizationEntity, Long> {
     List<ProductCategorizationEntity> findAllBySiteId(long id);
+    long countBySiteId(long siteId);
 }
