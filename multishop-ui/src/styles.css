@@ -11,3 +11,10 @@
 .active-link {
   background-color: #ff4a6c;
 }
+
+button:focus {outline:0;}
+
+button:active {
+  outline: none;
+  border: none;
+}

@@ -66,6 +66,7 @@ public class WebMvcConfigure implements WebMvcConfigurer {
         registry.addMapping("/**")
 //                .allowCredentials(true)
                 .allowCredentials(false)
+                .allowedMethods("*")
                 .allowedOrigins("*");
 //                .allowedOrigins("https://piana.ir", "https://localhost");
     }

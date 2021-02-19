@@ -13,7 +13,13 @@ export class AjaxCallService {
 
   save(url, obj) {
     return axios.post(this.constantService.getRemoteServer() + "/" + url,
-      {obj},
-      {headers: {}});
+      obj,
+      {headers: {"content-type": "application/json"}});
+  }
+
+  update(url, obj) {
+    return axios.put(this.constantService.getRemoteServer() + "/" + url,
+      obj,
+      {headers: {"content-type": "application/json"}});
   }
 }

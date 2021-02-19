@@ -1,1 +1,50 @@
-<p>product-category works!</p>
+<div *ngIf="!insertable && (!editable || !editMode)">
+  <li>
+    <div class="field has-addons">
+      <div class="control is-expanded">
+        <div class="is-fullwidth">
+          <a class="control has-icons-left"
+             [routerLink]="['/tile/shop/products-gallary/' + productCategorization['routerLink']]"
+             routerLinkActive="menu-active-link">{{productCategorization['title']}}
+          </a>
+        </div>
+      </div>
+      <div class="control">
+        <button (click)="editMode = true" type="submit" class="button is-outlined" style="border: none">
+          <span class="icon is-small is-left">
+            <i class="fas fa-edit"></i>
+          </span>
+        </button>
+      </div>
+    </div>
+  </li>
+</div>
+<div *ngIf="insertable || (editable && editMode)">
+  <div class="columns">
+    <div class="column is-10">
+      <div class="field">
+        <p class="control is-small has-icons-left">
+          <input [(ngModel)]="productCategorization.title"
+                 class="input" type="email" placeholder="عنوان دسته بندی">
+          <span class="icon is-small is-left">
+            <i class="fas fa-closed-captioning"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control is-small has-icons-left">
+          <input [(ngModel)]="productCategorization.routerLink"
+                 class="input" type="text" placeholder="لینک نمایشی">
+          <span class="icon is-small is-left">
+            <i class="fas fa-link"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="column is-2">
+      <button class="button is-small is-success is-fullwidth"
+              (click)="registerClick()"
+              style="height: 100%">ثبت</button>
+    </div>
+  </div>
+</div>

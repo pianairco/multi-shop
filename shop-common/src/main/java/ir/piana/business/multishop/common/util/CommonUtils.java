@@ -2,8 +2,10 @@ package ir.piana.business.multishop.common.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Pattern;
 
 public class CommonUtils {
+    private static Pattern numberPattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
     public static String reverseCodes(String code) {
         String[] parts = new String[50];
@@ -45,10 +47,15 @@ public class CommonUtils {
         return (str == null || "".equals(str) || "null".equals(str));
     }
 
+    public static boolean isNumber(String string) {
+        return numberPattern.matcher(string).matches();
+    }
+
     public static boolean isEqual(String toCompareStr, String ModelConststr) {
         return (!isNull(toCompareStr) && !isNull(ModelConststr)
                 && normalizeString(ModelConststr).equals(normalizeString(toCompareStr)));
     }
+
 
     public static boolean isEqual(Object obj, String ModelConststr) {
         if (obj == null)

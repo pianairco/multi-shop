@@ -2,25 +2,60 @@
   <div class="columns" style="margin: 0px;">
     <div class="column is-4-tablet is-2-desktop" style="background-color: inherit;">
       <aside class="menu">
-        <app-product-category-creator
+        <p class="menu-label">
+          دسته بندی جدید
+        </p>
+        <app-product-category
           #insert
           [insertable]="true"
           (insertClick)="insertNewCategory($event)">
-        </app-product-category-creator>
+        </app-product-category>
         <p class="menu-label">
           دسته بندی ها
         </p>
         <ul class="menu-list">
-          <li *ngFor="let cat of categorization">
-            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"
-               routerLinkActive="menu-active-link">{{cat['title']}}</a>
-          </li>
+          <app-product-category *ngFor="let cat of categorization" [productCategorization]="cat"
+                                        (updateClick)="updateCategory($event)"
+                                        [editable]="true">
+          </app-product-category>
+<!--          <li *ngFor="let cat of categorization">-->
+<!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->
+<!--               routerLinkActive="menu-active-link">{{cat['title']}}</a>-->
+<!--          </li>-->
         </ul>
       </aside>
 <!--      <app-product-categorization [categorization]="categorization"></app-product-categorization>-->
     </div>
     <div class="column is-8-tablet is-10-desktop" style="background-color: inherit; height: 800px;">
-      <router-outlet></router-outlet>
+      <div class="container" id="bulma-shop-page">
+        <div class="columns is-multiline" >
+          <div class="column is-full-mobile is-one-quarter-desktop" v-for="productItem in productItems">
+            <div class="card">
+              <app-picture-box :images="images"></app-picture-box>
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">title</p>
+                  </div>
+                </div>
+
+                <div class="content">
+                  description
+                </div>
+              </div>
+              <footer class="card-footer">
+                <a class="card-footer-item button is-white">
+                  مشاهده
+                </a>
+                <a class="card-footer-item button is-white">
+                  خرید
+                </a>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+<!--      <router-outlet></router-outlet>-->
     </div>
   </div>
 </div>

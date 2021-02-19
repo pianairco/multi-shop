@@ -18,24 +18,12 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 // import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import {AuthenticationService} from "./services/authentication-service.service";
 import {InitializerService} from "./services/initializer.service";
-import { PictureUploadComponent } from './modules/picture-upload/picture-upload.component';
-import { PictureBoxComponent } from './modules/picture-box/picture-box.component';
-import { ColumnPictureUploadComponent } from './modules/column-picture-upload/column-picture-upload.component';
-import { PictorialShopItemComponent } from './modules/shop/pictorial-shop-item/pictorial-shop-item.component';
-import { SessionPictureUploadComponent } from './modules/sample-session/session-picture-upload/session-picture-upload.component';
-import { SessionPictureSelectComponent } from './modules/sample-session/session-picture-select/session-picture-select.component';
-import { SampleSessionPictureManagerComponent } from './modules/sample-session/sample-session-picture-manager/sample-session-picture-manager.component';
-import { PictorialMenuItemComponent } from './modules/sample/pictorial-menu-item/pictorial-menu-item.component';
-import { PictorialMenuItemCreatorComponent } from './modules/sample/pictorial-menu-item-creator/pictorial-menu-item-creator.component';
-import { PictorialSampleItemComponent } from './modules/sample/pictorial-sample-item/pictorial-sample-item.component';
-import { PictorialSampleItemCreatorComponent } from './modules/sample/pictorial-sample-item-creator/pictorial-sample-item-creator.component';
-import { ShopGroupComponent } from './modules/group/shop-group/shop-group.component';
+import { PictureBoxComponent } from './components/picture-box/picture-box.component';
 import { HeaderComponent } from './components/header/header.component';
 import { ShopComponent } from './views/shop/shop.component';
 import { ProductsGallaryComponent } from './views/products-gallary/products-gallary.component';
-import { ProductCategorizationComponent } from './views/shop/product-categorization/product-categorization.component';
 import { ProductCategoryComponent } from './views/shop/product-category/product-category.component';
-import { ProductCategoryCreatorComponent } from './views/shop/product-category-creator/product-category-creator.component';
+import { ProductComponent } from './views/shop/product/product.component';
 
 @NgModule({
   declarations: [
@@ -48,24 +36,12 @@ import { ProductCategoryCreatorComponent } from './views/shop/product-category-c
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
-    PictureUploadComponent,
     PictureBoxComponent,
-    ColumnPictureUploadComponent,
-    PictorialShopItemComponent,
-    SessionPictureUploadComponent,
-    SessionPictureSelectComponent,
-    SampleSessionPictureManagerComponent,
-    PictorialMenuItemComponent,
-    PictorialMenuItemCreatorComponent,
-    PictorialSampleItemComponent,
-    PictorialSampleItemCreatorComponent,
-    ShopGroupComponent,
     HeaderComponent,
     ShopComponent,
     ProductsGallaryComponent,
-    ProductCategorizationComponent,
     ProductCategoryComponent,
-    ProductCategoryCreatorComponent
+    ProductComponent
   ],
   imports: [
     BrowserModule,

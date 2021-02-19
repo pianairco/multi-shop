@@ -49,4 +49,21 @@ public class ShopRest {
         ProductCategorizationEntity save = categorizationRepository.save(categorizationEntity);
         return ResponseEntity.ok(save);
     }
+
+    @PutMapping("product-categorization")
+    public ResponseEntity<ProductCategorizationEntity> updateProductCategorizations(
+            HttpServletRequest request,
+            @RequestBody Map<String, String> body) {
+        SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
+        String id = body.get("id");
+        if (CommonUtils.isNull(siteEntity) || CommonUtils.isNull(id) || !CommonUtils.isNumber(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        ProductCategorizationEntity categorizationEntity = categorizationRepository
+                .findBySiteIdAndId(siteEntity.getId(), Long.valueOf(id));
+                categorizationEntity.setTitle(body.get("title"));
+                categorizationEntity.setRouterLink(body.get("routerLink"));
+        ProductCategorizationEntity save = categorizationRepository.save(categorizationEntity);
+        return ResponseEntity.ok(save);
+    }
 }
