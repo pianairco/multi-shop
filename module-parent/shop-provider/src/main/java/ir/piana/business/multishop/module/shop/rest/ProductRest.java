@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/shop/product")
+@RequestMapping("api/modules/shop/product")
 public class ProductRest {
 
     @Autowired

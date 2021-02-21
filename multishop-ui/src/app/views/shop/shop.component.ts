@@ -33,7 +33,7 @@ export class ShopComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     try {
       this.loadingService.changeState(true);
-      let res = await axios.get(this.constantService.getRemoteServer() + "/api/modules/shop/product-categorization");
+      let res = await axios.get(this.constantService.getRemoteServer() + "/api/modules/shop/category/product-categorization");
       this.categorization = res.data;
       console.log(res.data)
       this.loadingService.changeState(false);
@@ -45,7 +45,7 @@ export class ShopComponent implements OnInit {
   insertNewCategory(productCategory: ProductCategorization) {
     console.log("insert:", productCategory)
     this.loadingService.changeState(true);
-    this.ajaxCallService.save("api/modules/shop/product-categorization", productCategory).then(
+    this.ajaxCallService.save("api/modules/shop/category/product-categorization", productCategory).then(
       res => {
         this.insertComponent.clear();
         this.categorization.push(res.data);
@@ -61,7 +61,7 @@ export class ShopComponent implements OnInit {
   updateCategory(productCategory: ProductCategorization) {
     console.log("edit:", productCategory)
     this.loadingService.changeState(true);
-    this.ajaxCallService.update("api/modules/shop/product-categorization", productCategory).then(
+    this.ajaxCallService.update("api/modules/shop/category/product-categorization", productCategory).then(
       res => {
         let index = -1;
         this.categorization.forEach((cat, idx) => {

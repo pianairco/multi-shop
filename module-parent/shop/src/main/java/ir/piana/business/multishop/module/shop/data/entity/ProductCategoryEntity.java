@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "PRODUCT_CATEGORIZATION")
 @SequenceGenerator(name = "master_seq", initialValue = 1, sequenceName = "master_seq", allocationSize = 1)
-public class ProductCategorizationEntity {
+public class ProductCategoryEntity {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "ID")

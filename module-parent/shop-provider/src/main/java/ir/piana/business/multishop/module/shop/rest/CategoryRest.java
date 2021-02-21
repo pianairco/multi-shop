@@ -1,10 +1,9 @@
 package ir.piana.business.multishop.module.shop.rest;
 
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
-import ir.piana.business.multishop.common.data.entity.SiteUserEntity;
 import ir.piana.business.multishop.common.util.CommonUtils;
-import ir.piana.business.multishop.module.shop.data.entity.ProductCategorizationEntity;
-import ir.piana.business.multishop.module.shop.data.repository.ProductCategorizationRepository;
+import ir.piana.business.multishop.module.shop.data.entity.ProductCategoryEntity;
+import ir.piana.business.multishop.module.shop.data.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,24 +13,24 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/modules/shop")
-public class ShopRest {
+@RequestMapping("api/modules/shop/category")
+public class CategoryRest {
     @Autowired
-    private ProductCategorizationRepository categorizationRepository;
+    private ProductCategoryRepository categoryRepository;
 
     @GetMapping("product-categorization")
-    public ResponseEntity<List<ProductCategorizationEntity>> getProductCategorizations(
+    public ResponseEntity<List<ProductCategoryEntity>> getProductCategorizations(
             HttpServletRequest request) {
         SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
         if(CommonUtils.isNull(siteEntity))
             return ResponseEntity.badRequest().build();
-        List<ProductCategorizationEntity> all = categorizationRepository
+        List<ProductCategoryEntity> all = categoryRepository
                 .findAllBySiteId(siteEntity.getId());
         return ResponseEntity.ok(all);
     }
 
     @PostMapping("product-categorization")
-    public ResponseEntity<ProductCategorizationEntity> saveProductCategorizations(
+    public ResponseEntity<ProductCategoryEntity> saveProductCategorizations(
             HttpServletRequest request,
             @RequestBody Map<String, String> body) {
 
@@ -39,19 +38,19 @@ public class ShopRest {
         if (CommonUtils.isNull(siteEntity)) {
             return ResponseEntity.badRequest().build();
         }
-        ProductCategorizationEntity categorizationEntity =
-                ProductCategorizationEntity.builder()
+        ProductCategoryEntity categorizationEntity =
+                ProductCategoryEntity.builder()
                         .title(body.get("title"))
                         .routerLink(body.get("routerLink"))
                         .siteId(siteEntity.getId())
-                        .orders(categorizationRepository.countBySiteId(siteEntity.getId()) + 1)
+                        .orders(categoryRepository.countBySiteId(siteEntity.getId()) + 1)
                         .build();
-        ProductCategorizationEntity save = categorizationRepository.save(categorizationEntity);
+        ProductCategoryEntity save = categoryRepository.save(categorizationEntity);
         return ResponseEntity.ok(save);
     }
 
     @PutMapping("product-categorization")
-    public ResponseEntity<ProductCategorizationEntity> updateProductCategorizations(
+    public ResponseEntity<ProductCategoryEntity> updateProductCategorizations(
             HttpServletRequest request,
             @RequestBody Map<String, String> body) {
         SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
@@ -59,11 +58,11 @@ public class ShopRest {
         if (CommonUtils.isNull(siteEntity) || CommonUtils.isNull(id) || !CommonUtils.isNumber(id)) {
             return ResponseEntity.badRequest().build();
         }
-        ProductCategorizationEntity categorizationEntity = categorizationRepository
+        ProductCategoryEntity categorizationEntity = categoryRepository
                 .findBySiteIdAndId(siteEntity.getId(), Long.valueOf(id));
                 categorizationEntity.setTitle(body.get("title"));
                 categorizationEntity.setRouterLink(body.get("routerLink"));
-        ProductCategorizationEntity save = categorizationRepository.save(categorizationEntity);
+        ProductCategoryEntity save = categoryRepository.save(categorizationEntity);
         return ResponseEntity.ok(save);
     }
 }
