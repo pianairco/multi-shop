@@ -29,29 +29,9 @@
     <div class="column is-8-tablet is-10-desktop" style="background-color: inherit; height: 800px;">
       <div class="container" id="bulma-shop-page">
         <div class="columns is-multiline" >
-          <div class="column is-full-mobile is-one-quarter-desktop" v-for="productItem in productItems">
-            <div class="card">
-              <app-picture-box :images="images"></app-picture-box>
-              <div class="card-content">
-                <div class="media">
-                  <div class="media-content">
-                    <p class="title is-4">title</p>
-                  </div>
-                </div>
-
-                <div class="content">
-                  description
-                </div>
-              </div>
-              <footer class="card-footer">
-                <a class="card-footer-item button is-white">
-                  مشاهده
-                </a>
-                <a class="card-footer-item button is-white">
-                  خرید
-                </a>
-              </footer>
-            </div>
+          <div class="column is-full-mobile is-one-quarter-desktop"
+               *ngFor="let product of products">
+            <app-product [product]="product"></app-product>
           </div>
         </div>
       </div>

@@ -1,14 +1,14 @@
 <div class="card-image">
   <figure class="image is-4by3">
-    <img [src]="image" alt="Placeholder image" v-if="image">
-    <img [src]="images[idx]" alt="Placeholder image" v-if="images">
-    <img [src]="unknownURL" alt="Placeholder image" v-if="!images && !image">
+    <img [src]="image" alt="Placeholder image" *ngIf="image">
+    <img [src]="images[idx]" alt="Placeholder image" *ngIf="images">
+    <img [src]="unknownURL" alt="Placeholder image" *ngIf="!images && !image">
   </figure>
   <div class="columns is-mobile is-vcentered is-overlay is-multiline" style="margin: 0px;">
     <div class="column is-full" style="height: 20%;"></div>
     <div class="column is-full is-info" style="height: 60%;">
       <div class="columns is-mobile is-vcentered is-multiline picture-box-center-control-container"
-           v-if="images && images.length > 1" style="margin-top: auto; margin-bottom: auto;">
+           *ngIf="images && images.length > 1" style="margin-top: auto; margin-bottom: auto;">
         <div class="column is-narrow">
           <button (click)="next()" class="button is-white fa fa-angle-right" style="opacity: 0.4;"></button>
         </div>

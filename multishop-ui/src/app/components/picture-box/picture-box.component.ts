@@ -16,6 +16,8 @@ export class PictureBoxComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.images)
+    console.log(this.image)
   }
 
   next () {

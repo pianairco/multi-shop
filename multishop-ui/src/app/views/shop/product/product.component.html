@@ -1,1 +1,20 @@
-<p>product works!</p>
+<div class="card">
+  <app-picture-box [image]="product.image"></app-picture-box>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4">{{product.title}}</p>
+      </div>
+    </div>
+
+    <div class="content">{{product.description}}</div>
+  </div>
+  <footer class="card-footer">
+    <a class="card-footer-item button is-white">
+      مشاهده
+    </a>
+    <a class="card-footer-item button is-white">
+      خرید
+    </a>
+  </footer>
+</div>

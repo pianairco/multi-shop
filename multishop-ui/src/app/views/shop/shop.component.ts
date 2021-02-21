@@ -5,6 +5,7 @@ import {LoadingService} from "../../services/loading.service";
 import {ProductCategoryComponent} from "./product-category/product-category.component";
 import {AjaxCallService} from "../../services/ajax-call.service";
 import {NotificationService} from "../../services/notification.service";
+import {Product} from "./product/product.component";
 
 @Component({
   selector: 'app-shop',
@@ -14,15 +15,20 @@ import {NotificationService} from "../../services/notification.service";
 export class ShopComponent implements OnInit {
   categorization: object[] = null;
   @ViewChild('insert') insertComponent: ProductCategoryComponent;
+  products: Product[] = [
+    new Product('a', 'a', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('b', 'b', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('v', 'v', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('q', 'q', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('w', 'w', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('e', 'e', '../../../assets/images/256x256.png', 0, null, null),
+    new Product('n', 'n', '../../../assets/images/256x256.png', 0, null, null)
+  ];
 
   constructor(private constantService: ConstantService,
               private ajaxCallService: AjaxCallService,
               private notificationService: NotificationService,
               private loadingService: LoadingService) { }
-
-  images: string[] = [
-    "../../assets/images/256x256.png"
-  ];
 
   async ngOnInit(): Promise<void> {
     try {
