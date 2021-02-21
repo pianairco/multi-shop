@@ -4,8 +4,8 @@
       <div class="control is-expanded">
         <div class="is-fullwidth">
           <a class="control has-icons-left"
-             [routerLink]="['/tile/shop/products-gallary/' + productCategorization['routerLink']]"
-             routerLinkActive="menu-active-link">{{productCategorization['title']}}
+             [routerLink]="['/tile/shop/products-gallary/' + productCategory['routerLink']]"
+             routerLinkActive="menu-active-link">{{productCategory['title']}}
           </a>
         </div>
       </div>
@@ -20,11 +20,11 @@
   </li>
 </div>
 <div *ngIf="insertable || (editable && editMode)">
-  <div class="columns">
-    <div class="column is-10">
+  <div class="columns is-multiline">
+    <div class="column is-12">
       <div class="field">
         <p class="control is-small has-icons-left">
-          <input [(ngModel)]="productCategorization.title"
+          <input [(ngModel)]="productCategory.title"
                  class="input" type="email" placeholder="عنوان دسته بندی">
           <span class="icon is-small is-left">
             <i class="fas fa-closed-captioning"></i>
@@ -33,7 +33,7 @@
       </div>
       <div class="field">
         <p class="control is-small has-icons-left">
-          <input [(ngModel)]="productCategorization.routerLink"
+          <input [(ngModel)]="productCategory.routerLink"
                  class="input" type="text" placeholder="لینک نمایشی">
           <span class="icon is-small is-left">
             <i class="fas fa-link"></i>
@@ -41,10 +41,19 @@
         </p>
       </div>
     </div>
-    <div class="column is-2">
-      <button class="button is-small is-success is-fullwidth"
-              (click)="registerClick()"
-              style="height: 100%">ثبت</button>
+    <div class="column is-12">
+      <div class="buttons has-addons" style="direction: ltr">
+        <button class="button is-success"
+                (click)="registerClick()"
+                style="height: 100%">
+          <i class="fas fa-check"></i>
+        </button>
+        <button class="button is-danger "
+                (click)="clearClick()"
+                style="height: 100%">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>

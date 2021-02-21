@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import {ProductCategorization} from "../shop.component";
 import {NotificationService} from "../../../services/notification.service";
 
 @Component({
@@ -10,39 +9,58 @@ import {NotificationService} from "../../../services/notification.service";
 export class ProductCategoryComponent implements OnInit {
   @Input() editable: boolean = false;
   @Input() insertable: boolean = false;
-  @Input() productCategorization: ProductCategorization = new ProductCategorization();
-  @Output() insertClick = new EventEmitter<ProductCategorization>();
-  @Output() updateClick = new EventEmitter<ProductCategorization>();
+  @Input() productCategory: ProductCategory = new ProductCategory();
+  @Output() insertClick = new EventEmitter<ProductCategory>();
+  @Output() updateClick = new EventEmitter<{category: ProductCategory, component: ProductCategoryComponent}>();
+  originalProductCategory: ProductCategory = new ProductCategory();
 
   editMode = false;
 
   constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.originalProductCategory = JSON.parse(JSON.stringify(this.productCategory));
   }
 
-  registerClick() {
+  private registerClick() {
     console.log("reg")
-    if (this.productCategorization.title == null ||
-      this.productCategorization.title == '' ||
-      this.productCategorization.title == undefined) {
+    if (this.productCategory.title == null ||
+      this.productCategory.title == '' ||
+      this.productCategory.title == undefined) {
       this.notificationService.changeMessage("error", "عنوان نباید خالی باشد");
       return;
-    } else if (this.productCategorization.routerLink == null ||
-      this.productCategorization.routerLink == '' ||
-      this.productCategorization.routerLink == undefined) {
+    } else if (this.productCategory.routerLink == null ||
+      this.productCategory.routerLink == '' ||
+      this.productCategory.routerLink == undefined) {
       this.notificationService.changeMessage("error", "لینک نمایشی نباید خالی باشد");
       return;
     }
     // console.log("product:", this.productCategorization)
-    if(this.insertable && !this.productCategorization.id)
-      this.insertClick.emit(this.productCategorization);
-    else if(this.editable && this.productCategorization.id) {
-      this.updateClick.emit(this.productCategorization);
+    if(this.insertable && !this.productCategory.id)
+      this.insertClick.emit(this.productCategory);
+    else if(this.editable && this.productCategory.id) {
+      this.updateClick.emit({ category: this.productCategory, component: this });
     }
   }
 
-  clear() {
-    this.productCategorization = new ProductCategorization();
+  private clearClick() {
+    this.productCategory.routerLink = this.originalProductCategory.routerLink;
+    this.productCategory.title = this.originalProductCategory.title;
+    this.editMode = false;
   }
+
+  success() {
+    this.originalProductCategory = JSON.parse(JSON.stringify(this.productCategory));
+  }
+
+  fail() {
+    this.clearClick();
+  }
+}
+
+export class ProductCategory {
+  id: number;
+  title: string;
+  routerLink: string;
+  orders: string;
 }

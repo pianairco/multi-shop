@@ -1,3 +1,4 @@
+<section class="section" >
 <div class="container is-fluid">
   <div class="columns" style="margin: 0px;">
     <div class="column is-4-tablet is-2-desktop" style="background-color: inherit;">
@@ -14,9 +15,9 @@
           دسته بندی ها
         </p>
         <ul class="menu-list">
-          <app-product-category *ngFor="let cat of categorization" [productCategorization]="cat"
-                                        (updateClick)="updateCategory($event)"
-                                        [editable]="true">
+          <app-product-category *ngFor="let cat of categorization" [productCategory]="cat"
+                                (updateClick)="updateCategory($event)"
+                                [editable]="true">
           </app-product-category>
 <!--          <li *ngFor="let cat of categorization">-->
 <!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->
@@ -26,12 +27,12 @@
       </aside>
 <!--      <app-product-categorization [categorization]="categorization"></app-product-categorization>-->
     </div>
-    <div class="column is-8-tablet is-10-desktop" style="background-color: inherit; height: 800px;">
+    <div class="column is-8-tablet is-10-desktop" style="background-color: inherit;">
       <div class="container" id="bulma-shop-page">
         <div class="columns is-multiline" >
           <div class="column is-full-mobile is-one-quarter-desktop"
                *ngFor="let product of products">
-            <app-product [product]="product"></app-product>
+            <app-product [editable]="true" [product]="product"></app-product>
           </div>
         </div>
       </div>
@@ -39,3 +40,4 @@
     </div>
   </div>
 </div>
+</section>

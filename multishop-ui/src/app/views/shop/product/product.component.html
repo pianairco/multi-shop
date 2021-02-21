@@ -1,15 +1,49 @@
 <div class="card">
-  <app-picture-box [image]="product.image"></app-picture-box>
+  <app-picture-box [isUpload]="editable || insertable" [image]="product.image"></app-picture-box>
   <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <p class="title is-4">{{product.title}}</p>
+    <div class="content">
+      <div class="field">
+        <div class="control">
+          <!--            <p *ngIf="!editable && !insertable" class="title is-4">{{product.title}}</p>-->
+          <p *ngIf="!editable && !insertable" type="text">{{product.title}}</p>
+          <input *ngIf="editable || insertable" class="input" type="text"
+                 [(ngModel)]="product.title" placeholder="عنوان">
+        </div>
       </div>
-    </div>
 
-    <div class="content">{{product.description}}</div>
+      <div class="field">
+        <div class="control">
+          <p *ngIf="!editable && !insertable" type="text"
+             placeholder="قیمت">{{product.price}}</p>
+          <input *ngIf="editable || insertable" class="input" type="text"
+                 [(ngModel)]="product.price" placeholder="قیمت">
+        </div>
+
+        <div class="field mt-3">
+          <div class="control">
+            <div *ngIf="!editable && !insertable"
+                 style="overflow-x: hidden; overflow-y: auto;"
+                 placeholder="توضیحات"
+                 rows="2">{{product.description}}</div>
+            <textarea *ngIf="editable || insertable" class="textarea" placeholder="توضیحات"
+                      [(ngModel)]="product.description" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <footer class="card-footer">
+
+  <footer class="card-footer" *ngIf="editable || insertable">
+    <button class="card-footer-item button is-success">
+      ثبت
+    </button>
+    <a class="card-footer-item button is-danger">
+      انصراف
+    </a>
+  </footer>
+
+  <footer class="card-footer" *ngIf="!editable && !insertable">
     <a class="card-footer-item button is-white">
       مشاهده
     </a>
