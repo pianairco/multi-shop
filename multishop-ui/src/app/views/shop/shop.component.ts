@@ -6,6 +6,7 @@ import {ProductCategory, ProductCategoryComponent} from "./product-category/prod
 import {AjaxCallService} from "../../services/ajax-call.service";
 import {NotificationService} from "../../services/notification.service";
 import {Product} from "./product/product.component";
+import {ProductEditorComponent} from "./product-editor/product-editor.component";
 
 @Component({
   selector: 'app-shop',
@@ -15,6 +16,8 @@ import {Product} from "./product/product.component";
 export class ShopComponent implements OnInit {
   categorization: object[] = null;
   @ViewChild('insert') insertComponent: ProductCategoryComponent;
+  @ViewChild('insertProduct') insertProductComponent: ProductEditorComponent;
+
   products: Product[] = [
     new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
     new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
@@ -41,6 +44,34 @@ export class ShopComponent implements OnInit {
     } catch (err) {
 
     }
+  }
+
+  insertMode = false;
+
+  openProductCreator() {
+    this.insertMode = true;
+  }
+
+  closeProductCreator(productCreator: ProductEditorComponent) {
+    productCreator['component'].close();
+    this.insertMode = false;
+  }
+
+  insertNewProduct(product: Product) {
+    this.loadingService.changeState(true);
+    this.ajaxCallService.save("api/modules/shop/product", product).then(
+      res => {
+        this.insertComponent.success();
+        this.products.push(res.data);
+        this.notificationService.changeMessage("success", "ثبت موفق");
+        this.loadingService.changeState(false);
+        this.closeProductCreator(this.insertProductComponent);
+      }, err => {
+        this.notificationService.changeMessage("error", "خطا رخ داده");
+        this.loadingService.changeState(false);
+      }
+    );
+
   }
 
   insertNewCategory(productCategory: ProductCategory) {

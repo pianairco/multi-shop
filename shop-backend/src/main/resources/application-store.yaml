@@ -2,6 +2,10 @@ storage:
   location: c:/upload-dir
   bean: afterSaveImage
   groups:
+    product:
+      folder: product
+      width: 640
+      height: 640
     sample:
       folder: sample
       width: 640

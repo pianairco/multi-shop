@@ -1,39 +1,79 @@
-<div class="card">
-  <app-picture-box [image]="product.image" [isUpload]="true"></app-picture-box>
-  <div class="card-content">
-    <div class="content">
-      <div class="field">
-        <div class="control">
-          <label class="label">عنوان</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.title" >
+<div class="modal" [class.is-active]="isActive">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Modal title</p>
+      <button class="delete" (click)="onCloseClick()" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      <!-- Content ... -->
+      <div class="card">
+        <app-picture-box #pictureBox [image]="product.image"
+                         (onSelect)="selectImage($event)"
+                         [isUpload]="true"></app-picture-box>
+        <div class="card-content">
+          <div class="content">
+            <div class="field">
+              <div class="control">
+                <label class="label">عنوان</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.title" >
+              </div>
+            </div>
+
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">توضیحات</label>
+                <textarea class="textarea"
+                          [(ngModel)]="product.description" rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="label">قیمت</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.price">
+              </div>
+            </div>
+
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">واحدپول</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.currency" rows="3">
+              </div>
+            </div>
+
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">مقدار</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.measurement" rows="3">
+              </div>
+            </div>
+
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">واحد سنجش</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.measurementUnit" rows="3">
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="card-footer" *ngIf="editable || insertable">
+          <button class="card-footer-item button is-success" (click)="registerClick()">
+            ثبت
+          </button>
+          <button class="card-footer-item button is-danger" (click)="onCloseClick()">
+            انصراف
+          </button>
+        </footer>
       </div>
 
-      <div class="field">
-        <div class="control">
-          <label class="label">قیمت</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.price">
-        </div>
-      </div>
-
-      <div class="field mt-3">
-        <div class="control">
-          <label class="label">توضیحات</label>
-          <textarea class="textarea"
-                    [(ngModel)]="product.description" rows="3"></textarea>
-        </div>
-      </div>
-    </div>
+    </section>
   </div>
-
-  <footer class="card-footer" *ngIf="editable || insertable">
-    <button class="card-footer-item button is-success" (click)="registerClick()">
-      ثبت
-    </button>
-    <button class="card-footer-item button is-danger" (click)="onCloseClick()">
-      انصراف
-    </button>
-  </footer>
 </div>
+

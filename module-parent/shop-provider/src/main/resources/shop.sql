@@ -18,6 +18,20 @@ INSERT INTO PRODUCT_CATEGORIZATION select * from (
     select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 2 SITE_ID
 ) where not exists(select * from PRODUCT_CATEGORIZATION);
 
+CREATE TABLE IF NOT EXISTS PRODUCT (
+    ID bigint primary key,
+    TITLE varchar(256),
+    DESCRIPTION varchar(1024),
+    IMAGE varchar(256),
+    MEASUREMENT bigint,
+    MEASUREMENT_UNIT varchar(64),
+    PRICE bigint,
+    CURRENCY varchar(64),
+    PERCENT bigint,
+    SITE_ID bigint,
+    constraint FK_PRODUCT_SITE_ID foreign key (SITE_ID) references SITE(ID),
+    constraint UK_PRODUCT_TITLE unique (SITE_ID, TITLE)
+);
 
 CREATE TABLE IF NOT EXISTS header (
     ID bigint primary key,
