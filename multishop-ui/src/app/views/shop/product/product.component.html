@@ -34,21 +34,27 @@
     </div>
   </div>
 
-  <footer class="card-footer" *ngIf="editable || insertable">
-    <button class="card-footer-item button is-success">
-      ثبت
-    </button>
-    <a class="card-footer-item button is-danger">
-      انصراف
-    </a>
-  </footer>
+<!--  <footer class="card-footer" *ngIf="editable || insertable">-->
+<!--    <button class="card-footer-item button is-success">-->
+<!--      ثبت-->
+<!--    </button>-->
+<!--    <a class="card-footer-item button is-danger">-->
+<!--      انصراف-->
+<!--    </a>-->
+<!--  </footer>-->
 
-  <footer class="card-footer" *ngIf="!editable && !insertable">
-    <a class="card-footer-item button is-white">
+  <footer class="card-footer">
+    <button class="card-footer-item button is-white"
+            (click)="editMode = true"
+            *ngIf="editable || insertable">
+      ویرایش
+    </button>
+    <button class="card-footer-item button is-white">
       مشاهده
-    </a>
-    <a class="card-footer-item button is-white">
+    </button>
+    <button class="card-footer-item button is-white">
       خرید
-    </a>
+    </button>
   </footer>
 </div>
+

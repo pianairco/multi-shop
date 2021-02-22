@@ -7,6 +7,7 @@ import {FormMakerComponent} from "./components/form-maker/form-maker.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
 import {ShopComponent} from "./views/shop/shop.component";
 import {ProductsGallaryComponent} from "./views/products-gallary/products-gallary.component";
+import {ProductComponent} from "./views/shop/product/product.component";
 
 const routes: Routes = [
   {

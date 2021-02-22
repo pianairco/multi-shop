@@ -24,6 +24,7 @@ import { ShopComponent } from './views/shop/shop.component';
 import { ProductsGallaryComponent } from './views/products-gallary/products-gallary.component';
 import { ProductCategoryComponent } from './views/shop/product-category/product-category.component';
 import { ProductComponent } from './views/shop/product/product.component';
+import {ProductEditorComponent} from "./views/shop/product-editor/product-editor.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ProductComponent } from './views/shop/product/product.component';
     ShopComponent,
     ProductsGallaryComponent,
     ProductCategoryComponent,
-    ProductComponent
+    ProductComponent,
+    ProductEditorComponent
   ],
   imports: [
     BrowserModule,
