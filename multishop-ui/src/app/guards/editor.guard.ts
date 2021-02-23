@@ -15,7 +15,7 @@ import {ShareStateService} from "../services/share-state.service";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class EditorGuard implements CanActivate {
   constructor(
     private authenticationService: AuthenticationService,
     private shareStateService: ShareStateService,
@@ -25,6 +25,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    this.shareStateService.editMode = true
     return true;
   }
 

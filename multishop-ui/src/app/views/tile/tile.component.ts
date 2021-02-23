@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ShareStateService} from "../../services/share-state.service";
 
 @Component({
   selector: 'app-tile',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TileComponent implements OnInit {
 
-  constructor() { }
+  constructor(public shareStateService: ShareStateService) { }
 
   ngOnInit(): void {
   }

@@ -1,48 +1,37 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {CommonUtilService} from "../../../services/common-util.service";
 import {NotificationService} from "../../../services/notification.service";
 import {Product} from "../product/product.component";
 import {ProductCategoryComponent} from "../product-category/product-category.component";
 import {PictureBoxComponent} from "../../../components/picture-box/picture-box.component";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ShareStateService} from "../../../services/share-state.service";
 
 @Component({
-  selector: 'app-product-editor',
-  templateUrl: './product-editor.component.html',
-  styleUrls: ['./product-editor.component.css']
+  selector: 'app-product-editor-modal',
+  templateUrl: './product-editor-modal.component.html',
+  styleUrls: ['./product-editor-modal.component.css']
 })
-export class ProductEditorComponent implements OnInit, OnDestroy {
+export class ProductEditorModalComponent implements OnInit {
   @Input() product: Product = new Product(null, null, null, null, null, null, null, null);
   @Input() isActive: boolean = false;
   @Input() editable: boolean = false;
   @Input() insertable: boolean = false;
   @Output() insertClick = new EventEmitter<Product>();
-  @Output() updateClick = new EventEmitter<{product: Product, component: ProductEditorComponent}>();
-  @Output() closeClick = new EventEmitter<{component: ProductEditorComponent}>();
+  @Output() updateClick = new EventEmitter<{product: Product, component: ProductEditorModalComponent}>();
+  @Output() closeClick = new EventEmitter<{component: ProductEditorModalComponent}>();
   @ViewChild('pictureBox') pictureBoxComponent: PictureBoxComponent;
-  returnUrl: string;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private shareStateService: ShareStateService,
     private commonUtilService: CommonUtilService,
     private notificationService: NotificationService) { }
 
-    ngOnInit(): void {
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  }
-
-  ngOnDestroy(): void {
-    this.shareStateService.editMode = false;
+  ngOnInit(): void {
   }
 
   selectImage(image) {
     this.product['imageBase64'] = image;
   }
 
-  registerClick() {
+  private registerClick() {
     if (!this.commonUtilService.hasStringValue(this.product.title)) {
       this.notificationService.changeMessage("error", "عنوان نباید خالی باشد");
       return;
@@ -71,7 +60,6 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   public close() {
     this.pictureBoxComponent.clear();
     this.product = new Product(null, null, null, null, null, null, null, null);
-    this.router.navigate([this.returnUrl])
     // this.isActive = false;
   }
 

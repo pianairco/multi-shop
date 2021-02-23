@@ -1,4 +1,4 @@
-<app-topbar></app-topbar>
+<app-topbar *ngIf="!shareStateService.editMode"></app-topbar>
 <app-notification></app-notification>
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+<app-footer *ngIf="!shareStateService.editMode"></app-footer>

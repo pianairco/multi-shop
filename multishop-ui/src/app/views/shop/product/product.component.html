@@ -1,32 +1,25 @@
 <div class="card">
-  <app-picture-box [isUpload]="editable || insertable" [image]="product.image"></app-picture-box>
+  <app-picture-box [image]="product.image"></app-picture-box>
   <div class="card-content">
     <div class="content">
       <div class="field">
         <div class="control">
           <!--            <p *ngIf="!editable && !insertable" class="title is-4">{{product.title}}</p>-->
-          <p *ngIf="!editable && !insertable" type="text">{{product.title}}</p>
-          <input *ngIf="editable || insertable" class="input" type="text"
-                 [(ngModel)]="product.title" placeholder="عنوان">
+          <p type="text">{{product.title}}</p>
         </div>
       </div>
 
       <div class="field">
         <div class="control">
-          <p *ngIf="!editable && !insertable" type="text"
+          <p type="text"
              placeholder="قیمت">{{product.price}}</p>
-          <input *ngIf="editable || insertable" class="input" type="text"
-                 [(ngModel)]="product.price" placeholder="قیمت">
         </div>
 
         <div class="field mt-3">
           <div class="control">
-            <div *ngIf="!editable && !insertable"
-                 style="overflow-x: hidden; overflow-y: auto;"
+            <div style="overflow-x: hidden; overflow-y: auto;"
                  placeholder="توضیحات"
                  rows="2">{{product.description}}</div>
-            <textarea *ngIf="editable || insertable" class="textarea" placeholder="توضیحات"
-                      [(ngModel)]="product.description" rows="3"></textarea>
           </div>
         </div>
       </div>
@@ -44,11 +37,9 @@
 <!--  </footer>-->
 
   <footer class="card-footer">
-    <button class="card-footer-item button is-white"
-            (click)="editMode = true"
-            *ngIf="editable || insertable">
-      ویرایش
-    </button>
+    <button *ngIf="authService.appInfo.isAdmin"
+            class="card-footer-item button is-white"
+            (click)="editClick()">ویرایش</button>
     <button class="card-footer-item button is-white">
       مشاهده
     </button>
@@ -56,23 +47,4 @@
       خرید
     </button>
   </footer>
-</div>
-
-<div class="modal" [class.is-active]="editMode">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Modal title</p>
-      <button class="delete" (click)="editMode = false" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      <!-- Content ... -->
-            <app-product-editor [product]="product" [editable]="true"></app-product-editor>
-
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-success">Save changes</button>
-      <button class="button">Cancel</button>
-    </footer>
-  </div>
 </div>

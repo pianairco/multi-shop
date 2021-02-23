@@ -1,0 +1,18 @@
+<div class="container" id="bulma-shop-page">
+  <div class="columns is-multiline" >
+    <div class="column is-12">
+      <button class="button is-fullwidth is-success" (click)="openProductCreator()">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="column is-full-mobile is-one-quarter-desktop"
+         *ngFor="let product of products">
+      <app-product [product]="product"></app-product>
+    </div>
+  </div>
+</div>
+
+<app-product-editor-modal #insertProduct [isActive]="insertMode"
+                    (insertClick)="insertNewProduct($event)"
+                    (closeClick)="closeProductCreator($event)"
+                    [insertable]="true"></app-product-editor-modal>
