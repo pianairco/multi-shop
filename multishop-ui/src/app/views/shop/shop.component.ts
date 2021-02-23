@@ -52,7 +52,7 @@ export class ShopComponent implements OnInit {
     this.insertMode = true;
   }
 
-  closeProductCreator(productCreator: ProductEditorComponent) {
+  closeProductCreator(productCreator: { component: ProductEditorComponent}) {
     productCreator['component'].close();
     this.insertMode = false;
   }
@@ -65,7 +65,7 @@ export class ShopComponent implements OnInit {
         this.products.push(res.data);
         this.notificationService.changeMessage("success", "ثبت موفق");
         this.loadingService.changeState(false);
-        this.closeProductCreator(this.insertProductComponent);
+        this.closeProductCreator({component: this.insertProductComponent});
       }, err => {
         this.notificationService.changeMessage("error", "خطا رخ داده");
         this.loadingService.changeState(false);

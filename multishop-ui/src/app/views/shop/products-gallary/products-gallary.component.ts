@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {LoadingService} from "../../services/loading.service";
-import {NotificationService} from "../../services/notification.service";
+import {LoadingService} from "../../../services/loading.service";
+import {NotificationService} from "../../../services/notification.service";
 
 @Component({
   selector: 'app-products-gallary',
