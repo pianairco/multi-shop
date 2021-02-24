@@ -25,7 +25,7 @@ export class EditorGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.shareStateService.editMode = true
+    // this.shareStateService.editMode = true
     return true;
   }
 

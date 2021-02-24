@@ -1,70 +1,76 @@
-<nav class="navbar is-black" role="navigation" aria-label="main navigation" style="direction: rtl">
+<nav class="navbar is-light" role="navigation" aria-label="main navigation" style="direction: rtl">
   <div class="navbar-brand">
     <a class="navbar-item" (click)="close()"><i class="fa fa-times"></i></a>
   </div>
 </nav>
-<div class="card">
-  <app-picture-box #pictureBox [image]="product.image"
-                   (onSelect)="selectImage($event)"
-                   [isUpload]="true"></app-picture-box>
-  <div class="card-content">
-    <div class="content">
-      <div class="field">
-        <div class="control">
-          <label class="label">عنوان</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.title" >
-        </div>
-      </div>
+<div class="container">
+  <div class="columns">
+    <div class="column is-12">
+      <div class="card">
+        <app-picture-box #pictureBox [image]="product.image"
+                         (onSelect)="selectImage($event)"
+                         [isUpload]="true"></app-picture-box>
+        <div class="card-content">
+          <div class="content">
+            <div class="field">
+              <div class="control">
+                <label class="label">عنوان</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.title" >
+              </div>
+            </div>
 
-      <div class="field mt-3">
-        <div class="control">
-          <label class="label">توضیحات</label>
-          <textarea class="textarea"
-                    [(ngModel)]="product.description" rows="3"></textarea>
-        </div>
-      </div>
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">توضیحات</label>
+                <textarea class="textarea"
+                          [(ngModel)]="product.description" rows="3"></textarea>
+              </div>
+            </div>
 
-      <div class="field">
-        <div class="control">
-          <label class="label">قیمت</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.price">
-        </div>
-      </div>
+            <div class="field">
+              <div class="control">
+                <label class="label">قیمت</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.price">
+              </div>
+            </div>
 
-      <div class="field mt-3">
-        <div class="control">
-          <label class="label">واحدپول</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.currency" rows="3">
-        </div>
-      </div>
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">واحدپول</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.currency" rows="3">
+              </div>
+            </div>
 
-      <div class="field mt-3">
-        <div class="control">
-          <label class="label">مقدار</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.measurement" rows="3">
-        </div>
-      </div>
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">مقدار</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.measurement" rows="3">
+              </div>
+            </div>
 
-      <div class="field mt-3">
-        <div class="control">
-          <label class="label">واحد سنجش</label>
-          <input class="input" type="text"
-                 [(ngModel)]="product.measurementUnit" rows="3">
+            <div class="field mt-3">
+              <div class="control">
+                <label class="label">واحد سنجش</label>
+                <input class="input" type="text"
+                       [(ngModel)]="product.measurementUnit" rows="3">
+              </div>
+            </div>
+          </div>
         </div>
+
+        <footer class="card-footer" >
+          <button class="card-footer-item button is-success" (click)="registerClick()">
+            ثبت
+          </button>
+          <button class="card-footer-item button is-danger" (click)="onCloseClick()">
+            انصراف
+          </button>
+        </footer>
       </div>
     </div>
   </div>
-
-  <footer class="card-footer" >
-    <button class="card-footer-item button is-success" (click)="registerClick()">
-      ثبت
-    </button>
-    <button class="card-footer-item button is-danger" (click)="onCloseClick()">
-      انصراف
-    </button>
-  </footer>
 </div>

@@ -4,6 +4,7 @@ import {NotificationService} from "../../../services/notification.service";
 import {AuthenticationService} from "../../../services/authentication-service.service";
 import {ShareStateService} from "../../../services/share-state.service";
 import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: 'app-product',
@@ -21,12 +22,18 @@ export class ProductComponent implements OnInit {
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    this.shareStateService.editModeSubject.subscribe(next => {
+      this.shareStateService.ifTrue(() => {
+        this.router.navigate(['/tile/shop/product-editor'],
+          { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
+      });
+    });
   }
+
+  i = 1;
 
   editClick () {
     this.shareStateService.editMode = true;
-    this.router.navigate(['/tile/shop/product-editor'],
-      { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
   }
 
   // private registerClick() {

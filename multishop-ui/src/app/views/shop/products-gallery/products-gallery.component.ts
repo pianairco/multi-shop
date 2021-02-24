@@ -6,6 +6,7 @@ import {ProductEditorComponent} from "../product-editor/product-editor.component
 import {Product} from "../product/product.component";
 import {ConstantService} from "../../../services/constant.service";
 import {AjaxCallService} from "../../../services/ajax-call.service";
+import {ProductEditorModalComponent} from "../product-editor-modal/product-editor-modal.component";
 
 @Component({
   selector: 'app-products-gallery',
@@ -49,7 +50,7 @@ export class ProductsGalleryComponent implements OnInit {
     this.insertMode = true;
   }
 
-  closeProductCreator(productCreator: { component: ProductEditorComponent}) {
+  closeProductCreator(productCreator: { component: ProductEditorModalComponent}) {
     productCreator['component'].close();
     this.insertMode = false;
   }
@@ -61,12 +62,11 @@ export class ProductsGalleryComponent implements OnInit {
         this.products.push(res.data);
         this.notificationService.changeMessage("success", "ثبت موفق");
         this.loadingService.changeState(false);
-        this.closeProductCreator({component: this.insertProductComponent});
+        // this.closeProductCreator({component: this.insertProductComponent});
       }, err => {
         this.notificationService.changeMessage("error", "خطا رخ داده");
         this.loadingService.changeState(false);
       }
     );
-
   }
 }

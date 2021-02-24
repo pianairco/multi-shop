@@ -12,10 +12,24 @@ export class PianaStorageService {
   }
 
   getObject(key: string): object {
-    return JSON.parse(localStorage.getItem(key));
+    let item = localStorage.getItem(key);
+    if(item)
+      return JSON.parse(item);
+    return null;
   }
 
   getFieldValue(key: string, field: string) {
-    return JSON.parse(localStorage.getItem(key))[field];
+    let item = this.getObject(key);
+    if(item)
+      return item[field];
+    return null;
+  }
+
+  setFieldValue(key: string, field: string, value: any) {
+    let item = this.getObject(key);
+    if(item) {
+      item[field] = value;
+      this.putObject(key, item);
+    }
   }
 }

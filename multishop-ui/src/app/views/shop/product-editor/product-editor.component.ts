@@ -22,6 +22,7 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   @Output() closeClick = new EventEmitter<{component: ProductEditorComponent}>();
   @ViewChild('pictureBox') pictureBoxComponent: PictureBoxComponent;
   returnUrl: string;
+  onInitCalled = false;
 
   constructor(
     private router: Router,
@@ -31,11 +32,15 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService) { }
 
     ngOnInit(): void {
+      console.log("MMMMMMMM")
+      this.onInitCalled = true;
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   ngOnDestroy(): void {
-    this.shareStateService.editMode = false;
+    console.log("WWWWWWW")
+    if(this.onInitCalled)
+      this.shareStateService.editMode = false;
   }
 
   selectImage(image) {
