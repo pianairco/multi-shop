@@ -1,39 +1,125 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {PianaStorageService} from "./piana-storage.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShareStateService {
-  private _editModeSubject;
-  private _editMode = false;
+  private urlMap = {
+    product: '/tile/shop/product-editor',
+    'product-creator': '/tile/shop/product-creator',
+    category: '/tile/shop/category-editor'
+  };
+
+  private _editModeSubject: any;
+  private _editModeObject = null;
+  private _lastLink = null;
+  private LAST_LINK: string = "last-link";
   private EDIT_MODE_STATE: string = "edit-mode-state";
 
-  constructor(private pianaStorageService: PianaStorageService) {
-    let object = pianaStorageService.getObject(this.EDIT_MODE_STATE);
-    console.log(object)
-    if(object)
-      this._editModeSubject = new BehaviorSubject<boolean>(object['editMode']);
-    else {
-      let editModeObject = { 'editMode': false };
-      pianaStorageService.putObject(this.EDIT_MODE_STATE, editModeObject);
-      this._editModeSubject = new BehaviorSubject<boolean>(editModeObject['editMode']);
+  constructor(
+    private router: Router,
+    private pianaStorageService: PianaStorageService) {
+    router.events.subscribe((val) => {
+      if(val['routerEvent']) {
+        // console.log(val['routerEvent'].url)
+        if (val['routerEvent'].url === '/tile/shop' ||
+          val['routerEvent'].url === '/tile/shop/') {
+          this.navigateToShop(null);
+        }
+      }
+    });
+
+    this._lastLink = pianaStorageService.getObject(this.LAST_LINK);
+    if(!this._lastLink) {
+      this._lastLink = {};
+      pianaStorageService.putObject(this.LAST_LINK, this._lastLink);
     }
+    this._editModeObject = pianaStorageService.getObject(this.EDIT_MODE_STATE);
+    // console.log(object)
+    if (!this._editModeObject || !this._editModeObject.hasOwnProperty('changeable')) {
+      this._editModeObject = new EditModeObject(
+        false, null, null, null);
+      pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
+    }
+    if (this._editModeObject)
+      this._editModeSubject = new BehaviorSubject<any>(this._editModeObject);
+    else {
+      this._editModeObject = new EditModeObject(
+        false, null, null, null);
+      pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
+      this._editModeSubject = new BehaviorSubject<any>(this._editModeObject);
+    }
+
+    this.editModeSubject.subscribe(next => {
+      // console.log(next)
+      if (next.editMode)
+        this.router.navigate([this.urlMap[next.urlKey]]);
+      // this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { returnUrl: next.returnUrl } })
+    });
   }
 
-  get editModeSubject () : Observable<boolean> {
+  get editModeSubject(): Observable<EditModeObject> {
     return this._editModeSubject.asObservable();
   }
 
-  set editMode (editMode) {
-    this._editMode = editMode;
-    this.pianaStorageService.setFieldValue(this.EDIT_MODE_STATE, 'editMode', this._editMode);
-    this._editModeSubject.next(this._editMode);
+  set editModeObject(editModeObject) {
+    this._editModeObject = editModeObject;
+    this.pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
+    this._editModeSubject.next(this._editModeObject);
   }
 
-  ifTrue(func) {
-    if(this._editMode)
-      func.apply();
+  setEditModeObject(editMode, changeable, urlKey, returnUrl) {
+    this.editModeObject = new EditModeObject(editMode, changeable, urlKey, returnUrl);
+  }
+
+  clearEditModeObject() {
+    this.editModeObject = new EditModeObject(false, null, null, null);
+  }
+
+  navigateReturn () {
+    this.router.navigate([this._editModeObject.returnUrl]);
+  }
+
+  navigateToShop (category) {
+    console.log(category)
+    if(category) {
+      this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', category);
+      this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
+    } else {
+      category = this.pianaStorageService.getFieldValue(this.LAST_LINK, 'shop-category');
+      if(category)
+        this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
+      else {
+        this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', {routerLink: 'default'});
+        this.router.navigate(['/tile/shop/products-gallery/default']);
+      }
+    }
+  }
+
+  isCategoryActive (category) {
+    // console.log(category)
+    let cat = this.pianaStorageService.getFieldValue(this.LAST_LINK, 'shop-category');
+    console.log(cat)
+    if (cat != null && this.router.url.startsWith('/tile/shop/products-gallery/')
+      && cat['routerLink'] === category.routerLink)
+      return true;
+    return false;
   }
 }
+
+export class EditModeObject {
+  editMode: boolean;
+  changeable: any;
+  urlKey: string;
+  returnUrl: string;
+
+  constructor(editMode, changeable, urlKey, returnUrl) {
+   this.editMode = editMode;
+   this.changeable = changeable;
+   this.urlKey = urlKey;
+   this.returnUrl = returnUrl;
+  }
+};

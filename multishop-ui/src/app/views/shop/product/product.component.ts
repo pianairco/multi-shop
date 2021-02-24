@@ -15,25 +15,19 @@ export class ProductComponent implements OnInit {
   @Input() product: Product;
 
   constructor(
-    private router: Router,
-    private shareStateService: ShareStateService,
+    public router: Router,
+    public shareStateService: ShareStateService,
     public authService: AuthenticationService,
     private commonUtilService: CommonUtilService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
-    this.shareStateService.editModeSubject.subscribe(next => {
-      this.shareStateService.ifTrue(() => {
-        this.router.navigate(['/tile/shop/product-editor'],
-          { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
-      });
-    });
-  }
-
-  i = 1;
-
-  editClick () {
-    this.shareStateService.editMode = true;
+    // this.shareStateService.editModeSubject.subscribe(next => {
+    //   this.shareStateService.ifTrue(() => {
+    //     this.router.navigate(['/tile/shop/product-editor'],
+    //       { queryParams: { returnUrl: this.router.routerState.snapshot.url }});
+    //   });
+    // });
   }
 
   // private registerClick() {
@@ -79,7 +73,8 @@ export class Product {
   currency: string;
   percent: number;
 
-  constructor(title, description, image, measurement, measurementUnit, price,  currency, percent) {
+  constructor(id, title, description, image, measurement, measurementUnit, price,  currency, percent) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.image = image;
@@ -89,4 +84,4 @@ export class Product {
     this.currency = currency;
     this.percent = percent;
   }
-}
+};

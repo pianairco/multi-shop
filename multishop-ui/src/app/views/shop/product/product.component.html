@@ -39,7 +39,8 @@
   <footer class="card-footer">
     <button *ngIf="authService.appInfo.isAdmin"
             class="card-footer-item button is-white"
-            (click)="editClick()">ویرایش</button>
+            (click)="this.shareStateService.setEditModeObject(
+            true, product, 'product', this.router.routerState.snapshot.url)">ویرایش</button>
     <button class="card-footer-item button is-white">
       مشاهده
     </button>

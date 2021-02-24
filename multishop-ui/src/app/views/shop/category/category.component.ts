@@ -1,22 +1,25 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {NotificationService} from "../../../services/notification.service";
+import {ShareStateService} from "../../../services/share-state.service";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-product-category',
-  templateUrl: './product-category.component.html',
-  styleUrls: ['./product-category.component.css']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
 })
-export class ProductCategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit {
   @Input() editable: boolean = false;
   @Input() insertable: boolean = false;
-  @Input() productCategory: ProductCategory = new ProductCategory();
+  @Input() productCategory: ProductCategory = new ProductCategory(0, null, null, null);
   @Output() insertClick = new EventEmitter<ProductCategory>();
-  @Output() updateClick = new EventEmitter<{category: ProductCategory, component: ProductCategoryComponent}>();
-  originalProductCategory: ProductCategory = new ProductCategory();
+  @Output() updateClick = new EventEmitter<{category: ProductCategory, component: CategoryComponent}>();
+  originalProductCategory: ProductCategory = new ProductCategory(0, null, null, null);
 
-  editMode = false;
-
-  constructor(private notificationService: NotificationService) { }
+  constructor(
+    public router: Router,
+    public shareStateService: ShareStateService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.originalProductCategory = JSON.parse(JSON.stringify(this.productCategory));
@@ -46,7 +49,6 @@ export class ProductCategoryComponent implements OnInit {
   private clearClick() {
     this.productCategory.routerLink = this.originalProductCategory.routerLink;
     this.productCategory.title = this.originalProductCategory.title;
-    this.editMode = false;
   }
 
   success() {
@@ -63,4 +65,12 @@ export class ProductCategory {
   title: string;
   routerLink: string;
   orders: string;
+
+  constructor(id, title, routerLink, orders) {
+    this.id = id;
+    this.title = title;
+    this.routerLink = routerLink;
+    this.orders = orders;
+  }
+
 }

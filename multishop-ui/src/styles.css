@@ -5,7 +5,7 @@
   src: url(./assets/Iranian_Sans.ttf);
 }
 
-*:not(.material-icons, .fa, .far, .fas) {
+*:not(.material-icons, .fa, .far, .fas, .fab) {
   font-family: IranianSans !important;
 }
 

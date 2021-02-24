@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(shareStateService.editModeSubject | async)">
+<ng-container *ngIf="!(shareStateService.editModeSubject | async).editMode">
   <app-topbar >
     <title></title>
   </app-topbar>
@@ -7,7 +7,7 @@
   <app-footer></app-footer>
 </ng-container>
 
-<ng-container *ngIf="(shareStateService.editModeSubject | async)">
+<ng-container *ngIf="(shareStateService.editModeSubject | async).editMode">
   <app-notification></app-notification>
   <router-outlet></router-outlet>
 </ng-container>

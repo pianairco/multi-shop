@@ -4,11 +4,15 @@ import { ShopComponent } from './shop.component';
 import {ProductsGalleryComponent} from "./products-gallery/products-gallery.component";
 import {ProductEditorComponent} from "./product-editor/product-editor.component";
 import {EditorGuard} from "../../guards/editor.guard";
+import {CategoryEditorComponent} from "./category-editor/category-editor.component";
 
 const routes: Routes = [
   {
     path: '', component: ShopComponent, children: [
+      // { path: '', redirectTo: '/tile/shop/products-gallery/default', pathMatch: 'full' },
       { path: 'product-editor', component: ProductEditorComponent, canActivate: [EditorGuard] },
+      { path: 'product-creator', component: ProductEditorComponent, canActivate: [EditorGuard] },
+      { path: 'category-editor', component: CategoryEditorComponent, canActivate: [EditorGuard] },
       { path: 'products-gallery/:routerLink', component: ProductsGalleryComponent }
     ]
   }

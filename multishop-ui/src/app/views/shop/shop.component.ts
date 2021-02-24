@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import axios from 'axios';
 import {ConstantService} from "../../services/constant.service";
 import {LoadingService} from "../../services/loading.service";
-import {ProductCategory, ProductCategoryComponent} from "./product-category/product-category.component";
+import {ProductCategory, CategoryComponent} from "./category/category.component";
 import {AjaxCallService} from "../../services/ajax-call.service";
 import {NotificationService} from "../../services/notification.service";
 import {Product} from "./product/product.component";
@@ -16,7 +16,7 @@ import {ShareStateService} from "../../services/share-state.service";
 })
 export class ShopComponent implements OnInit {
   categorization: object[] = null;
-  @ViewChild('insert') insertComponent: ProductCategoryComponent;
+  @ViewChild('insert') insertComponent: CategoryComponent;
 
 
   constructor(private constantService: ConstantService,
@@ -53,9 +53,9 @@ export class ShopComponent implements OnInit {
     );
   }
 
-  updateCategory(event: {category: ProductCategory, component: ProductCategoryComponent}) {
+  updateCategory(event: {category: ProductCategory, component: CategoryComponent}) {
     let productCategory: ProductCategory = event.category;
-    let updateComponent: ProductCategoryComponent = event.component;
+    let updateComponent: CategoryComponent = event.component;
     console.log("edit:", productCategory)
     this.loadingService.changeState(true);
     this.ajaxCallService.update("api/modules/shop/category/product-categorization", productCategory).then(

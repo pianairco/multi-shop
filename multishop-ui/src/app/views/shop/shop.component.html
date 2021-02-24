@@ -1,7 +1,7 @@
-<ng-container *ngIf="(shareStateService.editModeSubject | async)">
+<ng-container *ngIf="(shareStateService.editModeSubject | async).editMode">
   <router-outlet></router-outlet>
 </ng-container>
-<ng-container *ngIf="!(shareStateService.editModeSubject | async)">
+<ng-container *ngIf="!(shareStateService.editModeSubject | async).editMode">
   <section class="section" >
     <div class="container is-fluid">
       <div class="columns" style="margin: 0px;">
@@ -10,19 +10,19 @@
             <p class="menu-label">
               دسته بندی جدید
             </p>
-            <app-product-category
+            <app-category
               #insert
               [insertable]="true"
               (insertClick)="insertNewCategory($event)">
-            </app-product-category>
+            </app-category>
             <p class="menu-label">
               دسته بندی ها
             </p>
             <ul class="menu-list">
-              <app-product-category *ngFor="let cat of categorization" [productCategory]="cat"
+              <app-category *ngFor="let cat of categorization" [productCategory]="cat"
                                     (updateClick)="updateCategory($event)"
                                     [editable]="true">
-              </app-product-category>
+              </app-category>
               <!--          <li *ngFor="let cat of categorization">-->
               <!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->
               <!--               routerLinkActive="menu-active-link">{{cat['title']}}</a>-->
@@ -31,7 +31,7 @@
           </aside>
           <!--      <app-product-categorization [categorization]="categorization"></app-product-categorization>-->
         </div>
-        <div [ngClass]="(shareStateService.editModeSubject | async) ? 'column is-12': 'column is-12-mobile is-10-desktop is-8-tablet'" style="background-color: inherit;">
+        <div [ngClass]="(shareStateService.editModeSubject | async).editMode ? 'column is-12': 'column is-12-mobile is-10-desktop is-8-tablet'" style="background-color: inherit;">
           <router-outlet></router-outlet>
         </div>
       </div>

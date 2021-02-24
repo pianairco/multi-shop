@@ -1,7 +1,9 @@
 <div class="container" id="bulma-shop-page">
   <div class="columns is-multiline" >
     <div class="column is-12">
-      <button class="button is-fullwidth is-success" (click)="openProductCreator()">
+      <button class="button is-fullwidth is-success"
+              (click)="shareStateService.setEditModeObject(
+            true, null, 'product-creator', router.routerState.snapshot.url)">
         <i class="fa fa-plus"></i>
       </button>
     </div>
@@ -12,7 +14,7 @@
   </div>
 </div>
 
-<app-product-editor-modal #insertProduct [isActive]="insertMode"
-                    (insertClick)="insertNewProduct($event)"
-                    (closeClick)="closeProductCreator($event)"
-                    [insertable]="true"></app-product-editor-modal>
+<!--<app-product-editor-modal #insertProduct [isActive]="insertMode"-->
+<!--                    (insertClick)="insertNewProduct($event)"-->
+<!--                    (closeClick)="closeProductCreator($event)"-->
+<!--                    [insertable]="true"></app-product-editor-modal>-->

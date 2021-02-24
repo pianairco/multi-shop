@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} fr
 import {CommonUtilService} from "../../../services/common-util.service";
 import {NotificationService} from "../../../services/notification.service";
 import {Product} from "../product/product.component";
-import {ProductCategoryComponent} from "../product-category/product-category.component";
+import {CategoryComponent} from "../category/category.component";
 import {PictureBoxComponent} from "../../../components/picture-box/picture-box.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShareStateService} from "../../../services/share-state.service";
@@ -13,7 +13,7 @@ import {ShareStateService} from "../../../services/share-state.service";
   styleUrls: ['./product-editor.component.css']
 })
 export class ProductEditorComponent implements OnInit, OnDestroy {
-  @Input() product: Product = new Product(null, null, null, null, null, null, null, null);
+  @Input() product: Product = new Product(0,null, null, null, null, null, null, null, null);
   @Input() isActive: boolean = false;
   @Input() editable: boolean = false;
   @Input() insertable: boolean = false;
@@ -40,7 +40,9 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     console.log("WWWWWWW")
     if(this.onInitCalled)
-      this.shareStateService.editMode = false;
+      this.shareStateService.clearEditModeObject();
+    // if(this.onInitCalled)
+      // this.shareStateService.editMode = false;
   }
 
   selectImage(image) {
@@ -75,8 +77,9 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
 
   public close() {
     this.pictureBoxComponent.clear();
-    this.product = new Product(null, null, null, null, null, null, null, null);
-    this.router.navigate([this.returnUrl])
+    this.product = new Product(0, null, null, null, null, null, null, null, null);
+    this.shareStateService.navigateReturn();
+    // this.router.navigate([this.returnUrl])
     // this.isActive = false;
   }
 

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {LoadingService} from "../../../services/loading.service";
 import {NotificationService} from "../../../services/notification.service";
 import {ProductEditorComponent} from "../product-editor/product-editor.component";
@@ -7,6 +7,7 @@ import {Product} from "../product/product.component";
 import {ConstantService} from "../../../services/constant.service";
 import {AjaxCallService} from "../../../services/ajax-call.service";
 import {ProductEditorModalComponent} from "../product-editor-modal/product-editor-modal.component";
+import {ShareStateService} from "../../../services/share-state.service";
 
 @Component({
   selector: 'app-products-gallery',
@@ -19,20 +20,22 @@ export class ProductsGalleryComponent implements OnInit {
   @ViewChild('insertProduct') insertProductComponent: ProductEditorComponent;
 
   products: Product[] = [
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
-    new Product('a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(1,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(2,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(3,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(4,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(5,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(6,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(7,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
+    new Product(8,'a', 'a', '../../../assets/images/256x256.png', 1, 'عدد', 1000, 'تومان', 0),
   ];
 
   insertMode = false;
 
   constructor(private route: ActivatedRoute,
+              public router: Router,
               private loadingService: LoadingService,
+              public shareStateService: ShareStateService,
               private constantService: ConstantService,
               private ajaxCallService: AjaxCallService,
               private notificationService: NotificationService) { }
