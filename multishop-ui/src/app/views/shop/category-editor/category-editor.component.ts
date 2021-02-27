@@ -77,6 +77,16 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
     // }
   }
 
+  deleteClick() {
+    this.loadingService.changeState(true);
+    this.restClientService.categoryDelete(this.category).then(res => {
+      this.loadingService.changeState(false);
+      this.shareStateService.navigateReturn();
+    }, err => {
+      this.loadingService.changeState(false);
+      this.notificationService.changeMessage('error', 'خطا رخ داده است')
+    });
+  }
 
   public close() {
     this.shareStateService.navigateReturn();

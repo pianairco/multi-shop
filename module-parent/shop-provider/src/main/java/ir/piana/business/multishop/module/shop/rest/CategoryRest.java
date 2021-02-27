@@ -65,4 +65,19 @@ public class CategoryRest {
         ProductCategoryEntity save = categoryRepository.save(categorizationEntity);
         return ResponseEntity.ok(save);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProductCategorizations(
+            HttpServletRequest request,
+            @PathVariable ("id") Long id) {
+        SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
+        if (CommonUtils.isNull(siteEntity)) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (CommonUtils.isNull(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        categoryRepository.deleteBySiteIdAndId(siteEntity.getId(), id);
+        return ResponseEntity.ok().build();
+    }
 }

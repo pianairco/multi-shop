@@ -9,4 +9,5 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     List<ProductCategoryEntity> findAllBySiteId(long id);
     ProductCategoryEntity findBySiteIdAndId(long siteId, long id);
     long countBySiteId(long siteId);
+    void deleteBySiteIdAndId(long siteId, long id);
 }

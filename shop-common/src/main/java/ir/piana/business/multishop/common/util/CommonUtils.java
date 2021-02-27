@@ -47,6 +47,13 @@ public class CommonUtils {
         return (str == null || "".equals(str) || "null".equals(str));
     }
 
+    public static boolean isNumber(Object obj) {
+        if(obj == null) return false;
+        if(obj instanceof Number)
+            return true;
+        return false;
+    }
+
     public static boolean isNumber(String string) {
         return numberPattern.matcher(string).matches();
     }

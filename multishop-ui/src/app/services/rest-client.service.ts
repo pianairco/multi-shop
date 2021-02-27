@@ -32,6 +32,12 @@ export class RestClientService {
     }
   }
 
+  categoryDelete(category) {
+    if (category.id > 0) {
+      return this.ajaxCallService.delete(this.ajaxUrlMap.category, category.id);
+    }
+  }
+
   productList(routerLink) {
     return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' +
       this.categoryService.getCategoryId(routerLink));
@@ -40,10 +46,15 @@ export class RestClientService {
 
   productPersist(product) {
     if (product.id === 0) {
-      product.categoryId = this.categoryService.getSelectedCategory().id;
       return this.ajaxCallService.save(this.ajaxUrlMap.product, product);
     } else{
       return this.ajaxCallService.update(this.ajaxUrlMap.product, product);
+    }
+  }
+
+  productDelete(product) {
+    if (product.id > 0) {
+      return this.ajaxCallService.delete(this.ajaxUrlMap.product, product.id);
     }
   }
 }

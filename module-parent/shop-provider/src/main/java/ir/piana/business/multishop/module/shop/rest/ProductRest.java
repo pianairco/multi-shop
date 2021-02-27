@@ -125,4 +125,20 @@ public class ProductRest {
         ProductEntity save = productRepository.save(productEntity);
         return ResponseEntity.ok(save);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(
+            HttpServletRequest request,
+            @PathVariable("id") Long id) {
+        SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
+        if (CommonUtils.isNull(siteEntity)) {
+            return ResponseEntity.badRequest().build();
+        }
+//        Object id = body.get("id");
+        if (CommonUtils.isNull(id)) {
+            return ResponseEntity.badRequest().build();
+        }
+        productRepository.deleteBySiteIdAndId(siteEntity.getId(), id);
+        return ResponseEntity.ok().build();
+    }
 }

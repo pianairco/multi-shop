@@ -66,7 +66,10 @@
           <button class="card-footer-item button is-success" (click)="registerClick()">
             ثبت
           </button>
-          <button class="card-footer-item button is-danger" (click)="close()">
+          <button *ngIf="product.id" class="card-footer-item button is-danger" (click)="deleteClick()">
+            حذف
+          </button>
+          <button class="card-footer-item button is-warning" (click)="close()">
             انصراف
           </button>
         </footer>

@@ -93,6 +93,17 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     }*/
   }
 
+  deleteClick() {
+    this.loadingService.changeState(true);
+    this.restClientService.productDelete(this.product).then(res => {
+      this.loadingService.changeState(false);
+      this.shareStateService.navigateReturn();
+    }, err => {
+      this.loadingService.changeState(false);
+      this.notificationService.changeMessage('error', 'خطا رخ داده است')
+    });
+  }
+
   public close() {
     // this.pictureBoxComponent.clear();
     // this.product = new Product(0, null, null, null, null, null, null, null, null);
