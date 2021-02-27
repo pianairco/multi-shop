@@ -10,6 +10,8 @@ import {
 import { Observable } from 'rxjs';
 import {PianaStorageService} from "../services/piana-storage.service";
 import {AuthenticationService} from "../services/authentication-service.service";
+import axios from "axios";
+import {ConstantService} from "../services/constant.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authenticationService: AuthenticationService,
     private pianaStorageService: PianaStorageService,
+    private constantService: ConstantService,
     private router: Router,
     private route: ActivatedRoute) { }
 
@@ -35,14 +38,30 @@ export class AuthGuard implements CanActivate {
     // console.log(localStorage.getItem('currentUser'));
     let appInfo = this.pianaStorageService.getObject('appInfo');
     // console.log(appInfo);
-    console.log(state['url']);
+    console.log("subdomain0", state['url']);
     // return false;
     if(state['url'].startsWith('login') || state['url'].startsWith('/login')) {
+      console.log("subdomain00", state.root.queryParams['subDomain']);
       if(appInfo === null || appInfo['isLoggedIn'] === false) {
+        console.log("subdomain01", state['url']);
         // if((route['routeConfig']['path'].startsWith('login') || route['routeConfig']['path'].startsWith('/login')) && localStorage.getItem('currentUser')) {
         // this.router.navigate(['/home'], { queryParams: { returnUrl: state.url }});
         return true;
       } else {
+        let subDomain = state.root.queryParams['sub-domain'];
+        if(subDomain) {
+          console.log("has sub-domain", subDomain);
+          axios.post(this.constantService.getRemoteServer() + '/api/sign-in/sub-domain/set-login-info',
+            {},
+            { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'form' } }).then(
+              res => {
+                if(res.status == 200) {
+                  return "close";
+                }
+              }, err => {
+
+            });
+        }
         this.router.navigate(['/tile/home']);
         return false;
       }

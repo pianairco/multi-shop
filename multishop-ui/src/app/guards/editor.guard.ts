@@ -25,6 +25,7 @@ export class EditorGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    console.log("subdomain0", state.root.queryParams, state.root.queryParams['order']);
     // this.shareStateService.editMode = true
     return true;
   }

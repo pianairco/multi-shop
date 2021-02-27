@@ -11,6 +11,7 @@ import ir.piana.business.multishop.module.auth.service.CrossDomainAuthentication
 import ir.piana.business.multishop.module.auth.service.UserModel;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -42,6 +44,14 @@ public class AuthRest {
 
     @Autowired
     private CrossDomainAuthenticationService crossDomainAuthenticationService;
+
+    @Value("${login.redirect.url}")
+    private String loginRedirect;
+
+    @PostConstruct
+    public void init() {
+        System.out.println(loginRedirect);
+    }
 
     @PostMapping(path = "sign-out", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppInfo> signOut(@RequestBody Map map, HttpSession session) throws IOException {
@@ -116,7 +126,8 @@ public class AuthRest {
 
         body.clear();
         body.put("uuid", uuid);
-        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + uuid);
+        body.put("redirect", loginRedirect.concat("/#/login?sub-domain=" + uuid));
+//        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + uuid);
 //        body.put("redirect", "https://piana.ir:8443/#/login?sub-domain=" + tenantId);
 //        response.sendRedirect("https://piana.ir:8443/#/login?sub-domain=" + uuid.toString());
         return ResponseEntity.ok(body);
@@ -141,6 +152,27 @@ public class AuthRest {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map> signInBySubDomainSetLoginInfo(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {
+        GoogleUserEntity byEmail = userRepository.findByEmail(loginInfo.getUsername());
+        Captcha sessionCaptcha = (Captcha)session.getAttribute("simpleCaptcha");
+        if(byEmail != null &&
+                sessionCaptcha != null &&
+                bCryptPasswordEncoder.matches(loginInfo.getPassword(), byEmail.getPassword()) &&
+                sessionCaptcha.isCorrect(loginInfo.getCaptcha())) {
+            if(crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo, sessionCaptcha)) {
+                return ResponseEntity.ok().build();
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @CrossOrigin
+    @PostMapping(path = "sign-in/sub-domain/set-app-info",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map> signInBySubDomainSetAppInfo(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {

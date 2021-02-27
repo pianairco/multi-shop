@@ -10,7 +10,7 @@ import {AjaxCallService} from "./ajax-call.service";
 })
 export class RestClientService {
   ajaxUrlMap = {
-    'product': 'api/modules/shop/product',
+    'product': 'api/modules/shop/product?name=ali',
     'category': 'api/modules/shop/category'
   }
 

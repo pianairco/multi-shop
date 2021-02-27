@@ -67,7 +67,7 @@ export class ShareStateService {
     this.editModeSubject.subscribe(next => {
       // console.log(next)
       if (next.editMode)
-        this.router.navigate([this.urlMap[next.urlKey]]);
+        this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { order: 'popular' }});
       // this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { returnUrl: next.returnUrl } })
     });
   }

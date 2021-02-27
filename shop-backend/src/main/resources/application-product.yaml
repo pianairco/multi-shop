@@ -9,3 +9,6 @@ server:
     key-store-password: AsadMasad@1366
     key-alias: multishop
     enabled: true
+login:
+  redirect:
+    url: https://piana.ir
