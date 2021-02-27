@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class CategoryRest {
         return ResponseEntity.ok(all);
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<ProductCategoryEntity> saveProductCategorizations(
             HttpServletRequest request,
@@ -49,6 +51,7 @@ public class CategoryRest {
         return ResponseEntity.ok(save);
     }
 
+    @Transactional
     @PutMapping
     public ResponseEntity<ProductCategoryEntity> updateProductCategorizations(
             HttpServletRequest request,
@@ -66,6 +69,7 @@ public class CategoryRest {
         return ResponseEntity.ok(save);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity deleteProductCategorizations(
             HttpServletRequest request,

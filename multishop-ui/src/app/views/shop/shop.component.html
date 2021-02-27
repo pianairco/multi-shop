@@ -29,7 +29,7 @@
                   <ul class="menu-list">
 <!--                    (updateClick)="updateCategory($event)"-->
 <!--                    [editable]="true"-->
-                    <app-category *ngFor="let cat of categories" [productCategory]="cat">
+                    <app-category *ngFor="let cat of this.categoryService.categoriesSubject | async" [productCategory]="cat">
                     </app-category>
                     <!--          <li *ngFor="let cat of categorization">-->
                     <!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->

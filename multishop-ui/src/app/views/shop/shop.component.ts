@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import axios from 'axios';
 import {ConstantService} from "../../services/constant.service";
 import {LoadingService} from "../../services/loading.service";
@@ -22,6 +22,8 @@ export class ShopComponent implements OnInit {
 
   constructor(private constantService: ConstantService,
               public router: Router,
+              private changeDetectorRef: ChangeDetectorRef,
+              private ngZone: NgZone,
               private categoryService: ProductCategoryService,
               public shareStateService: ShareStateService,
               public authService: AuthenticationService,
@@ -29,10 +31,16 @@ export class ShopComponent implements OnInit {
               private notificationService: NotificationService,
               private loadingService: LoadingService) { }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     try {
       this.categoryService.categoriesSubject.subscribe(categories => {
+        console.log("00000000000000")
         this.categories = categories;
+        console.log(categories);
+        // this.changeDetectorRef.detectChanges();
+        this.ngZone.run(() => {
+          console.log('enabled time travel');
+        })
       });
     } catch (err) {
       this.loadingService.changeState(false);

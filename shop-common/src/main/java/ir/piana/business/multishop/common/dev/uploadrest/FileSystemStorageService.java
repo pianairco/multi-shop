@@ -90,10 +90,10 @@ public class FileSystemStorageService implements StorageService {
                 } else {
                     is = inputStream;
                 }
-                Files.copy(is, this.rootLocation.resolve(filePath),
+                Files.copy(is, this.rootLocation.resolve("./" + filePath),
                         StandardCopyOption.REPLACE_EXISTING);
 
-                return "/" + filePath;
+                return filePath;
 
             }
         }
@@ -142,7 +142,7 @@ public class FileSystemStorageService implements StorageService {
             // Passing: ​(RenderedImage im, String formatName, OutputStream output)
             InputStream is = new ByteArrayInputStream(os.toByteArray());
 
-            Files.copy(is, this.rootLocation.resolve(filePath),
+            Files.copy(is, this.rootLocation.resolve("./" + filePath),
                     StandardCopyOption.REPLACE_EXISTING);
 
             return filePath;

@@ -46,6 +46,7 @@ export class RestClientService {
 
   productPersist(product) {
     if (product.id === 0) {
+      product.categoryId = this.categoryService.getSelectedCategory().id;
       return this.ajaxCallService.save(this.ajaxUrlMap.product, product);
     } else{
       return this.ajaxCallService.update(this.ajaxUrlMap.product, product);

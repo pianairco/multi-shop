@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ public class ProductRest {
 //    @Qualifier("databaseStorageService")
     private StorageService storageService;
 
+    @Transactional
     @GetMapping("list")
     public ResponseEntity<List<ProductItemModel>> getGroupItemModels() {
         return ResponseEntity.ok(shopService.getProductItemModels());
@@ -44,6 +46,7 @@ public class ProductRest {
 //                .collect(Collectors.toList()));
 //    }
 
+    @Transactional
     @GetMapping("list/{categoryId}")
     public ResponseEntity<List<ProductEntity>> getGroupItemModelsByRouterKey(
             HttpServletRequest request,
@@ -55,6 +58,7 @@ public class ProductRest {
         return ResponseEntity.ok(productRepository.findAllBySiteIdAndCategoryId(siteEntity.getId(), categoryId));
     }
 
+    @Transactional
     @PostMapping()
     public ResponseEntity<ProductEntity> saveProduct(
             HttpServletRequest request,
@@ -90,6 +94,7 @@ public class ProductRest {
         return ResponseEntity.ok(save);
     }
 
+    @Transactional
     @PutMapping()
     public ResponseEntity<ProductEntity> updateProduct(
             HttpServletRequest request,
@@ -126,6 +131,7 @@ public class ProductRest {
         return ResponseEntity.ok(save);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity deleteProduct(
             HttpServletRequest request,
