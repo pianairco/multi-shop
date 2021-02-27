@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ShareStateService} from "../../../services/share-state.service";
 import {AjaxCallService} from "../../../services/ajax-call.service";
 import {LoadingService} from "../../../services/loading.service";
+import {RestClientService} from "../../../services/rest-client.service";
 
 @Component({
   selector: 'app-product-editor',
@@ -30,7 +31,7 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private shareStateService: ShareStateService,
-    private ajaxCallService: AjaxCallService,
+    private restClientService: RestClientService,
     private loadingService: LoadingService,
     private commonUtilService: CommonUtilService,
     private notificationService: NotificationService) {
@@ -60,7 +61,7 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   registerClick() {
     console.log(this.product)
     this.loadingService.changeState(true);
-    this.ajaxCallService.productPersist(this.product).then(res => {
+    this.restClientService.productPersist(this.product).then(res => {
       this.loadingService.changeState(false);
       this.shareStateService.navigateReturn();
     }, err => {

@@ -31,22 +31,13 @@ export class ShopComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.loadingService.changeState(true);
-      await this.categoryService.renew();
-      this.loadingService.changeState(false);
-      // let res = await this.ajaxCallService.categoryList();
-      // console.log(res)
-      // let res = await axios.get(this.constantService.getRemoteServer() + "/api/modules/shop/category/list");
-      // this.categories = res.data;
-      // console.log(res.data)
-      // this.loadingService.changeState(false);
+      this.categoryService.categoriesSubject.subscribe(categories => {
+        this.categories = categories;
+      });
     } catch (err) {
       this.loadingService.changeState(false);
       // this.insertComponent.fail();
     }
-    this.categoryService.categoriesSubject.subscribe(categories => {
-      this.categories = categories;
-    });
   }
 
   // insertNewCategory(productCategory: ProductCategory) {

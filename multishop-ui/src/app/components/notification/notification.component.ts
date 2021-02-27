@@ -15,7 +15,7 @@ export class NotificationComponent implements OnInit {
   ngOnInit(): void {
     this.notificationService.currentMessage.subscribe(message => {
       this.selectedMessage = message;
-      console.log(message);
+      // console.log(message);
       if (this.selectedMessage instanceof NotificationModel && this.selectedMessage.isShow) {
         console.log(this.selectedMessage)
 

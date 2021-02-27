@@ -6,5 +6,5 @@ static-resource:
       - classpath:/public/
       - classpath:/static/
       - file:///c:/upload-dir/
-    '[/bulma]':
+    '[/assets]':
       - file:///c:/upload-dir/

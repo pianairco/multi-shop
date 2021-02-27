@@ -10,6 +10,7 @@ import {ProductEditorModalComponent} from "../product-editor-modal/product-edito
 import {ShareStateService} from "../../../services/share-state.service";
 import {AuthenticationService} from "../../../services/authentication-service.service";
 import {ProductCategoryService} from "../../../services/product-category.service";
+import {RestClientService} from "../../../services/rest-client.service";
 
 @Component({
   selector: 'app-products-gallery',
@@ -40,10 +41,11 @@ export class ProductsGalleryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               public router: Router,
               private loadingService: LoadingService,
+              private categoryService: ProductCategoryService,
               public authService: AuthenticationService,
               public shareStateService: ShareStateService,
               private constantService: ConstantService,
-              private ajaxCallService: AjaxCallService,
+              private restClient: RestClientService,
               private notificationService: NotificationService) { }
 
   async ngOnInit(): Promise<void> {
@@ -51,9 +53,9 @@ export class ProductsGalleryComponent implements OnInit {
       this.routerLink = params['routerLink'];
       this.loadingService.changeState(true);
       try {
-        console.log("aaaaa", this.routerLink)
         this.firstReload = true;
-        let res = await this.ajaxCallService.productList(this.routerLink);
+        // this.categoryService.checkCategory(this.routerLink);
+        let res = await this.restClient.productList(this.routerLink);
         this.products = res['data'];
         this.loadingService.changeState(false);
       } catch (e) {

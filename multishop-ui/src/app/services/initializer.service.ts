@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import axios from "axios";
 import {AuthenticationService} from "./authentication-service.service";
 import {PianaStorageService} from "./piana-storage.service";
+import {ProductCategoryService} from "./product-category.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,11 @@ export class InitializerService {
 
   constructor(
     private pianaStorageService: PianaStorageService,
+    private categoryService: ProductCategoryService,
     private authenticationService: AuthenticationService) { }
 
   load(): Promise<any> {
+    this.categoryService.renew();
     return this.authenticationService.getAppInfo();
     /*return new Promise((resolve, reject) => {
       // let appInfo = {

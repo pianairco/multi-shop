@@ -101,7 +101,6 @@ export class ShareStateService {
   navigateToShop (category) {
     console.log(category)
     if(category) {
-      console.log("uuuuuu")
       this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', category);
       this.categoryService.setAsSelectedCategory(category);
       this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);

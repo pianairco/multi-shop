@@ -1,9 +1,9 @@
 storage:
-  location: c:/upload-dir/assets
+  location: c:/upload-dir
   bean: afterSaveImage
   groups:
     product:
-      folder: product
+      folder: /assets/product
       width: 640
       height: 640
     sample:
