@@ -18,8 +18,8 @@ public class CategoryRest {
     @Autowired
     private ProductCategoryRepository categoryRepository;
 
-    @GetMapping("product-categorization")
-    public ResponseEntity<List<ProductCategoryEntity>> getProductCategorizations(
+    @GetMapping("list")
+    public ResponseEntity<List<ProductCategoryEntity>> getProductCategories(
             HttpServletRequest request) {
         SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
         if(CommonUtils.isNull(siteEntity))
@@ -29,7 +29,7 @@ public class CategoryRest {
         return ResponseEntity.ok(all);
     }
 
-    @PostMapping("product-categorization")
+    @PostMapping
     public ResponseEntity<ProductCategoryEntity> saveProductCategorizations(
             HttpServletRequest request,
             @RequestBody Map<String, String> body) {
@@ -49,7 +49,7 @@ public class CategoryRest {
         return ResponseEntity.ok(save);
     }
 
-    @PutMapping("product-categorization")
+    @PutMapping
     public ResponseEntity<ProductCategoryEntity> updateProductCategorizations(
             HttpServletRequest request,
             @RequestBody Map<String, String> body) {

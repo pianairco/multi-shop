@@ -1,5 +1,5 @@
 storage:
-  location: c:/upload-dir
+  location: c:/upload-dir/assets
   bean: afterSaveImage
   groups:
     product:

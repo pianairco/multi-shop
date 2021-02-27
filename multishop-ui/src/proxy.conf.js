@@ -3,7 +3,8 @@ const PROXY_CONFIG = [
     context: [
       "/api",
       "/h2",
-      "/resource"
+      "/resource",
+      "/assets"
     ],
     target: "https://shop.piana.ir:8443",
     // target: "https://shop.piana.ir:8443",

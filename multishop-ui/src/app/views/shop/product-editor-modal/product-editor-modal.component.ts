@@ -11,7 +11,7 @@ import {PictureBoxComponent} from "../../../components/picture-box/picture-box.c
   styleUrls: ['./product-editor-modal.component.css']
 })
 export class ProductEditorModalComponent implements OnInit {
-  @Input() product: Product = new Product(0, null, null, null, null, null, null, null, null);
+  @Input() product: Product = new Product(0, null, null, null, null, null, null, null, null, 0);
   @Input() isActive: boolean = false;
   @Input() editable: boolean = false;
   @Input() insertable: boolean = false;
@@ -59,7 +59,7 @@ export class ProductEditorModalComponent implements OnInit {
 
   public close() {
     this.pictureBoxComponent.clear();
-    this.product = new Product(0, null, null, null, null, null, null, null, null);
+    this.product = new Product(0, null, null, null, null, null, null, null, null, 0);
     // this.isActive = false;
   }
 

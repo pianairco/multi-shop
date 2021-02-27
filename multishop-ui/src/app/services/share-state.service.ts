@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {PianaStorageService} from "./piana-storage.service";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "./authentication-service.service";
+import {ProductCategoryService} from "./product-category.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,8 @@ export class ShareStateService {
   private urlMap = {
     product: '/tile/shop/product-editor',
     'product-creator': '/tile/shop/product-creator',
-    category: '/tile/shop/category-editor'
+    category: '/tile/shop/category-editor',
+    'category-creator': '/tile/shop/category-creator'
   };
 
   private _editModeSubject: any;
@@ -21,6 +24,8 @@ export class ShareStateService {
 
   constructor(
     private router: Router,
+    private categoryService: ProductCategoryService,
+    private authService: AuthenticationService,
     private pianaStorageService: PianaStorageService) {
     router.events.subscribe((val) => {
       if(val['routerEvent']) {
@@ -38,15 +43,21 @@ export class ShareStateService {
       pianaStorageService.putObject(this.LAST_LINK, this._lastLink);
     }
     this._editModeObject = pianaStorageService.getObject(this.EDIT_MODE_STATE);
-    // console.log(object)
+    // console.log(this._editModeObject)
     if (!this._editModeObject || !this._editModeObject.hasOwnProperty('changeable')) {
       this._editModeObject = new EditModeObject(
         false, null, null, null);
       pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
     }
-    if (this._editModeObject)
-      this._editModeSubject = new BehaviorSubject<any>(this._editModeObject);
-    else {
+    if (this._editModeObject) {
+      if(this._editModeObject['editMode'] && !authService.isAdmin()) {
+        this._editModeObject = new EditModeObject(
+          false, null, null, null);
+        this._editModeSubject = new BehaviorSubject<any>(this._editModeObject);
+      } else {
+        this._editModeSubject = new BehaviorSubject<any>(this._editModeObject);
+      }
+    } else {
       this._editModeObject = new EditModeObject(
         false, null, null, null);
       pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
@@ -63,6 +74,10 @@ export class ShareStateService {
 
   get editModeSubject(): Observable<EditModeObject> {
     return this._editModeSubject.asObservable();
+  }
+
+  get editModeObject(): EditModeObject {
+    return this._editModeObject;
   }
 
   set editModeObject(editModeObject) {
@@ -86,13 +101,17 @@ export class ShareStateService {
   navigateToShop (category) {
     console.log(category)
     if(category) {
+      console.log("uuuuuu")
       this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', category);
+      this.categoryService.setAsSelectedCategory(category);
       this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
     } else {
       category = this.pianaStorageService.getFieldValue(this.LAST_LINK, 'shop-category');
-      if(category)
+      if(category) {
+        this.categoryService.setAsSelectedCategory(category);
         this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
-      else {
+      } else {
+        this.categoryService.setAsSelectedCategory(null);
         this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', {routerLink: 'default'});
         this.router.navigate(['/tile/shop/products-gallery/default']);
       }
@@ -102,7 +121,7 @@ export class ShareStateService {
   isCategoryActive (category) {
     // console.log(category)
     let cat = this.pianaStorageService.getFieldValue(this.LAST_LINK, 'shop-category');
-    console.log(cat)
+    // console.log(cat)
     if (cat != null && this.router.url.startsWith('/tile/shop/products-gallery/')
       && cat['routerLink'] === category.routerLink)
       return true;

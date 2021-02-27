@@ -72,8 +72,9 @@ export class Product {
   price: number;
   currency: string;
   percent: number;
+  categoryId: number;
 
-  constructor(id, title, description, image, measurement, measurementUnit, price,  currency, percent) {
+  constructor(id, title, description, image, measurement, measurementUnit, price,  currency, percent, categoryId) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -83,5 +84,6 @@ export class Product {
     this.price = price;
     this.currency = currency;
     this.percent = percent;
+    this.categoryId = categoryId;
   }
 };

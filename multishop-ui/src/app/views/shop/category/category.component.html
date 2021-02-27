@@ -1,28 +1,43 @@
-<div>
-  <li>
-    <div class="field has-addons">
-      <div class="control is-expanded">
-        <div class="is-fullwidth">
-          <a class="control has-icons-left"
-             (click)="shareStateService.navigateToShop(productCategory)"
-             [class.menu-active-link]="shareStateService.isCategoryActive(productCategory)">
-            {{productCategory['title']}}
-          </a>
-<!--          <a class="control has-icons-left"
-             [routerLink]="['/tile/shop/products-gallery/' + productCategory['routerLink']]"
-             routerLinkActive="menu-active-link">{{productCategory['title']}}
-          </a>-->
-        </div>
-      </div>
-      <div class="control">
-        <button (click)="this.shareStateService.setEditModeObject(
-            true, productCategory, 'category', this.router.routerState.snapshot.url)"
-                class="button is-outlined" style="border: none">
-          <span class="icon is-small is-left">
-            <i class="fas fa-edit"></i>
-          </span>
-        </button>
-      </div>
+<li>
+  <div class="columns">
+    <div [ngClass]="!(authService.authSubject | async).isAdmin ? 'column is-12 p-0' : 'column is-10 p-0'">
+      <a class="button is-fullwidth is-white"
+         (click)="shareStateService.navigateToShop(productCategory)"
+         [class.menu-active-link]="shareStateService.isCategoryActive(productCategory)">
+        {{productCategory['title']}}
+      </a>
     </div>
-  </li>
-</div>
+    <div class="column is-2" *ngIf="(authService.authSubject | async).isAdmin">
+        <span class="icon is-small is-left button"
+              (click)="this.shareStateService.setEditModeObject(
+            true, productCategory, 'category', this.router.routerState.snapshot.url)">
+          <i class="fas fa-edit"></i>
+        </span>
+    </div>
+  </div>
+</li>
+
+<!--<div class="field has-addons">-->
+<!--  <div class="control is-expanded">-->
+<!--    <div class="is-fullwidth">-->
+<!--      <a class="control has-icons-left"-->
+<!--         (click)="shareStateService.navigateToShop(productCategory)"-->
+<!--         [class.menu-active-link]="shareStateService.isCategoryActive(productCategory)">-->
+<!--        {{productCategory['title']}}-->
+<!--      </a>-->
+<!--      &lt;!&ndash;          <a class="control has-icons-left"-->
+<!--                   [routerLink]="['/tile/shop/products-gallery/' + productCategory['routerLink']]"-->
+<!--                   routerLinkActive="menu-active-link">{{productCategory['title']}}-->
+<!--                </a>&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="control" *ngIf="(authService.authSubject | async).isAdmin">-->
+<!--    <button (click)="this.shareStateService.setEditModeObject(-->
+<!--            true, productCategory, 'category', this.router.routerState.snapshot.url)"-->
+<!--            class="button is-outlined" style="border: none">-->
+<!--          <span class="icon is-small is-left">-->
+<!--            <i class="fas fa-edit"></i>-->
+<!--          </span>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--</div>-->

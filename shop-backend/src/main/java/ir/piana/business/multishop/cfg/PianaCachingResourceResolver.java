@@ -22,9 +22,16 @@ public class PianaCachingResourceResolver extends CachingResourceResolver {
     @Override
     protected Resource resolveResourceInternal(@Nullable HttpServletRequest request, String requestPath,
                                                List<? extends Resource> locations, ResourceResolverChain chain) {
-        String resourcePrefix = (String) request.getAttribute("resource-prefix");
-        String key = computeKey(request, requestPath);
-        Resource resource = this.getCache().get(resourcePrefix.concat(key), Resource.class);
+        String path = null;
+        if(!request.getServletPath().startsWith("/assets")) {
+            String resourcePrefix = (String) request.getAttribute("resource-prefix");
+            String key = computeKey(request, requestPath);
+            path = resourcePrefix.concat(key);
+        } else {
+            path = computeKey(request, requestPath);
+        }
+
+        Resource resource = this.getCache().get(path, Resource.class);
 
         if (resource != null) {
             if (logger.isTraceEnabled()) {
@@ -35,7 +42,7 @@ public class PianaCachingResourceResolver extends CachingResourceResolver {
 
         resource = chain.resolveResource(request, requestPath, locations);
         if (resource != null) {
-            this.getCache().put(resourcePrefix.concat(key), resource);
+            this.getCache().put(path, resource);
         }
 
         return resource;

@@ -1,6 +1,6 @@
 <div class="container" id="bulma-shop-page">
   <div class="columns is-multiline" >
-    <div class="column is-12">
+    <div class="column is-12" *ngIf="(authService.authSubject | async).isAdmin">
       <button class="button is-fullwidth is-success"
               (click)="shareStateService.setEditModeObject(
             true, null, 'product-creator', router.routerState.snapshot.url)">

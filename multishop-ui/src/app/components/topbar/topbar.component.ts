@@ -30,7 +30,7 @@ export class TopbarComponent implements OnInit, AfterViewChecked {
 
   ngAfterViewChecked() {
     if(this.toggled) {
-      console.log(window.getComputedStyle(this.toggled.nativeElement).visibility)
+      // console.log(window.getComputedStyle(this.toggled.nativeElement).visibility)
       this.istoggled = true;
     }
   }

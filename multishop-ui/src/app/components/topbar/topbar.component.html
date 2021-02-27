@@ -39,12 +39,16 @@
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="buttons">
+<!--          *ngIf="!authenticationService.isLoggedIn()"-->
           <button class="button is-danger"
-                  *ngIf="!authenticationService.isLoggedIn()"
+                  *ngIf="!(authenticationService.authSubject | async).isLoggedIn"
                   (click)="openLoginWindow()">ورود</button>
-          <button *ngIf="authenticationService.isLoggedIn()"
+<!--          authenticationService.isLoggedIn()-->
+          <button *ngIf="(authenticationService.authSubject | async).isLoggedIn"
                   class="button is-success" >پنل کاربری</button>
-          <button *ngIf="authenticationService.isLoggedIn()"
+<!--          *ngIf="authenticationService.isLoggedIn()"-->
+          <button *ngIf="(authenticationService.authSubject | async).isLoggedIn"
+                  (click)="authenticationService.logout()"
                   class="button is-danger" >خروج</button>
         </div>
       </div>

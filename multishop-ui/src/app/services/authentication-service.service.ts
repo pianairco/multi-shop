@@ -3,6 +3,8 @@ import axios from "axios";
 import {PianaStorageService} from "./piana-storage.service";
 import {LoadingService} from "./loading.service";
 import {ConstantService} from "./constant.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {EditModeObject} from "./share-state.service";
 // import {GoogleLoginProvider, SocialAuthService} from "angularx-social-login";
 
 const googleLoginOptions = {
@@ -15,31 +17,34 @@ const googleLoginOptions = {
 })
 export class AuthenticationService {
   uuid = null;
-  appInfo: AppInfo = {
-    "username": null,
-    "email": null,
-    "pictureUrl": null,
-    "isLoggedIn": false,
-    "isFormPassword": false,
-    "isAdmin": false};
+  private _authSubject: any;
+  private _appInfo: AppInfo = null;
 
-  setAppInfo(tempAppInfo: AppInfo) {
-    this.appInfo.email = tempAppInfo.email;
-    this.appInfo.username = tempAppInfo.username;
-    this.appInfo.pictureUrl = tempAppInfo.pictureUrl;
-    this.appInfo.isLoggedIn = tempAppInfo.isLoggedIn;
-    this.appInfo.isFormPassword = tempAppInfo.isFormPassword;
-    this.appInfo.isAdmin = tempAppInfo.isAdmin;
+  setAppInfo(appInfo: AppInfo) {
+    this._appInfo = appInfo;
+    this._authSubject.next(this._appInfo)
   }
 
   constructor(
     /*private authService: SocialAuthService,*/
     private constantService: ConstantService,
     private loadingService: LoadingService,
-    private pianaStorageService: PianaStorageService) { }
+    private pianaStorageService: PianaStorageService) {
+    this._appInfo = new AppInfo(
+      false, null, null, false, false);
+    this._authSubject = new BehaviorSubject<any>(this._appInfo);
+  }
+
+  get authSubject(): Observable<AppInfo> {
+    return this._authSubject.asObservable();
+  }
 
   isLoggedIn(): boolean {
-    return this.appInfo.isLoggedIn;
+    return this._appInfo.isLoggedIn;
+  }
+
+  isAdmin(): boolean {
+    return this._appInfo.isAdmin;
   }
 
   async initialToSignIn() {
@@ -60,7 +65,7 @@ export class AuthenticationService {
       // console.log(JSON.stringify(appInfo));
       // console.log(localStorage.getItem('appInfo'));
 
-      this.pianaStorageService.putObject('appInfo', this.appInfo);
+      // this.pianaStorageService.putObject('appInfo', this.appInfo);
       // localStorage.setItem('currentUser', JSON.stringify(appInfo))
       // console.log(this.pianaStorageService.getObject('appInfo')['username'])
       // console.log(this.pianaStorageService.getFieldValue('appInfo', 'username'))
@@ -75,8 +80,9 @@ export class AuthenticationService {
         { headers: { 'Content-Type': 'APPLICATION/JSON' } });
       console.log(res);
       this.setAppInfo(res['data']);
-      this.pianaStorageService.putObject('appInfo', this.appInfo);
-      return this.appInfo;
+      // this.pianaStorageService.putObject('appInfo', this._appInfo);
+      // return this.appInfo;
+      return this._appInfo;
     } catch (err) {
       throw err;
     }
@@ -87,12 +93,12 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     try {
       // let appInfo = this.pianaStorageService.getObject('appInfo');
-      if(this.appInfo == null)
+      if(!this._appInfo.isLoggedIn)
         return;
       let res = await axios.post('api/sign-out', {headers: {}});
       console.log(res);
       if(res.status == 200) {
-        this.setAppInfo(new AppInfo());
+        this.setAppInfo(new AppInfo(null, null, null, false, false));
         // this.pianaStorageService.putObject('appInfo', res['data']);
         // localStorage.removeItem('currentUser');
       }
@@ -110,4 +116,12 @@ export class AppInfo {
   isLoggedIn: boolean;
   isFormPassword: boolean;
   isAdmin: boolean;
+
+  constructor(username, email, pictureUrl, isLoggedIn, isAdmin) {
+    this.username = username;
+    this.email = email;
+    this.pictureUrl = pictureUrl;
+    this.isLoggedIn = isLoggedIn;
+    this.isAdmin = isAdmin;
+  }
 }

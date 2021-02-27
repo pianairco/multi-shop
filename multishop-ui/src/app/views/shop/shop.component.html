@@ -2,33 +2,44 @@
   <router-outlet></router-outlet>
 </ng-container>
 <ng-container *ngIf="!(shareStateService.editModeSubject | async).editMode">
-  <section class="section" >
+  <section class="section pt-1 pb-1 pr-1 pl-1" >
     <div class="container is-fluid">
       <div class="columns" style="margin: 0px;">
         <div class="column is-12-mobile is-2-desktop is-4-tablet" style="background-color: inherit;" >
-          <aside class="menu">
-            <p class="menu-label">
-              دسته بندی جدید
-            </p>
-            <app-category
-              #insert
-              [insertable]="true"
-              (insertClick)="insertNewCategory($event)">
-            </app-category>
-            <p class="menu-label">
-              دسته بندی ها
-            </p>
-            <ul class="menu-list">
-              <app-category *ngFor="let cat of categorization" [productCategory]="cat"
-                                    (updateClick)="updateCategory($event)"
-                                    [editable]="true">
-              </app-category>
-              <!--          <li *ngFor="let cat of categorization">-->
-              <!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->
-              <!--               routerLinkActive="menu-active-link">{{cat['title']}}</a>-->
-              <!--          </li>-->
-            </ul>
-          </aside>
+          <div class="container" id="bulma-shop-page">
+            <div class="columns is-multiline">
+              <div class="column is-12 px-0" *ngIf="(authService.authSubject | async).isAdmin">
+                <button class="button is-fullwidth is-success"
+                        (click)="this.shareStateService.setEditModeObject(
+                                    true, null, 'category', this.router.routerState.snapshot.url)">
+                  دسته بندی جدید
+                </button>
+              </div>
+              <div class="column is-12 p-0">
+                <aside class="menu pt-3" >
+
+                  <!--            <app-category-->
+                  <!--              #insert-->
+                  <!--              [insertable]="true"-->
+                  <!--              (insertClick)="insertNewCategory($event)">-->
+                  <!--            </app-category>-->
+                  <!--            <p class="menu-label">-->
+                  <!--              دسته بندی ها-->
+                  <!--            </p>-->
+                  <ul class="menu-list">
+<!--                    (updateClick)="updateCategory($event)"-->
+<!--                    [editable]="true"-->
+                    <app-category *ngFor="let cat of categories" [productCategory]="cat">
+                    </app-category>
+                    <!--          <li *ngFor="let cat of categorization">-->
+                    <!--            <a [routerLink]="['/tile/shop/products-gallary/' + cat['routerLink']]"-->
+                    <!--               routerLinkActive="menu-active-link">{{cat['title']}}</a>-->
+                    <!--          </li>-->
+                  </ul>
+                </aside>
+              </div>
+            </div>
+          </div>
           <!--      <app-product-categorization [categorization]="categorization"></app-product-categorization>-->
         </div>
         <div [ngClass]="(shareStateService.editModeSubject | async).editMode ? 'column is-12': 'column is-12-mobile is-10-desktop is-8-tablet'" style="background-color: inherit;">

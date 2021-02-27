@@ -1,6 +1,7 @@
 package ir.piana.business.multishop.cfg;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.util.CommonUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
@@ -22,7 +23,9 @@ public class SiteResourceResolver extends PathResourceResolver {
             List<? extends Resource> locations,
             ResourceResolverChain chain) {
         String resourcePrefix = (String) request.getAttribute("resource-prefix");
-        requestPath = resourcePrefix.concat(requestPath);
+        if(!request.getServletPath().startsWith("/assets") && !CommonUtils.isNull(resourcePrefix))
+            requestPath = resourcePrefix.concat(requestPath);
+
         return super.resolveResourceInternal(request, requestPath, locations, chain);
     }
 

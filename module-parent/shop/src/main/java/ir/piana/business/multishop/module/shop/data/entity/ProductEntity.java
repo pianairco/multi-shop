@@ -35,6 +35,8 @@ public class ProductEntity {
     private long percent;
     @Column(name = "SITE_ID")
     private long siteId;
+    @Column(name = "CATEGORY_ID")
+    private long categoryId;
 //    @ManyToOne(targetEntity = SiteEntity.class, fetch = FetchType.EAGER)
 //    private SiteEntity siteEntity;
 }

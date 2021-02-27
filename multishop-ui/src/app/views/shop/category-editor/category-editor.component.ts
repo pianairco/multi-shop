@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {CommonUtilService} from "../../../services/common-util.service";
 import {NotificationService} from "../../../services/notification.service";
-import {Product} from "../product/product.component";
-import {PictureBoxComponent} from "../../../components/picture-box/picture-box.component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShareStateService} from "../../../services/share-state.service";
 import {ProductCategory} from "../category/category.component";
+import {AjaxCallService} from "../../../services/ajax-call.service";
+import {LoadingService} from "../../../services/loading.service";
 
 @Component({
   selector: 'app-category-editor',
@@ -14,17 +14,24 @@ import {ProductCategory} from "../category/category.component";
 })
 export class CategoryEditorComponent implements OnInit, OnDestroy {
   onInitCalled = false;
-  category = new ProductCategory(0, null, null, null);
+  category = null;
+  // new ProductCategory(0, null, null, null);
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private shareStateService: ShareStateService,
+    private ajaxCallService: AjaxCallService,
+    private loadingService: LoadingService,
     private commonUtilService: CommonUtilService,
     private notificationService: NotificationService) { }
 
     ngOnInit(): void {
       this.onInitCalled = true;
+      this.category = this.shareStateService.editModeObject.changeable;
+      if(!this.category) {
+        this.category = new ProductCategory(0, '', '', 0);
+      }
   }
 
   ngOnDestroy(): void {
@@ -35,6 +42,15 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
   }
 
   registerClick() {
+    console.log(this.category)
+    this.loadingService.changeState(true);
+    this.ajaxCallService.categoryPersist(this.category).then(res => {
+      this.loadingService.changeState(false);
+      this.shareStateService.navigateReturn();
+    }, err => {
+      this.loadingService.changeState(false);
+      this.notificationService.changeMessage('error', 'خطا رخ داده است')
+    });
     // if (!this.commonUtilService.hasStringValue(this.product.title)) {
     //   this.notificationService.changeMessage("error", "عنوان نباید خالی باشد");
     //   return;

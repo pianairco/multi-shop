@@ -29,7 +29,9 @@ CREATE TABLE IF NOT EXISTS PRODUCT (
     CURRENCY varchar(64),
     PERCENT bigint,
     SITE_ID bigint,
+    CATEGORY_ID bigint,
     constraint FK_PRODUCT_SITE_ID foreign key (SITE_ID) references SITE(ID),
+    constraint FK_PRODUCT_CATEGORY_ID foreign key (CATEGORY_ID) references PRODUCT_CATEGORIZATION(ID),
     constraint UK_PRODUCT_TITLE unique (SITE_ID, TITLE)
 );
 

@@ -1,6 +1,22 @@
+a.menu-active-link {
+  background-color: #525161;
+  color: white !important;
+  font-weight: bold;
+}
+
+a.menu-active-link:hover {
+  background-color: #75738a;
+  color: #e5e5e5 !important;
+  font-weight: unset;
+}
+
 span:focus button:focus {outline:0;}
 
 button:active {
   outline: none;
+  border: none;
+}
+
+.icon.button {
   border: none;
 }

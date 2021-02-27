@@ -1,14 +1,15 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from "./guards/auth.guard";
+import {LoginGuard} from "./guards/login.guard";
 import {TileComponent} from "./views/tile/tile.component";
 import {HomeViewComponent} from "./views/home-view/home-view.component";
 import {FormMakerComponent} from "./components/form-maker/form-maker.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
+import {AuthGuard} from "../../../multishop-cp/src/app/guards/auth.guard";
 
 const routes: Routes = [
   {
-    path: '', canActivate:[AuthGuard], children: [
+    path: '', children: [
       { path: '', children: [
           { path: '', redirectTo: '/tile/home', pathMatch: 'full' },
           { path: 'tile', component: TileComponent, children:[
@@ -17,7 +18,7 @@ const routes: Routes = [
               { path: 'shop',
                 loadChildren: () => import('./views/shop/shop.module').then(m => m.ShopModule)
               },
-              { path: 'add-user/:groupName/:formName', component: FormMakerComponent }
+              { path: 'add-user/:groupName/:formName', component: FormMakerComponent, canActivate:[AuthGuard] }
             ] },
         ]
       }
