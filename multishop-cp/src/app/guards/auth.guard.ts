@@ -51,12 +51,13 @@ export class AuthGuard implements CanActivate {
         let subDomain = state.root.queryParams['sub-domain'];
         if(subDomain) {
           console.log("has sub-domain", subDomain);
-          axios.post(this.constantService.getRemoteServer() + '/api/sign-in/sub-domain/set-login-info',
-            {},
-            { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'form' } }).then(
+          axios.post(this.constantService.getRemoteServer() + '/api/sign-in/sub-domain/set-principal',
+            { uuid: subDomain},
+            { headers: { 'Content-Type': 'APPLICATION/JSON', 'auth-type': 'principal' } }).then(
               res => {
                 if(res.status == 200) {
-                  return "close";
+                  window.close();
+                  return true;
                 }
               }, err => {
 

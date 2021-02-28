@@ -31,3 +31,13 @@ GET https://localhost:8443/product/gq0tV7wenK3O235yQqLXApnuLkByca4WWw9XUGhVWwgYa
 Host: shop.piana.ir
 
 ###
+
+POST https://piana.ir:8443/api/sign-in/sub-domain/set-principal
+Content-Type: APPLICATION/JSON
+auth-type: form
+
+{
+  "uuid": "sdjkbkjsdkjbsdk"
+}
+
+###

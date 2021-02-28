@@ -31,6 +31,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -182,6 +183,19 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return authentication;
     }
 
+    Authentication byPrincipal(GoogleUserEntity principal) throws IOException {
+        if (googleUserRepository.findByEmail(principal.getEmail()) != null) {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            "principal:" + new String(Base64.getEncoder().encode(principal.getEmail().getBytes(StandardCharsets.UTF_8))),
+//                        userEntity.getEmail(),
+//                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getPassword().getBytes(StandardCharsets.UTF_8))),
+                            "0000",
+                            new ArrayList<>()));
+            return authentication;
+        }
+        return null;
+    }
 //    Authentication byGoogle(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        GoogleUserEntity userEntity = null;
 //        String host = (String) request.getAttribute("host");
@@ -277,6 +291,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                                     subDomainInfo.getLoginInfo().getPassword(),
                                     subDomainInfo.getLoginInfo().getCaptcha(),
                                     (Captcha) subDomainInfo.getSessionCaptcha());
+                        } else if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
+                                subDomainInfo.getLoginType().equalsIgnoreCase("principal")) {
+                            return byPrincipal(subDomainInfo.getPrincipal());
                         }
                     } else {
                         throw new RuntimeException();

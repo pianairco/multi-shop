@@ -154,7 +154,8 @@ public class AuthRest {
     public ResponseEntity<Map> signInBySubDomainSetLoginInfo(
             HttpServletRequest request,
             HttpServletResponse response,
-            @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {
+            @RequestBody LoginInfo loginInfo,
+            HttpSession session) throws IOException {
         GoogleUserEntity byEmail = userRepository.findByEmail(loginInfo.getUsername());
         Captcha sessionCaptcha = (Captcha)session.getAttribute("simpleCaptcha");
         if(byEmail != null &&
@@ -169,23 +170,21 @@ public class AuthRest {
     }
 
     @CrossOrigin
-    @PostMapping(path = "sign-in/sub-domain/set-app-info",
+    @PostMapping(path = "sign-in/sub-domain/set-principal",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map> signInBySubDomainSetAppInfo(
+    public ResponseEntity<Map> signInBySubDomainSetPrincipal(
             HttpServletRequest request,
             HttpServletResponse response,
-            @RequestBody LoginInfo loginInfo, HttpSession session) throws IOException {
-        GoogleUserEntity byEmail = userRepository.findByEmail(loginInfo.getUsername());
-        Captcha sessionCaptcha = (Captcha)session.getAttribute("simpleCaptcha");
-        if(byEmail != null &&
-                sessionCaptcha != null &&
-                bCryptPasswordEncoder.matches(loginInfo.getPassword(), byEmail.getPassword()) &&
-                sessionCaptcha.isCorrect(loginInfo.getCaptcha())) {
-            if(crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo, sessionCaptcha)) {
+            @RequestBody Map<String, String> body) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication.getPrincipal() != null && authentication.getPrincipal() instanceof UserModel) {
+            GoogleUserEntity userEntity = ((UserModel) authentication.getPrincipal()).getUserEntity();
+            if(crossDomainAuthenticationService.addPrincipal(
+                    body.get("uuid"), ((UserModel) authentication.getPrincipal()).getUserEntity())) {
                 return ResponseEntity.ok().build();
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

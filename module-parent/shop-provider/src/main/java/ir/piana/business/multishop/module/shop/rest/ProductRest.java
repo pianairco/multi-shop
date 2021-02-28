@@ -107,26 +107,23 @@ public class ProductRest {
         if (CommonUtils.isNull(id) || !CommonUtils.isNumber(id)) {
             return ResponseEntity.badRequest().build();
         }
+
+        ProductEntity productEntity = productRepository.findBySiteIdAndId(siteEntity.getId(), Long.valueOf(id));
         String imageBase64 = body.get("imageBase64");
         String imagePath = null;
         if(imageBase64 != null && !imageBase64.isEmpty()) {
             imagePath = storageService.store(body.get("imageBase64"), "product", 0);
+            if(imagePath != null) {
+                productEntity.setImage(imagePath);
+            }
         }
 
-        ProductEntity productEntity =
-                ProductEntity.builder()
-                        .id(Long.parseLong(id))
-                        .title(body.get("title"))
-                        .description(body.get("description"))
-                        .siteId(siteEntity.getId())
-                        .price(Long.valueOf(body.get("price")))
-                        .currency(body.get("currency"))
-                        .measurement(Long.valueOf(body.get("measurement")))
-                        .measurementUnit(body.get("measurementUnit"))
-                        .build();
-        if(imagePath != null) {
-            productEntity.setImage(imagePath);
-        }
+        productEntity.setTitle(body.get("title"));
+        productEntity.setDescription(body.get("description"));
+        productEntity.setPrice(Long.valueOf(body.get("price")));
+        productEntity.setCurrency(body.get("currency"));
+        productEntity.setMeasurement(Long.valueOf(body.get("measurement")));
+        productEntity.setMeasurementUnit(body.get("measurementUnit"));
         ProductEntity save = productRepository.save(productEntity);
         return ResponseEntity.ok(save);
     }

@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,16 @@ public class CrossDomainAuthenticationServiceImpl implements CrossDomainAuthenti
         subDomainInfo.setLoginType("form");
         subDomainInfo.setSessionCaptcha(captcha);
         subDomainInfo.setLoginInfo(loginInfo);
+        return true;
+    }
+
+    @Override
+    public boolean addPrincipal(String uuid, GoogleUserEntity googleUserEntity) {
+        SubDomainInfo subDomainInfo = subDomainInfoMap.get(uuid);
+        if (subDomainInfo == null)
+            return false;
+        subDomainInfo.setLoginType("principal");
+        subDomainInfo.setPrincipal(googleUserEntity);
         return true;
     }
 

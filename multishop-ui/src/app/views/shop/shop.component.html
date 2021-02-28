@@ -7,7 +7,7 @@
       <div class="columns" style="margin: 0px;">
         <div class="column is-12-mobile is-2-desktop is-4-tablet" style="background-color: inherit;" >
           <div class="container" id="bulma-shop-page">
-            <div class="columns is-multiline">
+            <div class="columns is-multiline is-mobile">
               <div class="column is-12 px-0" *ngIf="(authService.authSubject | async).isAdmin">
                 <button class="button is-fullwidth is-success"
                         (click)="this.shareStateService.setEditModeObject(

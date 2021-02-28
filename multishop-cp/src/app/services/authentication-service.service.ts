@@ -95,7 +95,7 @@ export class AuthenticationService {
   async login(loginInfo: {
     username: '',
     password: '',
-    captcha: ''
+    captcha: '',
     uuid: ''
   }, subDomain) {
     try {

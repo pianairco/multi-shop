@@ -1,5 +1,5 @@
 <li>
-  <div class="columns">
+  <div class="columns is-mobile">
     <div [ngClass]="!(authService.authSubject | async).isAdmin ? 'column is-12 p-0' : 'column is-10 p-0'">
       <a class="button is-fullwidth is-white"
          (click)="shareStateService.navigateToShop(productCategory)"

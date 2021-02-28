@@ -4,13 +4,14 @@ import axios from "axios";
 import {ProductCategory} from "../views/shop/category/category.component";
 import {ProductCategoryService} from "./product-category.service";
 import {AjaxCallService} from "./ajax-call.service";
+import {log} from "util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestClientService {
   ajaxUrlMap = {
-    'product': 'api/modules/shop/product?name=ali',
+    'product': 'api/modules/shop/product',
     'category': 'api/modules/shop/category'
   }
 
@@ -39,6 +40,7 @@ export class RestClientService {
   }
 
   productList(routerLink) {
+    // console.log(this.categoryService.getCategoryId(routerLink))
     return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' +
       this.categoryService.getCategoryId(routerLink));
     // return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' + routerLink);
