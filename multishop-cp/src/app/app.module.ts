@@ -24,7 +24,8 @@ import { PasswordSettingComponent } from './views/password-setting/password-sett
 import { SiteSettingComponent } from './views/site-setting/site-setting.component';
 import { MySitesComponent } from './views/my-sites/my-sites.component';
 import { NewSiteComponent } from './views/new-site/new-site.component';
-
+import {TextMaskModule} from "angular2-text-mask";
+import { NumberOnlyDirective } from './directives/number-only.directive';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { NewSiteComponent } from './views/new-site/new-site.component';
     PasswordSettingComponent,
     SiteSettingComponent,
     MySitesComponent,
-    NewSiteComponent
+    NewSiteComponent,
+    NumberOnlyDirective
   ],
   imports: [
     BrowserModule,
@@ -50,6 +52,7 @@ import { NewSiteComponent } from './views/new-site/new-site.component';
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    TextMaskModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

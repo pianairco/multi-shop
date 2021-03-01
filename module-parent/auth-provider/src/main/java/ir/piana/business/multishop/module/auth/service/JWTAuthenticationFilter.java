@@ -31,6 +31,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
@@ -84,7 +85,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         });
     }
 
-    Authentication byForm(String username, String password, String captcha, Captcha sessionCaptcha) throws IOException {
+    Authentication byForm(String username, String password, String captcha, Captcha sessionCaptcha, String host)
+            throws IOException {
         if(!sessionCaptcha.isCorrect(captcha)) {
             throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
         } else if(CommonUtils.isNull(username) || CommonUtils.isNull(password)) {
@@ -96,7 +98,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        "form:" + new String(Base64.getEncoder().encode(username.getBytes(StandardCharsets.UTF_8))),
+                        "form:" + host + ":" + new String(Base64.getEncoder().encode(username.getBytes(StandardCharsets.UTF_8))),
                         password,
 //                        "form:" + new String(Base64.getEncoder().encode(loginInfo.getPassword().getBytes(StandardCharsets.UTF_8))),
                         new ArrayList<>())
@@ -146,7 +148,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return authentication;
     }*/
 
-    Authentication byGoogle(String accessToken) throws IOException {
+    Authentication byGoogle(String accessToken, String host) throws IOException {
         GoogleUserEntity userEntity = null;
         if(accessToken == null) {
             throw new HttpCommonRuntimeException(HttpStatus.valueOf(401), 1, "access token not provided");
@@ -177,7 +179,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
             AgentEntity agentEntity = agentProvider.createAgentEntity(UUID.randomUUID().toString());
-            userEntity.setPassword(bCryptPasswordEncoder.encode("1234"));
+            userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
             userEntity.setUserId(agentEntity.getUsername());
             userEntity.setAgentId(agentEntity.getId());
             googleUserRepository.save(userEntity);
@@ -186,7 +188,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getEmail().getBytes(StandardCharsets.UTF_8))),
+                        "g-oauth2:" + host + ":" + new String(Base64.getEncoder().encode(userEntity.getEmail().getBytes(StandardCharsets.UTF_8))),
 //                        userEntity.getEmail(),
 //                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getPassword().getBytes(StandardCharsets.UTF_8))),
                         userEntity.getPassword(),
@@ -194,11 +196,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return authentication;
     }
 
-    Authentication byPrincipal(GoogleUserEntity principal) throws IOException {
+    Authentication byPrincipal(GoogleUserEntity principal, String host) throws IOException {
         if (googleUserRepository.findByEmail(principal.getEmail()) != null) {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            "principal:" + new String(Base64.getEncoder().encode(principal.getEmail().getBytes(StandardCharsets.UTF_8))),
+                            "principal:" + host + ":" + new String(Base64.getEncoder().encode(principal.getEmail().getBytes(StandardCharsets.UTF_8))),
 //                        userEntity.getEmail(),
 //                        "g-oauth2:" + new String(Base64.getEncoder().encode(userEntity.getPassword().getBytes(StandardCharsets.UTF_8))),
                             "0000",
@@ -280,11 +282,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 LoginInfo loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
                 if(host.equalsIgnoreCase(appDataCache.getDomain())) {
                     if (loginInfo != null && !CommonUtils.isNull(loginInfo.getAccessToken()))
-                        return byGoogle(loginInfo.getAccessToken());
+                        return byGoogle(loginInfo.getAccessToken(), host);
                     else if(loginInfo != null && !CommonUtils.isNull(loginInfo.getUsername())) {
                         Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
                         return byForm(
-                                loginInfo.getUsername(), loginInfo.getPassword(), loginInfo.getCaptcha(), sessionCaptcha);
+                                loginInfo.getUsername(), loginInfo.getPassword(), loginInfo.getCaptcha(), sessionCaptcha, host);
                     } else {
                         throw new RuntimeException();
                     }
@@ -294,17 +296,17 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                                 .removeSubDomainInfoString(loginInfo.getUuid());
                         if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
                                 subDomainInfo.getLoginType().equalsIgnoreCase("g-oauth2"))
-                            return byGoogle(subDomainInfo.getLoginInfo().getAccessToken());
+                            return byGoogle(subDomainInfo.getLoginInfo().getAccessToken(), host);
                         else if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
                                 subDomainInfo.getLoginType().equalsIgnoreCase("form")) {
 //                            Captcha sessionCaptcha = (Captcha)request.getSession().getAttribute("simpleCaptcha");
                             return byForm(subDomainInfo.getLoginInfo().getUsername(),
                                     subDomainInfo.getLoginInfo().getPassword(),
                                     subDomainInfo.getLoginInfo().getCaptcha(),
-                                    (Captcha) subDomainInfo.getSessionCaptcha());
+                                    (Captcha) subDomainInfo.getSessionCaptcha(), host);
                         } else if(!CommonUtils.isNull(subDomainInfo.getLoginType()) &&
                                 subDomainInfo.getLoginType().equalsIgnoreCase("principal")) {
-                            return byPrincipal(subDomainInfo.getPrincipal());
+                            return byPrincipal(subDomainInfo.getPrincipal(), host);
                         }
                     } else {
                         throw new RuntimeException();
@@ -343,13 +345,15 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         req.getSession().setAttribute("user", userEntity);
 //        res.sendRedirect("hello");
 //        res.addHeader("Authorization", "Bearer " + token);
-
+        Optional<? extends GrantedAuthority> role_owner = auth.getAuthorities().stream()
+                .filter(e -> e.getAuthority().equalsIgnoreCase("ROLE_OWNER")).findAny();
 
         AppInfo appInfo = AppInfo.builder()
                 .isLoggedIn(true)
-                .isAdmin(userEntity.getUserRolesEntities().stream()
-                        .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
-                        .map(e -> true).findFirst().orElse(false))
+                .isAdmin(role_owner.isPresent())
+//                .isAdmin(userEntity.getUserRolesEntities().stream()
+//                        .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
+//                        .map(e -> true).findFirst().orElse(false))
                 .isFormPassword(userEntity.getFormPassword() == null ? false : true)
                 .username(userEntity.getGivenName())
                 .email(userEntity.getEmail())

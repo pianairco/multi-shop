@@ -54,7 +54,7 @@ export class AuthenticationService {
       console.log("service googleSignIn")
       let accessToken = null;
       this.loadingService.changeState(true);
-      if(isDevMode()) {
+      if(isDevMode() && false) {
         console.log("is-dev")
         accessToken = "1234";
         //   .then(res => {

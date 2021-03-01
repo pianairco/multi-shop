@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import axios from "axios";
 import {ConstantService} from "../../services/constant.service";
 import {NotificationService} from "../../services/notification.service";
@@ -12,6 +12,13 @@ import {LoadingService} from "../../services/loading.service";
 export class NewSiteComponent implements OnInit {
 
   tenantId: string = '';
+  public mask = [/[a-zA-z]{4,}/];
+
+  pattern="[A-Za-z]{4,}";
+
+  nameChange(t) {
+    console.log(t)
+  }
 
   constructor(private constantService: ConstantService,
               private loadingService: LoadingService,
@@ -21,6 +28,10 @@ export class NewSiteComponent implements OnInit {
   }
 
   addSite() {
+    if(this.tenantId.length < 5) {
+      this.notificationService.changeMessage("error", "نام باید حداقل دارای پنج کاراکتر باشد")
+    }
+
     if(this.tenantId != null && this.tenantId != '') {
       this.loadingService.changeState(true);
       axios.post(this.constantService.getRemoteServer() + '/api/site/add',
@@ -36,6 +47,5 @@ export class NewSiteComponent implements OnInit {
         }
       )
     }
-
   }
 }

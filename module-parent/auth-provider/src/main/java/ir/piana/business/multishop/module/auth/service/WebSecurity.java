@@ -91,8 +91,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         "/api/app-info"/*,
                         "/h2/console/**"*/)
                 .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/ajax/serve").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/sign-out").hasRole("AUTHENTICATED")
+                .antMatchers(HttpMethod.POST, "/api/**").hasRole("OWNER")
+                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("OWNER")
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("OWNER")
 //                .antMatchers(HttpMethod.POST, "/api/ajax/serve").hasRole("user")
 //                .antMatchers(HttpMethod.POST, "/vavishka-shop/login").permitAll()
 //                .antMatchers(HttpMethod.POST, "/action").permitAll()//.authenticated()

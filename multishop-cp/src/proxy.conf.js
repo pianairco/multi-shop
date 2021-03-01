@@ -3,13 +3,16 @@ const PROXY_CONFIG = [
     context: [
       "/api",
       "/h2",
-      "/resource"
+      "/resource",
+      "/assets"
     ],
-    target: "https://localhost:8443",
+    target: "https://piana.ir:8443",
+    // target: "https://localhost:8443",
     secure: false,
     changeOrigin: true,
-    cookieDomainRewrite: "localhost",
-    withCredentials: true,
+    cookieDomainRewrite: "piana.ir",
+    // cookieDomainRewrite: "localhost",
+    withCredentials: false,
     onProxyRes: (proxyRes, req, res) => {
       // console.log(proxyRes);
       // console.log(req.headers['Set-Cookie']);
