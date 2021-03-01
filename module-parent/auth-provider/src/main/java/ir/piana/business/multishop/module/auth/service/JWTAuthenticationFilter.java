@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
@@ -56,6 +57,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private AgentProvider agentProvider;
     private CrossDomainAuthenticationService crossDomainAuthenticationService;
     private AppDataCache appDataCache;
+    private NetHttpTransport netHttpTransport;
 
     public JWTAuthenticationFilter(
             String loginUrl,
@@ -64,6 +66,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             GoogleUserRepository googleUserRepository,
             CrossDomainAuthenticationService crossDomainAuthenticationService,
             AppDataCache appDataCache,
+            AgentProvider agentProvider,
             Environment env) {
         super(new AntPathRequestMatcher(loginUrl));
         this.authenticationManager = authenticationManager;
@@ -71,7 +74,14 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         this.googleUserRepository = googleUserRepository;
         this.crossDomainAuthenticationService = crossDomainAuthenticationService;
         this.appDataCache = appDataCache;
+        this.agentProvider = agentProvider;
         this.env = env;
+
+        netHttpTransport = new NetHttpTransport();
+        netHttpTransport.createRequestFactory(httpRequest -> {
+            httpRequest.setConnectTimeout(60000);  // 3 minutes connect timeout
+            httpRequest.setReadTimeout(60000);
+        });
     }
 
     Authentication byForm(String username, String password, String captcha, Captcha sessionCaptcha) throws IOException {
@@ -152,7 +162,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         } else {
             GoogleCredential credential = new GoogleCredential().setAccessToken((String) accessToken);
 
-            Oauth2 oauth2 = new Oauth2.Builder(new NetHttpTransport(), new JacksonFactory(), credential).setApplicationName(
+
+            Oauth2 oauth2 = new Oauth2.Builder(netHttpTransport, new JacksonFactory(), credential).setApplicationName(
                     "Oauth2").build();
             Userinfo userinfo = oauth2.userinfo().get().execute();
             userEntity = GoogleUserEntity.builder()

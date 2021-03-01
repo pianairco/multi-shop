@@ -1,6 +1,7 @@
 package ir.piana.business.multishop.module.auth.service;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -69,6 +70,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private CrossDomainAuthenticationService crossDomainAuthenticationService;
 
     @Autowired
+    private AgentProvider agentProvider;
+
+    @Autowired
     private Environment env;
 
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
@@ -123,7 +127,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                                 authenticationManager(), bCryptPasswordEncoder,
                                 googleUserRepository,
                                 crossDomainAuthenticationService, appDataCache,
-                                env),
+                                agentProvider, env),
                         UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), authTokenModelRepository),
 //                        UsernamePasswordAuthenticationFilter.class);
