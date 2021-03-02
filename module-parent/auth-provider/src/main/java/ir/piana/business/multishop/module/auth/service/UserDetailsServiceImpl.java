@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
@@ -28,6 +29,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AppDataCache appDataCache;
+
     @Override
     public UserDetails loadUserByUsername(String encodedUsername) throws UsernameNotFoundException {
         String username = null;
@@ -51,8 +55,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .map(e -> new SimpleGrantedAuthority(e.getRoleName())).collect(Collectors.toList());
 
         SiteEntity byTenantId = siteRepository.findByTenantId(split[1]);
-        if(byTenantId.getAgentId() == googleUserEntity.getAgentId())
-            authorities.add(new SimpleGrantedAuthority("ROLE_OWNER"));
+        if(!appDataCache.getDomain().equalsIgnoreCase(split[1]) &&
+                byTenantId.getAgentId() == googleUserEntity.getAgentId())
+            authorities.add(new SimpleGrantedAuthority("ROLE_SITE_OWNER"));
         authorities.add(new SimpleGrantedAuthority("ROLE_AUTHENTICATED"));
         return new UserModel(googleUserEntity.getEmail(),
                 isForm ? googleUserEntity.getFormPassword() : googleUserEntity.getPassword(),

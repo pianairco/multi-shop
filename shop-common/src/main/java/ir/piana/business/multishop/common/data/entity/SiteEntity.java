@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.common.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,9 +23,26 @@ public class SiteEntity {
     private long agentId;
 
     @Column(name = "TENANT_ID")
+    @JsonProperty("siteName")
     private String tenantId;
 
+    @Column(name = "TITLE")
+    private String title;
+
+    @Column(name = "INSTAGRAM_LINK")
+    private String instagramLink;
+
+    @Column(name = "WHATSAPP_LINK")
+    private String whatsappLink;
+
+    @Column(name = "FACEBOOK_LINK")
+    private String facebookLink;
+
+    @Column(name = "TEL_NUMBER")
+    private String telNumber;
+
     @Column(name = "IS_ACTIVE")
+    @JsonProperty("isActive")
     private boolean isActive;
 
     @Column(name = "CREATION_DATE")

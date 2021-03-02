@@ -1,4 +1,6 @@
 create sequence IF NOT EXISTS master_seq;
+alter sequence master_seq restart with 5000;
+
 --
 -- CREATE TABLE TEMPORARY_ID (
 --     ASSIGN varchar,
@@ -36,6 +38,11 @@ CREATE TABLE IF NOT EXISTS SITE (
     ID bigint primary key,
     AGENT_ID bigint not null,
     TENANT_ID varchar(32) not null,
+    TITLE varchar(128) not null,
+    INSTAGRAM_LINK varchar(256),
+    WHATSAPP_LINK varchar(256),
+    FACEBOOK_LINK varchar(256),
+    TEL_NUMBER varchar(11),
     IS_ACTIVE number not null default 1,
     CREATION_DATE CHAR(10) not null default '0000/00/00',
     CREATION_TIME CHAR(8) not null default '00:00:00',
@@ -45,10 +52,10 @@ CREATE TABLE IF NOT EXISTS SITE (
     constraint UK_SITE_TENANT_ID unique (TENANT_ID)
 );
 
-INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, IS_ACTIVE) select * from (
-   select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 1 IS_ACTIVE union
-   select 2, 1, 'shop.piana.ir', 1 union
-   select 3, 1, 'ring.ir', 1
+INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, TITLE, IS_ACTIVE) select * from (
+   select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 'vavishka', 1 IS_ACTIVE union
+   select 2, 1, 'shop.piana.ir', 'shop', 1 union
+   select 3, 1, 'ring.ir', 'ring', 1
 ) where not exists(select * from SITE);
 
 CREATE TABLE IF NOT EXISTS SITE_ROLE (

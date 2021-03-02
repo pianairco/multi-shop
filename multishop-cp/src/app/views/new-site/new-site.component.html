@@ -2,11 +2,76 @@
   <div class="column is-12">
     <div class="field">
       <label class="label">نام دامنه</label>
-      <div class="control">
+      <div class="field">
+        <div class="control" [class.is-loading]="isLoading">
+          <p class="control has-icons-left">
+
+            <input #siteName
+                   class="input" type="text"
+                   [disabled]="isLoading"
+                   (ngModelChange)="onModelChange($event)"
+                   [style.background-color]="siteInfo.siteName.length >= 5 && isAccept? '#17b41445' : 'blanchedalmond'"
+                   numberOnly="^[a-zA-Z]*$"
+                   [(ngModel)]="siteInfo.siteName">
+            <span class="icon is-small is-left">
+              <i *ngIf="siteInfo.siteName.length < 5" class="fas fa-asterisk" style="color: red"></i>
+              <i *ngIf="siteInfo.siteName.length >= 5 && isAccept" class="fas fa-check" style="color: #1b7419"></i>
+              <i *ngIf="siteInfo.siteName.length >= 5 && !isAccept" class="fas fa-times" style="color: red"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">عنوان سایت</label>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="text"
+                 [style.background-color]="siteInfo.title.length <= 0 ? 'blanchedalmond' : '#17b41445'"
+                 [(ngModel)]="siteInfo.title">
+          <span class="icon is-small is-left">
+            <i *ngIf="siteInfo.title.length >= 1" class="fas fa-check" style="color: #1b7419"></i>
+            <i *ngIf="siteInfo.title.length < 1" class="fas fa-asterisk" style="color: red"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک اینستاگرام</label>
+      <div class="field">
         <input class="input" type="text"
-               [style.background-color]="tenantId.length < 5 ? 'blanchedalmond' : '#17b41445'"
-               numberOnly="^[a-zA-Z]*$"
-               [(ngModel)]="tenantId">
+                 [(ngModel)]="siteInfo.instagramLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک فیسبوک</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.facebookLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک واتس اپ</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.whatsappLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">شماره تلفن</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.telNumber">
       </div>
     </div>
   </div>
