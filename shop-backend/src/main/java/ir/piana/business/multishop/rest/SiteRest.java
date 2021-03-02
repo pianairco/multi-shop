@@ -1,6 +1,7 @@
 package ir.piana.business.multishop.rest;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.entity.SiteUserEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
@@ -36,6 +37,9 @@ public class SiteRest {
 
     @Autowired
     private SiteUserRepository siteUserRepository;
+
+    @Autowired
+    private DataSourceService dataSourceService;
 
     @Autowired
     private AppDataCache appDataCache;
@@ -100,6 +104,7 @@ public class SiteRest {
                 .agentId(siteEntity.getAgentId())
                 .build();
         siteUserRepository.save(siteUserEntity);
+        dataSourceService.siteActivation(siteEntity.getTenantId());
         return ResponseEntity.ok(body);
     }
 }
