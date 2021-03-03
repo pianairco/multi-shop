@@ -25,7 +25,7 @@ public class AuthAction extends AjaxController.Action {
             appInfo = AppInfo.builder()
                     .isLoggedIn(true)
                     .isAdmin(userEntity.getUserRolesEntities().stream()
-                            .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_ADMIN"))
+                            .filter(e -> e.getRoleName().equalsIgnoreCase("ROLE_SITE_OWNER"))
                             .map(e -> true).findFirst().orElse(false))
                     .isFormPassword(userEntity.getFormPassword() == null ? false : true)
                     .username(userEntity.getGivenName())

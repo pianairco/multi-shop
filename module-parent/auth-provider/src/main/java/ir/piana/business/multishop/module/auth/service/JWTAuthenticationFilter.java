@@ -345,8 +345,15 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         req.getSession().setAttribute("user", userEntity);
 //        res.sendRedirect("hello");
 //        res.addHeader("Authorization", "Bearer " + token);
-        Optional<? extends GrantedAuthority> role_owner = auth.getAuthorities().stream()
-                .filter(e -> e.getAuthority().equalsIgnoreCase("ROLE_OWNER")).findAny();
+        String host = (String) req.getAttribute("host");
+        Optional<? extends GrantedAuthority> role_owner = null;
+        if(appDataCache.getDomain().equalsIgnoreCase(host)) {
+            role_owner = auth.getAuthorities().stream()
+                    .filter(e -> e.getAuthority().equalsIgnoreCase("ROLE_ADMIN")).findAny();
+        } else {
+            role_owner = auth.getAuthorities().stream()
+                    .filter(e -> e.getAuthority().equalsIgnoreCase("ROLE_SITE_OWNER")).findAny();
+        }
 
         AppInfo appInfo = AppInfo.builder()
                 .isLoggedIn(true)
