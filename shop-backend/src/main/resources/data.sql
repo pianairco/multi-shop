@@ -10,12 +10,6 @@ alter sequence master_seq restart with 5000;
 --
 -- INSERT INTO TEMPORARY_ID (ASSIGN, ID) values ('admin', master_seq.nextval);
 
-CREATE TABLE IF NOT EXISTS BAYA_CATEGORIES (
-    id bigint primary key,
-    idParent bigint,
-    title varchar(512)
-);
-
 CREATE TABLE IF NOT EXISTS APP_INFO (
     ID bigint primary key,
     APP_PARAM varchar(64) not null,

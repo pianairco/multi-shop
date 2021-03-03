@@ -1,13 +1,15 @@
-package ir.piana.business.multishop.baya;
+package ir.piana.business.multishop.module.site.service;
 
-import ir.piana.business.multishop.baya.data.entity.BayaCategoryEntity;
-import ir.piana.business.multishop.baya.data.repository.BayaCategoryRepository;
-import ir.piana.business.multishop.baya.model.BayaResponseModel;
+import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
+import ir.piana.business.multishop.module.site.data.repository.BayaCategoryRepository;
+import ir.piana.business.multishop.module.site.model.BayaResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class BayaCategoryService {
@@ -22,21 +24,28 @@ public class BayaCategoryService {
         long firstId = 0;
 
         BayaResponseModel<BayaCategoryEntity> productCategories = getProductCategories(0);
-        if(productCategories.isSuccess()) {
-            for(BayaCategoryEntity categoryModel : productCategories.getData()) {
-                getProductCategories(categoryModel.getId());
-            }
-        }
+        circle(productCategories);
+//        if(productCategories.isSuccess()) {
+//            for(BayaCategoryEntity categoryModel : productCategories.getData()) {
+//                getProductCategories(categoryModel.getId());
+//            }
+//        }
 
         System.out.println();
     }
 
+    Set<String> set = new HashSet<>();
     @Transactional
     void circle(BayaResponseModel<BayaCategoryEntity> productCategories) {
         if(productCategories.isSuccess()) {
             for(BayaCategoryEntity categoryModel : productCategories.getData()) {
+                if(set.contains(String.valueOf(categoryModel.getId())))
+                    continue;
+                else
+                    set.add(String.valueOf(categoryModel.getId()));
                 repository.save(categoryModel);
-                circle(getProductCategories(categoryModel.getId()));
+//                if(!repository.findById(categoryModel.getId()).isPresent())
+                    circle(getProductCategories(categoryModel.getId()));
             }
         }
     }

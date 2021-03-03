@@ -1,6 +1,7 @@
-package ir.piana.business.multishop.baya.model;
+package ir.piana.business.multishop.module.site.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class BayaResponseModel<T> {
     private List<Map> errors;
 
     @JsonProperty("Data")
-    private List<T> data;
+    private List<BayaCategoryEntity> data;
 
     @JsonProperty("Messages")
     private List<Map> messages;

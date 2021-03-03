@@ -41,5 +41,7 @@ auth-type: form
 }
 
 ###
-GET http://piana.ir:8443/api/baya/fetch
+GET https://piana.ir:8443/api/modules/site/baya
 Host: piana.ir
+
+###
