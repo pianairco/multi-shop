@@ -1,5 +1,5 @@
 create sequence IF NOT EXISTS master_seq;
-alter sequence master_seq restart with 5000;
+-- alter sequence master_seq restart with 5000;
 
 --
 -- CREATE TABLE TEMPORARY_ID (

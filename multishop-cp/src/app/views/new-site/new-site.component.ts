@@ -35,7 +35,7 @@ export class NewSiteComponent implements OnInit {
     if(event.length >= 5) {
       console.log(event);
       this.isLoading = true;
-      axios.get(this.constantService.getRemoteServer() + '/api/site/check-name/' + this.siteInfo.siteName)
+      axios.get(this.constantService.getRemoteServer() + '/api/site/check-name/' + event)
         .then(res => {
           if(res.data.code === 0) {
             this.isLoading = false;
