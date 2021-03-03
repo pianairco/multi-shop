@@ -33,6 +33,7 @@ import java.util.Map;
 @EnableConfigurationProperties({ JpaProperties.class })
 @EnableJpaRepositories(
 		basePackages = {
+				"ir.piana.business.multishop.baya.data.repository",
 				"ir.piana.business.multishop.module.**.data.repository",
 				"ir.piana.business.multishop.common.data.repository"
 		},

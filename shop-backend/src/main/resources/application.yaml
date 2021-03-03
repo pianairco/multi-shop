@@ -55,6 +55,7 @@ database:
     driverClassName: org.h2.Driver
 #    driverClassName: oracle.jdbc.OracleDriver
   packages-to-scan:
+    - ir.piana.business.multishop.baya.data.entity
     - ir.piana.business.multishop.common.data.entity
     - ir.piana.business.multishop.data.entity
     - ir.piana.business.multishop.module.**.data.entity
