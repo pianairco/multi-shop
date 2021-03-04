@@ -109,6 +109,14 @@ export class AuthenticationService {
   }
 }
 
+export class SiteInfo {
+  title: string;
+  instagramLink: string;
+  whatsappLink: string;
+  facebookLink: string;
+  telNumber: string;
+}
+
 export class AppInfo {
   username: string;
   email: string;
@@ -116,6 +124,7 @@ export class AppInfo {
   isLoggedIn: boolean;
   isFormPassword: boolean;
   isAdmin: boolean;
+  siteInfo: SiteInfo;
 
   constructor(username, email, pictureUrl, isLoggedIn, isAdmin) {
     this.username = username;

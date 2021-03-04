@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {Title} from "@angular/platform-browser";
+import {AuthenticationService} from "../../services/authentication-service.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./root.component.css']
 })
 export class RootComponent {
-  title = 'management-ui';
+  constructor(
+    private titleService:Title,
+    private authenticationService: AuthenticationService) {
+    authenticationService.authSubject.subscribe(appInfo => {
+      this.titleService.setTitle(appInfo.siteInfo.title);
+    });
+  }
 }

@@ -1,6 +1,7 @@
 package ir.piana.business.multishop.module.auth.service;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private SiteRepository siteRepository;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -133,6 +137,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTAuthenticationFilter("/api/sign-in",
                                 authenticationManager(), bCryptPasswordEncoder,
                                 googleUserRepository,
+                                siteRepository,
                                 crossDomainAuthenticationService, appDataCache,
                                 agentProvider, env),
                         UsernamePasswordAuthenticationFilter.class)

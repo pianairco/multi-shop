@@ -45,3 +45,7 @@ GET https://piana.ir:8443/api/modules/site/baya
 Host: piana.ir
 
 ###
+GET https://piana.ir:8443/api/modules/site/baya/save-categories-images
+Host: piana.ir
+
+###

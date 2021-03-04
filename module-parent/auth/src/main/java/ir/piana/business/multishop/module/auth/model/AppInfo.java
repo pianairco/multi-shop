@@ -20,4 +20,5 @@ public class AppInfo {
     private boolean isFormPassword;
     @JsonProperty("isAdmin")
     private boolean isAdmin;
+    private SiteInfo siteInfo;
 }

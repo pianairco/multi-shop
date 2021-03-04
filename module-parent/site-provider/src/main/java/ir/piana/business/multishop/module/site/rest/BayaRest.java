@@ -37,5 +37,10 @@ public class BayaRest {
     }
 
 
-
+    @Transactional
+    @GetMapping("save-categories-images")
+    public ResponseEntity<ResponseModel> getRepository() {
+        bayaCategoryService.saveAllCategoryImages();
+        return ResponseEntity.ok(ResponseModel.builder().code(0).build());
+    }
 }

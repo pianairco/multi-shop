@@ -4,13 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.entity.AgentEntity;
+import ir.piana.business.multishop.common.data.entity.SiteEntity;
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.common.util.CommonUtils;
@@ -18,28 +19,21 @@ import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
+import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
 import nl.captcha.Captcha;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -55,6 +49,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private AuthenticationManager authenticationManager;
     private GoogleUserRepository googleUserRepository;
+    private SiteRepository siteRepository;
     private AgentProvider agentProvider;
     private CrossDomainAuthenticationService crossDomainAuthenticationService;
     private AppDataCache appDataCache;
@@ -65,6 +60,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             AuthenticationManager authenticationManager,
             BCryptPasswordEncoder bCryptPasswordEncoder,
             GoogleUserRepository googleUserRepository,
+            SiteRepository siteRepository,
             CrossDomainAuthenticationService crossDomainAuthenticationService,
             AppDataCache appDataCache,
             AgentProvider agentProvider,
@@ -73,6 +69,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.googleUserRepository = googleUserRepository;
+        this.siteRepository = siteRepository;
         this.crossDomainAuthenticationService = crossDomainAuthenticationService;
         this.appDataCache = appDataCache;
         this.agentProvider = agentProvider;
@@ -328,7 +325,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest req,
+    protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse res,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
@@ -339,13 +336,13 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000))
                 .sign(Algorithm.HMAC512("SecretKeyToGenJWTs".getBytes()));
-        req.getSession().setAttribute("jwt-token", token);
-        req.getSession().setAttribute("authentication", auth.getPrincipal());
-        req.getSession().setAttribute("authorization", ((User) auth.getPrincipal()).getUsername());
-        req.getSession().setAttribute("user", userEntity);
+        request.getSession().setAttribute("jwt-token", token);
+        request.getSession().setAttribute("authentication", auth.getPrincipal());
+        request.getSession().setAttribute("authorization", ((User) auth.getPrincipal()).getUsername());
+        request.getSession().setAttribute("user", userEntity);
 //        res.sendRedirect("hello");
 //        res.addHeader("Authorization", "Bearer " + token);
-        String host = (String) req.getAttribute("host");
+        String host = (String) request.getAttribute("host");
         Optional<? extends GrantedAuthority> role_owner = null;
         if(appDataCache.getDomain().equalsIgnoreCase(host)) {
             role_owner = auth.getAuthorities().stream()
@@ -355,6 +352,9 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     .filter(e -> e.getAuthority().equalsIgnoreCase("ROLE_SITE_OWNER")).findAny();
         }
 
+        SiteEntity siteEntity = null;
+        if(!appDataCache.getDomain().equalsIgnoreCase(host))
+            siteEntity = siteRepository.findByTenantId(host);
         AppInfo appInfo = AppInfo.builder()
                 .isLoggedIn(true)
                 .isAdmin(role_owner.isPresent())
@@ -366,6 +366,18 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .email(userEntity.getEmail())
                 .pictureUrl(userEntity.getPictureUrl())
                 .build();
+        if(siteEntity != null) {
+            appInfo.setSiteInfo(SiteInfo.builder()
+                    .title(siteEntity.getTitle())
+                    .facebookLink(siteEntity.getFacebookLink())
+                    .instagramLink(siteEntity.getInstagramLink())
+                    .whatsappLink(siteEntity.getWhatsappLink())
+                    .telNumber(siteEntity.getTelNumber())
+                    .build());
+        } else {
+            appInfo.setSiteInfo(SiteInfo.builder()
+                    .title(appDataCache.getDomain()).build());
+        }
 
         res.setStatus(HttpStatus.OK.value());
         res.setContentType("application/json;charset=UTF-8");
