@@ -7,6 +7,7 @@ import {ProductCategory} from "../category/category.component";
 import {AjaxCallService} from "../../../services/ajax-call.service";
 import {LoadingService} from "../../../services/loading.service";
 import {RestClientService} from "../../../services/rest-client.service";
+import {ProductCategoryService} from "../../../services/product-category.service";
 
 @Component({
   selector: 'app-category-editor',
@@ -21,6 +22,7 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private categoryService: ProductCategoryService,
     private shareStateService: ShareStateService,
     private restClientService: RestClientService,
     private loadingService: LoadingService,
@@ -47,6 +49,7 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
     this.loadingService.changeState(true);
     this.restClientService.categoryPersist(this.category).then(res => {
       this.loadingService.changeState(false);
+      this.categoryService.addCategory(res.data);
       this.shareStateService.navigateReturn();
     }, err => {
       this.loadingService.changeState(false);
@@ -81,6 +84,7 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
     this.loadingService.changeState(true);
     this.restClientService.categoryDelete(this.category).then(res => {
       this.loadingService.changeState(false);
+      this.categoryService.removeCategory(this.category);
       this.shareStateService.navigateReturn();
     }, err => {
       this.loadingService.changeState(false);

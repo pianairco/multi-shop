@@ -1,12 +1,8 @@
 import {Injectable, Injector} from '@angular/core';
-import {ConstantService} from "./constant.service";
-import axios from "axios";
 import {ProductCategory} from "../views/shop/category/category.component";
-import {AjaxCallService} from "./ajax-call.service";
 import {Router} from "@angular/router";
 import {PianaStorageService} from "./piana-storage.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import {EditModeObject} from "./share-state.service";
 import {RestClientService} from "./rest-client.service";
 
 @Injectable({
@@ -26,9 +22,40 @@ export class ProductCategoryService {
   get categoriesSubject(): Observable<ProductCategory[]> {
     return this._categoriesSubject.asObservable();
   }
+
   set categories(_categories) {
     this._categories = _categories;
     this._categoriesSubject.next(this._categories);
+  }
+
+  addCategory(_category) {
+    let index = -1;
+    for(let i = 0; i < this._categories.length; i++) {
+      if(this._categories[i].id === _category.id) {
+        index = i;
+        break;
+      }
+    }
+    if(index > -1) {
+      this._categories[index] = _category;
+    } else {
+      this._categories.push(_category);
+    }
+    this._categoriesSubject.next(this._categories);
+  }
+
+  removeCategory(_category) {
+    let index = -1;
+    for (let i = 0; i < this._categories.length; i++) {
+      if(this._categories[i].id === _category.id) {
+        index = i;
+        break;
+      }
+    }
+    if(index > -1) {
+      this._categories.splice(index, 1);
+      this._categoriesSubject.next(this._categories);
+    }
   }
 
   get categories(): ProductCategory[] {
