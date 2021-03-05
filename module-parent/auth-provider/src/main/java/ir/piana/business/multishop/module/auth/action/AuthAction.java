@@ -7,12 +7,11 @@ import ir.piana.business.multishop.common.dev.sqlrest.AjaxController;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.SiteInfo;
-import ir.piana.business.multishop.module.auth.service.UserModel;
+import ir.piana.business.multishop.module.auth.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

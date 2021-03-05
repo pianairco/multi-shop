@@ -4,6 +4,10 @@
   background-image: url('../../../assets/images/login-bg.jpg');
 }
 
+.field {
+  opacity: 1 !important;
+}
+
 /*.modal-card {*/
 /*  width: 400px;*/
 /*}*/

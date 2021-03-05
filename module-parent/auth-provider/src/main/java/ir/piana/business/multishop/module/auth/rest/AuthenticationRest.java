@@ -7,7 +7,7 @@ import ir.piana.business.multishop.module.auth.data.repository.GoogleUserReposit
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
-import ir.piana.business.multishop.module.auth.service.UserModel;
+import ir.piana.business.multishop.module.auth.model.UserModel;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

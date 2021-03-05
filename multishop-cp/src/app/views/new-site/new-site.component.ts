@@ -34,22 +34,25 @@ export class NewSiteComponent implements OnInit {
   onModelChange(event) {
     if(event.length >= 5) {
       console.log(event);
-      this.isLoading = true;
+      this.loadingService.changeState(true);
+      // this.isLoading = true;
       axios.get(this.constantService.getRemoteServer() + '/api/site/check-name/' + event)
         .then(res => {
           if(res.data.code === 0) {
             this.isLoading = false;
             this.isAccept = true;
-            this.setFocus();
+            // this.setFocus();
           } else {
             this.isLoading = false;
             this.isAccept = false;
-            this.setFocus();
+            // this.setFocus();
           }
+          this.loadingService.changeState(false);
         }, err => {
           this.isLoading = false;
           this.isAccept = false;
-          this.setFocus();
+          this.loadingService.changeState(false);
+          // this.setFocus();
         });
     }
   }

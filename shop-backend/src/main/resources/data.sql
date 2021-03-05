@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS SITE (
     FACEBOOK_LINK varchar(256),
     TEL_NUMBER varchar(11),
     IS_ACTIVE number not null default 1,
+    IMAGE varchar(256),
     CREATION_DATE CHAR(10) not null default '0000/00/00',
     CREATION_TIME CHAR(8) not null default '00:00:00',
     MODIFICATION_DATE CHAR(10) not null default '0000/00/00',

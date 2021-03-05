@@ -43,8 +43,9 @@ export class ShopComponent implements OnInit {
         })
       });
     } catch (err) {
-      this.loadingService.changeState(false);
       // this.insertComponent.fail();
+    } finally {
+      this.loadingService.changeState(false);
     }
   }
 

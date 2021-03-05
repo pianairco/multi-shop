@@ -41,7 +41,7 @@ export class ProductsGalleryComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               public router: Router,
               private loadingService: LoadingService,
-              private categoryService: ProductCategoryService,
+              public categoryService: ProductCategoryService,
               public authService: AuthenticationService,
               public shareStateService: ShareStateService,
               private constantService: ConstantService,

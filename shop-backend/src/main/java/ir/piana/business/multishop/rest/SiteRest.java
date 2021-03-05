@@ -8,7 +8,7 @@ import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.data.repository.SiteUserRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
-import ir.piana.business.multishop.module.auth.service.UserModel;
+import ir.piana.business.multishop.module.auth.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

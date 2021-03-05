@@ -5,3 +5,6 @@ CREATE TABLE IF NOT EXISTS SHOP_CATEGORIES (
     idParent bigint,
     title varchar(512)
 );
+
+alter table SITE add IMAGE varchar(256);
+

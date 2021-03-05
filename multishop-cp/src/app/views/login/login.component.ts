@@ -90,9 +90,9 @@ export class LoginComponent implements OnInit {
   }
 
   async handleClickGoogleSignIn() {
-    this.loadingService.changeState(true);
     try {
-
+      console.log("xxxxxxxxxx")
+      this.loadingService.changeState(true);
       // this.$gAuth.getAuthCode().then((authCode) => {
       //   //on success
       //   this.isLoading = false;
@@ -117,6 +117,8 @@ export class LoginComponent implements OnInit {
     } catch (error) {
       this.loadingService.changeState(false);
       console.log(error)
+    } finally {
+      this.loadingService.changeState(false);
     }
   }
 }

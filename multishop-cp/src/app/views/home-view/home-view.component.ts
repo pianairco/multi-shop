@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
+import {Component, OnInit} from '@angular/core';
+import {RestClientService} from "../../services/rest-client.service";
+import {SiteInfo} from "../new-site/new-site.component";
 
 interface Food {
   value: string;
@@ -18,9 +19,21 @@ export class HomeViewComponent implements OnInit {
     {value: 'tacos-2', viewValue: 'Tacos'}
   ];
 
-  constructor() { }
+  allSites: SiteInfo[] = [];
+
+  constructor(private restClientService: RestClientService) {
+
+  }
 
   ngOnInit(): void {
+    this.restClientService.getAllSites().then(res => {
+      if(res.status === 200 && res.data.code === 0) {
+        this.allSites = res.data.data;
+      }
+    }, err => {
+
+    });
+
     // axios.get('/api/message').then(res => {
     //   console.log(res);
     // }, err => {

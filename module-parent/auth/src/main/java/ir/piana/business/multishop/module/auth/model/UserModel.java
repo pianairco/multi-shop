@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.module.auth.service;
+package ir.piana.business.multishop.module.auth.model;
 
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import lombok.Getter;

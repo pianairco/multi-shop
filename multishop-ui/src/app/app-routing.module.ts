@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginGuard} from "./guards/login.guard";
 import {TileComponent} from "./views/tile/tile.component";
 import {HomeViewComponent} from "./views/home-view/home-view.component";
 import {FormMakerComponent} from "./components/form-maker/form-maker.component";

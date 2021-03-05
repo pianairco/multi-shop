@@ -1,5 +1,32 @@
-<div class="columns" >
-  <div class="column"></div>
+<div class="columns is-multiline is-mobile" >
+  <div class="column is-3-desktop is-12-mobile">
+  </div>
+  <div class="column is-9-desktop is-12-mobile">
+    <div class="columns is-multiline is-mobile" >
+      <div class="column is-4-desktop is-12-mobile" *ngFor="let site of allSites">
+        <div class="card">
+          <app-picture-box #pictureBox></app-picture-box>
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <div class="control">
+                  <p class="px-3">{{site.title}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="card-footer" >
+            <a [href]="'https://' + site.siteName" class="card-footer-item button is-warning" >
+              <span class="icon is-small">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="px-3" style="direction: ltr">https://{{site.siteName}}</span>
+            </a>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <!--<div class="columns">-->
 <!--  <div class="column">-->

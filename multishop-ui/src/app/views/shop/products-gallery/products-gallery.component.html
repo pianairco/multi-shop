@@ -1,6 +1,6 @@
 <div class="container mx-0 is-fluid px-0" >
   <div class="columns is-multiline" >
-    <div class="column is-12" *ngIf="(authService.authSubject | async).isAdmin">
+    <div class="column is-12" *ngIf="(authService.authSubject | async).isAdmin && (categoryService.selectedSubject | async) != null">
       <button class="button is-fullwidth is-success"
               (click)="shareStateService.setEditModeObject(
             true, null, 'product-creator', router.routerState.snapshot.url)">

@@ -11,12 +11,14 @@ import {RestClientService} from "./rest-client.service";
 export class ProductCategoryService {
   private _categoriesSubject: any;
   private _categories: ProductCategory[] = [];
+  private _selectedSubject: any;
   private _selected: ProductCategory = null;
 
   constructor(private injector: Injector,
               private router: Router,
               private pianaStorageService: PianaStorageService) {
     this._categoriesSubject = new BehaviorSubject<any>(this._categories);
+    this._selectedSubject = new BehaviorSubject<any>(this._selected);
   }
 
   get categoriesSubject(): Observable<ProductCategory[]> {
@@ -26,6 +28,15 @@ export class ProductCategoryService {
   set categories(_categories) {
     this._categories = _categories;
     this._categoriesSubject.next(this._categories);
+  }
+
+  set selected(_selected) {
+    this._selected = _selected;
+    this._selectedSubject.next(this._selected);
+  }
+
+  get selectedSubject(): Observable<ProductCategory> {
+    return this._selectedSubject.asObservable();
   }
 
   addCategory(_category) {
@@ -72,10 +83,11 @@ export class ProductCategoryService {
   setAsSelectedCategory(category) {
     // console.log("bbbbbb", category)
     this.pianaStorageService.putObject("selected-category", { "selected": category });
-    this._selected = category;
+    this.selected = category;
   }
 
   private checkCategory(routerLink) {
+    console.log(routerLink)
     if(this._selected && this._selected.routerLink === routerLink) {
       return true;
     } else {
@@ -83,7 +95,7 @@ export class ProductCategoryService {
       if(selectedCategory && selectedCategory.hasOwnProperty('selected')) {
         let selected: ProductCategory = selectedCategory['selected'];
         if(selected.routerLink === routerLink) {
-          this._selected = selected;
+          this.selected = selected;
           return true;
         }
       }
@@ -106,6 +118,7 @@ export class ProductCategoryService {
   }
 
   getCategoryId(routerLink) {
+    console.log("dddddd")
     this.checkCategory(routerLink);
     for(let category of this._categories) {
       if (category.routerLink == routerLink)

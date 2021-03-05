@@ -6,9 +6,8 @@ import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
-import ir.piana.business.multishop.module.auth.model.SubDomainInfo;
+import ir.piana.business.multishop.module.auth.model.UserModel;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
-import ir.piana.business.multishop.module.auth.service.UserModel;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
