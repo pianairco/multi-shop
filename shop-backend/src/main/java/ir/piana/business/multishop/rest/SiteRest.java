@@ -81,6 +81,7 @@ public class SiteRest {
         String siteName = body.get("siteName");
         if(CommonUtils.isNull(siteName) || siteName.length() < 5)
             return ResponseEntity.ok(ResponseModel.builder().code(1).build());
+        siteName = siteName.trim().toLowerCase();
         String title = body.get("title");
         if(CommonUtils.isNull(title))
             return ResponseEntity.ok(ResponseModel.builder().code(2).build());

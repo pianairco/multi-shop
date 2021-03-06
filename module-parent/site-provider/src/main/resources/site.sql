@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS SHOP_CATEGORIES (
     title varchar(512)
 );
 
-alter table SITE add IMAGE varchar(256);
+-- alter table SITE add IMAGE varchar(256);
 

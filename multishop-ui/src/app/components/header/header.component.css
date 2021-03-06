@@ -1,5 +1,15 @@
-#my-back {
+.header-background {
   background-size: cover;
   backgroundRepeat: 'no-repeat';
   background-image: url('../../../assets/images/header.svg');
+}
+
+.description {
+  background-color: rgba(100,190,180, 0.6);
+  border-radius: 12px;
+}
+
+.subtitle {
+  color: black;
+  font-family: IranNastaliq; font-size: 22px;
 }
