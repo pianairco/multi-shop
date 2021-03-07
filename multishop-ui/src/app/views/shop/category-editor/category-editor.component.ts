@@ -1,18 +1,21 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonUtilService} from "../../../services/common-util.service";
 import {NotificationService} from "../../../services/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ShareStateService} from "../../../services/share-state.service";
 import {ProductCategory} from "../category/category.component";
-import {AjaxCallService} from "../../../services/ajax-call.service";
 import {LoadingService} from "../../../services/loading.service";
 import {RestClientService} from "../../../services/rest-client.service";
 import {ProductCategoryService} from "../../../services/product-category.service";
+import {InputMaskDirective} from "../../../directives/input-mask.directive";
 
 @Component({
   selector: 'app-category-editor',
   templateUrl: './category-editor.component.html',
-  styleUrls: ['./category-editor.component.css']
+  styleUrls: ['./category-editor.component.css'],
+  providers: [
+    InputMaskDirective
+  ]
 })
 export class CategoryEditorComponent implements OnInit, OnDestroy {
   onInitCalled = false;

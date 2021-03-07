@@ -21,6 +21,7 @@
               <div class="control">
                 <label class="label">لینک نمایشی</label>
                 <input class="input" type="text"
+                       [inputMask]="'^[a-zA-Z0-9]*$'"
                        [(ngModel)]="category.routerLink">
               </div>
             </div>

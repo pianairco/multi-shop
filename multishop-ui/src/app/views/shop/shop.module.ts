@@ -11,6 +11,7 @@ import {SharedModule} from "../../components/shared.module";
 import {FormsModule} from "@angular/forms";
 import {ProductEditorModalComponent} from "./product-editor-modal/product-editor-modal.component";
 import {CategoryEditorComponent} from "./category-editor/category-editor.component";
+import {InputMaskDirective} from "../../directives/input-mask.directive";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {CategoryEditorComponent} from "./category-editor/category-editor.compone
     CategoryEditorComponent,
     ProductComponent,
     ProductEditorComponent,
-    ProductEditorModalComponent
+    ProductEditorModalComponent,
+    InputMaskDirective
   ],
   exports:[
     ShopComponent,
@@ -30,11 +32,11 @@ import {CategoryEditorComponent} from "./category-editor/category-editor.compone
     ProductComponent,
     ProductEditorComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    ShopRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        SharedModule,
+        ShopRoutingModule
+    ]
 })
 export class ShopModule { }

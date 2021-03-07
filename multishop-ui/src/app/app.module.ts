@@ -5,22 +5,14 @@ import {AppRoutingModule} from './app-routing.module';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {RootComponent} from "./views/root/root.component";
-import {TopbarComponent} from "./components/topbar/topbar.component";
-import {FooterComponent} from "./components/footer/footer.component";
 import {HomeViewComponent} from "./views/home-view/home-view.component";
 import {PageNotFoundComponent} from "./views/page-not-found/page-not-found.component";
 import {TileComponent} from "./views/tile/tile.component";
-import {FormMakerComponent} from "./components/form-maker/form-maker.component";
-import {NotificationComponent} from "./components/notification/notification.component";
-import {LoadingComponent} from "./components/loading/loading.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 // import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
 import {AuthenticationService} from "./services/authentication-service.service";
 import {InitializerService} from "./services/initializer.service";
-import {PictureBoxComponent} from './components/picture-box/picture-box.component';
-import {HeaderComponent} from './components/header/header.component';
-import {CommonModule} from "@angular/common";
 import {SharedModule} from "./components/shared.module";
 
 
