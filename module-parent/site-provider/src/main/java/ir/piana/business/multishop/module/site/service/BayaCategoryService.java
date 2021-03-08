@@ -1,30 +1,41 @@
 package ir.piana.business.multishop.module.site.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageProperties;
 import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
 import ir.piana.business.multishop.module.site.data.repository.BayaCategoryRepository;
+import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
 import ir.piana.business.multishop.module.site.model.BayaResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class BayaCategoryService {
+    @Autowired
+    private CategoryRangeService categoryRangeService;
+
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private BayaCategoryRepository repository;
+
+    @Autowired
+    private PianaCategoryRepository pianaCategoryRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private final Path rootLocation;
 
@@ -34,6 +45,27 @@ public class BayaCategoryService {
     public BayaCategoryService(StorageProperties properties) {
         storageProperties = properties;
         this.rootLocation = Paths.get(properties.getLocation());
+    }
+
+    @PostConstruct
+    public void init() throws IOException {
+        InputStream resourceAsStream = BayaCategoryService.class.getResourceAsStream("/site-categories.json");
+        BayaCategoryEntity[] list = objectMapper.readValue(resourceAsStream, BayaCategoryEntity[].class);
+
+        Map<Long, BayaCategoryEntity> map = new LinkedHashMap<>();
+        map.put(0l, BayaCategoryEntity.builder().id(0).idParent(0).title("parent")
+                .bayaCategoryEntities(new ArrayList<>()).build());
+        for(BayaCategoryEntity e : list) {
+            if(!map.containsKey(e.getId())) {
+                map.put(e.getId(), e);
+                if(map.containsKey(e.getIdParent())) {
+                    map.get(e.getIdParent()).getBayaCategoryEntities().add(e);
+                }
+            }
+        }
+
+//        String s = objectMapper.writeValueAsString(map.get(0l));
+//        System.out.println(map);
     }
 
     @Transactional
