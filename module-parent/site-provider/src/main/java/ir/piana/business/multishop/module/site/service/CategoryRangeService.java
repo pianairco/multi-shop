@@ -1,11 +1,18 @@
 package ir.piana.business.multishop.module.site.service;
 
+import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
+import ir.piana.business.multishop.module.site.data.entity.PianaCategoryEntity;
+import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 @Component
 public class CategoryRangeService {
+    @Autowired
+    private PianaCategoryRepository categoryRepository;
+
     private static final long[] GROUPS = new long[] {
             0x4000000000000000l,
             0x3fc0000000000000l,
@@ -36,6 +43,20 @@ public class CategoryRangeService {
             4
     };
 
+    private static final long[] GROUPS_SHIFT = new long[] {
+            62,
+            54,
+            46,
+            38,
+            30,
+            24,
+            18,
+            12,
+            8,
+            4,
+            0
+    };
+
     @PostConstruct
     public void init() {
 //        long t1 = 0x4205500000000000l;
@@ -61,4 +82,9 @@ public class CategoryRangeService {
         }
         return Long.MAX_VALUE;
     }
+
+    public long createId(long parentId, int level, long siblingCount) {
+        return parentId | (GROUPS[level] & (siblingCount << GROUPS_SHIFT[level]));
+    }
+
 }

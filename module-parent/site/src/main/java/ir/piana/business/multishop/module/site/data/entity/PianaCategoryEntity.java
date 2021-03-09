@@ -18,18 +18,27 @@ import java.io.Serializable;
 @Table(name = "PIANA_CATEGORIES")
 public class PianaCategoryEntity implements Serializable {
     @Id
+    @Column(name = "ID")
     @JsonProperty("id")
     private long id;
 
-    @Column("PARENT_ID")
+    @Column(name = "HEX_VIEW")
+    @JsonProperty("hexView")
+    private String hexView;
+
+    @Column(name = "BINARY_VIEW")
+    @JsonProperty("binaryView")
+    private String binaryView;
+
+    @Column(name = "PARENT_ID")
     @JsonProperty("parentId")
     private long idParent;
 
-    @Column("TITLE")
+    @Column(name = "TITLE")
     @JsonProperty("title")
     private String title;
 
-    @Column("IMAGE")
+    @Column(name = "IMAGE")
     @JsonProperty("image")
-    private String title;
+    private String image;
 }

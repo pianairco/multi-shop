@@ -3,16 +3,17 @@ package ir.piana.business.multishop.module.site.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageProperties;
 import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
+import ir.piana.business.multishop.module.site.data.entity.PianaCategoryEntity;
 import ir.piana.business.multishop.module.site.data.repository.BayaCategoryRepository;
 import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
 import ir.piana.business.multishop.module.site.model.BayaResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -49,6 +50,30 @@ public class BayaCategoryService {
 
     @PostConstruct
     public void init() throws IOException {
+//        InputStream resourceAsStream = BayaCategoryService.class.getResourceAsStream("/site-categories.json");
+//        BayaCategoryEntity[] list = objectMapper.readValue(resourceAsStream, BayaCategoryEntity[].class);
+//
+//        Map<Long, BayaCategoryEntity> map = new LinkedHashMap<>();
+//        map.put(0l, BayaCategoryEntity.builder().id(0).idParent(0).title("parent")
+//                .bayaCategoryEntities(new ArrayList<>()).build());
+//        for(BayaCategoryEntity e : list) {
+//            if(!map.containsKey(e.getId())) {
+//                map.put(e.getId(), e);
+//                if(map.containsKey(e.getIdParent())) {
+//                    map.get(e.getIdParent()).getBayaCategoryEntities().add(e);
+//                }
+//            }
+//        }
+//
+//        proccess(map.get(0l), 0, 0, 1);
+
+
+//        String s = objectMapper.writeValueAsString(map.get(0l));
+//        System.out.println(map);
+    }
+
+    @Transactional
+    public void savePianaCategories() throws IOException {
         InputStream resourceAsStream = BayaCategoryService.class.getResourceAsStream("/site-categories.json");
         BayaCategoryEntity[] list = objectMapper.readValue(resourceAsStream, BayaCategoryEntity[].class);
 
@@ -64,8 +89,7 @@ public class BayaCategoryService {
             }
         }
 
-//        String s = objectMapper.writeValueAsString(map.get(0l));
-//        System.out.println(map);
+        proccess(map.get(0l), 0, 0, 1);
     }
 
     @Transactional
@@ -132,5 +156,38 @@ public class BayaCategoryService {
         String filePath = "/assets/baya/categories/banner/" + id + ".jpg";
 //        String filePath = "/assets/baya/categories/" + id + ".jpg";
         Files.write(this.rootLocation.resolve("./" + filePath), imageBytes);
+    }
+
+    @Transactional
+    protected void proccess(BayaCategoryEntity bayaCategoryEntity, long parentId, int level, long siblingCount) {
+        PianaCategoryEntity pianaCategoryEntity = savePianaCategory(
+                bayaCategoryEntity, parentId, level, siblingCount);
+        if(bayaCategoryEntity.getBayaCategoryEntities() != null &&
+                !bayaCategoryEntity.getBayaCategoryEntities().isEmpty()) {
+            long childSiblingCount = 0;
+            for (BayaCategoryEntity child : bayaCategoryEntity.getBayaCategoryEntities()) {
+                proccess(child, pianaCategoryEntity.getId(), level + 1, ++childSiblingCount);
+            }
+        }
+    }
+
+    @Transactional
+    protected PianaCategoryEntity savePianaCategory(BayaCategoryEntity bayaCategoryEntity, long parentId, int level, long siblingCount) {
+        long id = categoryRangeService.createId(parentId, level, siblingCount);
+        try {
+            PianaCategoryEntity pianaCategoryEntity = PianaCategoryEntity.builder()
+                    .id(id)
+                    .hexView(Long.toHexString(id))
+                    .binaryView(Long.toBinaryString(id))
+                    .idParent(parentId)
+                    .title(bayaCategoryEntity.getTitle())
+                    .image(String.valueOf(bayaCategoryEntity.getId()))
+                    .build();
+            pianaCategoryRepository.save(pianaCategoryEntity);
+            return pianaCategoryEntity;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

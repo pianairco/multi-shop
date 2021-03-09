@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -34,6 +35,13 @@ public class BayaRest {
     @GetMapping()
     public ResponseEntity<List<BayaCategoryEntity>> getAll() {
         return ResponseEntity.ok(repository.findAll());
+    }
+
+    @Transactional
+    @GetMapping("save-piana")
+    public ResponseEntity savePianaCategories() throws IOException {
+        bayaCategoryService.savePianaCategories();
+        return ResponseEntity.ok().build();
     }
 
 
