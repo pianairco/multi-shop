@@ -27,6 +27,7 @@ import {NewSiteComponent} from './views/new-site/new-site.component';
 import {TextMaskModule} from "angular2-text-mask";
 import {NumberOnlyDirective} from './directives/number-only.directive';
 import {PictureBoxComponent} from "./components/picture-box/picture-box.component";
+import { SiteCategoryComponent } from './components/site-category/site-category.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {PictureBoxComponent} from "./components/picture-box/picture-box.componen
     MySitesComponent,
     NewSiteComponent,
     NumberOnlyDirective,
-    PictureBoxComponent
+    PictureBoxComponent,
+    SiteCategoryComponent
   ],
   imports: [
     BrowserModule,

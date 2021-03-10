@@ -8,7 +8,8 @@ import {log} from "util";
 })
 export class RestClientService {
   ajaxUrlMap = {
-    'site': 'api/modules/site'
+    site: 'api/modules/site',
+    siteCategory: 'api/modules/site/category'
   }
 
   remoteServer: string = "";
@@ -18,5 +19,9 @@ export class RestClientService {
 
   getAllSites() {
     return this.ajaxCallService.read(this.ajaxUrlMap.site + '/all-sites');
+  }
+
+  getSiteCategories() {
+    return this.ajaxCallService.read(this.ajaxUrlMap.siteCategory + '/root');
   }
 }

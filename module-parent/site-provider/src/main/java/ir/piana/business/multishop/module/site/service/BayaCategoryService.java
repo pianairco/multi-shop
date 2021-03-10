@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-@Component
+//@Component
 public class BayaCategoryService {
     @Autowired
     private CategoryRangeService categoryRangeService;

@@ -1,0 +1,5 @@
+<div class="tags are-medium">
+<span *ngFor="let c of selected.children"
+      style="cursor: pointer;"
+      class="tag is-link is-normal" (click)="c.children.length > 0 ? selected = c : selected = selected">{{c.title}}</span>
+</div>

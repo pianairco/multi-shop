@@ -25,8 +25,8 @@ public class SiteModuleRest {
     @Autowired
     private SiteRepository repository;
 
-    @Autowired
-    private BayaCategoryService bayaCategoryService;
+//    @Autowired
+//    private BayaCategoryService bayaCategoryService;
 
     @Transactional
     @GetMapping("all-sites")

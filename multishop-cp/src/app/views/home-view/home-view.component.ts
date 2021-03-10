@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {RestClientService} from "../../services/rest-client.service";
 import {SiteInfo} from "../new-site/new-site.component";
+import {PianaStorageService} from "../../services/piana-storage.service";
+import {SiteCategoryService} from "../../services/site-category.service";
 
 interface Food {
   value: string;
@@ -21,7 +23,10 @@ export class HomeViewComponent implements OnInit {
 
   allSites: SiteInfo[] = [];
 
-  constructor(private restClientService: RestClientService) {
+  constructor(
+    private pianaStorageService: PianaStorageService,
+    private restClientService: RestClientService,
+    private siteCategoryService: SiteCategoryService) {
 
   }
 
@@ -33,6 +38,12 @@ export class HomeViewComponent implements OnInit {
     }, err => {
 
     });
+
+    // this.pianaStorageService.removeObject("categories");
+
+    this.siteCategoryService.rootCategorySubject.subscribe(rootCategory => {
+      console.log(rootCategory);
+    })
 
     // axios.get('/api/message').then(res => {
     //   console.log(res);
