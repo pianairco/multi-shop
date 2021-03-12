@@ -17,7 +17,8 @@ import java.io.InputStream;
 @DependsOn("SpecificSchemaQueryExecutorProvider")
 public class AuthInitializer extends CommonInitializer {
     @Autowired
-    public void setQueryExecutorProvider(SpecificSchemaQueryExecutorProvider executorProvider) {
+    public void setQueryExecutorProvider(
+            SpecificSchemaQueryExecutorProvider executorProvider) {
         this.queryExecutorProvider = executorProvider;
     }
 

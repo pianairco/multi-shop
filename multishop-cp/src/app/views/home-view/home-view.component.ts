@@ -41,6 +41,8 @@ export class HomeViewComponent implements OnInit {
 
     // this.pianaStorageService.removeObject("categories");
 
+    console.log("home-view")
+    console.log(this.siteCategoryService.rootCategorySubject)
     this.siteCategoryService.rootCategorySubject.subscribe(rootCategory => {
       console.log(rootCategory);
     })

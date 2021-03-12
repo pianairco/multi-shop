@@ -63,11 +63,22 @@ export class NewSiteComponent implements OnInit {
     },0);
   }
 
+  selectCategory(id) {
+    this.siteInfo.category = id;
+    console.log(id)
+  }
+
   addSite() {
-    if(this.siteInfo.siteName.length < 5) {
+    console.log(this.siteInfo.category)
+    if(this.siteInfo.category == 0x4000000000000000) {
+      this.notificationService.changeMessage("error", "گروه سایت را مشخص نمایید")
+      return;
+    } else if(this.siteInfo.siteName.length < 5) {
       this.notificationService.changeMessage("error", "نام باید حداقل دارای پنج کاراکتر باشد")
+      return;
     } else if(!this.siteInfo.title || this.siteInfo.title.length < 1) {
       this.notificationService.changeMessage("error", "عنوان باید مقدار داشته باشد")
+      return;
     }
 
     this.loadingService.changeState(true);
@@ -89,6 +100,7 @@ export class NewSiteComponent implements OnInit {
 export class SiteInfo {
   siteName: string = '';
   title: string = '';
+  category: number = 0;
   instagramLink: string = '';
   whatsappLink: string = '';
   facebookLink: string = '';

@@ -1,6 +1,12 @@
 <div class="columns is-multiline is-centered">
   <div class="column is-12">
     <div class="field">
+      <label class="label">دسته بندی</label>
+      <app-site-category (onSelect)="selectCategory($event)"></app-site-category>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
       <label class="label">نام دامنه</label>
       <div class="field">
         <div class="control" [class.is-loading]="isLoading">

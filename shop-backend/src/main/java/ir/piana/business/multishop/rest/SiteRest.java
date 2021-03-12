@@ -92,6 +92,7 @@ public class SiteRest {
                 .instagramLink(body.get("instagramLink"))
                 .facebookLink(body.get("facebookLink"))
                 .whatsappLink(body.get("whatsappLink"))
+                .category(Long.valueOf(body.get("category")))
                 .telNumber(body.get("telNumber"))
                 .creationDate(simpleDateFormat.format(new Date()))
                 .creationTime(simpleTimeFormat.format(new Date()))

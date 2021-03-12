@@ -26,6 +26,9 @@ public class SiteEntity {
     @JsonProperty("siteName")
     private String tenantId;
 
+    @Column(name = "CATEGORY")
+    private long category;
+
     @Column(name = "TITLE")
     private String title;
 

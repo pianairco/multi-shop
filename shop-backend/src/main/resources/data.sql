@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS SITE (
     ID bigint primary key,
     AGENT_ID bigint not null,
     TENANT_ID varchar(32) not null,
+    CATEGORY bigint not null,
     TITLE varchar(128) not null,
     INSTAGRAM_LINK varchar(256),
     WHATSAPP_LINK varchar(256),
@@ -53,10 +54,9 @@ CREATE TABLE IF NOT EXISTS SITE (
     constraint UK_SITE_TENANT_ID unique (TENANT_ID)
 );
 
-INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, TITLE, IS_ACTIVE) select * from (
-   select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 'vavishka', 1 IS_ACTIVE union
-   select 2, 1, 'shop.piana.ir', 'shop', 1 union
-   select 3, 1, 'ring.ir', 'ring', 1
+INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, CATEGORY, TITLE, IS_ACTIVE) select * from (
+   select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 0x4000000000000000 category, 'vavishka', 1 IS_ACTIVE union
+   select 2, 1, 'shop.piana.ir', 0x4000000000000000, 'shop', 1
 ) where not exists(select * from SITE);
 
 CREATE TABLE IF NOT EXISTS SITE_ROLE (

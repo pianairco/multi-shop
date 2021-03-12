@@ -1,10 +1,10 @@
 <div class="columns is-multiline is-mobile" >
-  <div class="column is-3-desktop is-12-mobile">
+  <div class="column is-2-desktop is-12-mobile">
     <app-site-category></app-site-category>
   </div>
-  <div class="column is-9-desktop is-12-mobile">
+  <div class="column is-10-desktop is-12-mobile">
     <div class="columns is-multiline is-mobile" >
-      <div class="column is-4-desktop is-12-mobile" *ngFor="let site of allSites">
+      <div class="column is-3-desktop is-6-mobile" *ngFor="let site of allSites">
         <div class="card">
           <app-picture-box #pictureBox></app-picture-box>
           <div class="card-content">
@@ -21,7 +21,7 @@
               <span class="icon is-small">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="px-3" style="direction: ltr">https://{{site.siteName}}</span>
+<!--              <span class="px-3" style="direction: ltr">https://{{site.siteName}}</span>-->
             </a>
           </footer>
         </div>

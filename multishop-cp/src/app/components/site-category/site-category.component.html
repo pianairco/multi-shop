@@ -1,5 +1,21 @@
-<div class="tags are-medium">
-<span *ngFor="let c of selected.children"
-      style="cursor: pointer;"
-      class="tag is-link is-normal" (click)="c.children.length > 0 ? selected = c : selected = selected">{{c.title}}</span>
+<div class="columns is-multiline">
+  <div class="column is-12" *ngIf="selected && selected.parent">
+    <button (click)="goBack(selected)"
+            [class.piana-parent-category]="last == selected"
+            class="button is-full">{{selected.parent ? selected.title : 'دسته بندی'}}
+      <span class="icon px-4 py-4">
+        <i class="fa fa-level-up-alt"></i>
+      </span>
+    </button>
+  </div>
+  <div class="column is-12">
+    <div class="tags are-medium" *ngIf="selected && selected.children">
+      <span *ngFor="let c of selected.children"
+            [class.is-success]="last && c == last && c != selected"
+            [class.is-link]="!last && !selected"
+        style="cursor: pointer;"
+        class="tag is-link " (click)="goNext(c)">{{c.title}}</span>
+    </div>
+
+  </div>
 </div>

@@ -1,0 +1,39 @@
+.tag {
+  /*background-color: #3273dc;*/
+}
+
+.tag.is-success:hover {
+  background-color: #86dc6f;
+}
+
+.tag {
+  min-height: 32px !important;
+  height: auto !important;
+  white-space: unset !important;
+  padding: 5px !important;
+}
+
+
+.tag:hover {
+  padding: 10px !important;
+  font-weight: bold;
+  background-color: #759adc;
+  color: white;
+}
+
+.piana-parent-category {
+  background-color: #ffdd57;
+}
+
+.piana-parent-category:hover {
+  background-color: #ff7b0e;
+  color: white;
+  padding-top: 8px !important;
+  padding-bottom: 10px !important;
+}
+
+.button {
+  min-height: 32px !important;
+  height: auto !important;
+  white-space: unset !important;
+}
