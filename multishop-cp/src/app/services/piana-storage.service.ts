@@ -22,4 +22,8 @@ export class PianaStorageService {
   removeObject(key: string){
     localStorage.removeItem(key);
   }
+
+  clear() {
+    localStorage.clear();
+  }
 }

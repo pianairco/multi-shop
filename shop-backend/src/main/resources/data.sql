@@ -83,9 +83,7 @@ INSERT INTO SITE_USER (ID, AGENT_ID, SITE_ID) select * from (
     select 1 ID, 1 AGENT_ID, 1 SITE_ID union
     select 2, 2, 1 union
     select 3, 1, 2 union
-    select 4, 2, 2 union
-    select 5, 1, 3 union
-    select 6, 2, 3
+    select 4, 2, 2
 ) where not exists(select * from SITE_USER);
 
 CREATE TABLE IF NOT EXISTS SITE_USER_ROLE (
@@ -100,7 +98,5 @@ INSERT INTO SITE_USER_ROLE (ID, SITE_USER_ID, SITE_ROLE_ID) select * from (
     select 1 ID, 1 SITE_USER_ID, 1 SITE_ROLE_ID union
     select 2, 2, 2 union
     select 3, 3, 1 union
-    select 4, 4, 2 union
-    select 5, 5, 1 union
-    select 6, 6, 2
+    select 4, 4, 2
 ) where not exists(select * from SITE_USER_ROLE);

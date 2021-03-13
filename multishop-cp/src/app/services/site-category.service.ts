@@ -13,6 +13,7 @@ export class SiteCategoryService {
   constructor(
     private pianaStorageService: PianaStorageService,
     private restClientService: RestClientService) {
+    this.pianaStorageService.clear()
     // this.subject = new BehaviorSubject<any>(this._rootCategory);
     this.rootCategory = this.pianaStorageService.getObject("rootCategory");
     console.log("cached", this._rootCategory)

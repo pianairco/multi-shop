@@ -4,6 +4,7 @@ import ir.piana.business.multishop.common.data.component.SpecificSchemaQueryExec
 import ir.piana.business.multishop.module.site.data.entity.PianaCategoryEntity;
 import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
 import ir.piana.business.multishop.module.site.model.PianaCategoryModel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Component
 @DependsOn("SpecificSchemaQueryExecutorProvider")
+@Slf4j
 public class SiteCategoryManagerService {
     private PianaCategoryModel categoryModel;
     private Map<Long, PianaCategoryModel> categoryModelMap;
@@ -56,6 +58,9 @@ public class SiteCategoryManagerService {
                                 PianaCategoryModel parent = categoryModelMap.get(entity.getIdParent());
                                 parent.getChildren().add(categoryModelMap.get(entity.getId()));
                             }
+                        }
+                        if(all.isEmpty()) {
+                            log.error("piana categories is empty!");
                         }
 
                         categoryModel = categoryModelMap.get(all.get(0).getId());
