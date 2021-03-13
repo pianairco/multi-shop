@@ -51,7 +51,7 @@ export class SiteCategoryService {
   get rootCategorySubject(): Observable<SiteCategory> {
     return this.subject.asObservable();
   }
-}
+};
 
 export class SiteCategory {
   id: number;
@@ -59,4 +59,4 @@ export class SiteCategory {
   image: string;
   children: SiteCategory[];
   parent: SiteCategory;
-}
+};
