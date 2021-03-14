@@ -8,5 +8,6 @@ import java.util.List;
 public interface SiteRepository extends JpaRepository<SiteEntity, Long> {
     SiteEntity findByTenantId(String tenant);
     List<SiteEntity> findAllByAgentId(Long agentId);
+    List<SiteEntity> findAllByCategoryId(Long categoryId);
 
 }
