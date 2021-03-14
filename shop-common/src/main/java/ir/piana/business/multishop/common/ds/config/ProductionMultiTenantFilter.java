@@ -1,6 +1,6 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
-import ir.piana.business.multishop.cfg.ResourceHandlerRegistryProvider;
+import ir.piana.business.multishop.common.cfg.ResourceHandlerRegistryProvider;
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import ir.piana.business.multishop.common.data.cache.SiteDataCache;
@@ -8,6 +8,7 @@ import ir.piana.business.multishop.common.data.cache.TenantContext;
 import ir.piana.business.multishop.common.exceptions.TenantNotSpecifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,8 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-public class MultiTenantFilter extends OncePerRequestFilter {
+@Profile("production")
+public class ProductionMultiTenantFilter extends OncePerRequestFilter {
     @Autowired
     private DataSourceService dataSourceService;
 

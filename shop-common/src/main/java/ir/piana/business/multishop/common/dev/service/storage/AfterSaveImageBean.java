@@ -5,6 +5,7 @@ import ir.piana.business.multishop.common.dev.uploadrest.AfterSaveImage;
 import ir.piana.business.multishop.common.dev.uploadrest.UploadController;
 import ir.piana.business.multishop.common.dev.service.sql.SqlService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 @Component("afterSaveImage")
+@Profile("production")
 public class AfterSaveImageBean extends UploadController.AfterSaveImageAction {
     @Autowired
     private SqlService sqlService;

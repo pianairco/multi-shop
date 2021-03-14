@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;

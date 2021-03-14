@@ -1,13 +1,13 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -17,22 +17,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
-public class WebMvcConfigure implements WebMvcConfigurer {
-    @Autowired
-    private StaticResourcePropertiesModel staticResourceProperties;
-
+@Profile("production")
+public class ProductionWebMvcConfigure implements WebMvcConfigurer {
     @Autowired
     private DataSourceService dataSourceService;
 
     @Autowired
     private AppDataCache appDataCache;
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
-
     public ResourceHandlerRegistryProvider resourceHandlerRegistryProvider = new ResourceHandlerRegistryProvider();
+
+    @Autowired
+    private StaticResourcePropertiesModel staticResourceProperties;
 
     @Bean
     public ResourceHandlerRegistryProvider getResourceHandlerRegistryProvider() {

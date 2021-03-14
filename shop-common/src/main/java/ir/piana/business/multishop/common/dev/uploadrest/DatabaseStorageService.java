@@ -3,6 +3,7 @@ package ir.piana.business.multishop.common.dev.uploadrest;
 import ir.piana.business.multishop.common.dev.sqlrest.SqlQueryService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 @Service("databaseStorageService")
+@Profile("production")
 public class DatabaseStorageService implements StorageService {
     private final Path rootLocation;
 

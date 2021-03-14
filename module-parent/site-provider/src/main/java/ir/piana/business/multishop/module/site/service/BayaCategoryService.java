@@ -8,6 +8,7 @@ import ir.piana.business.multishop.module.site.data.repository.BayaCategoryRepos
 import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
 import ir.piana.business.multishop.module.site.model.BayaResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 @Component
+@Profile("production")
 public class BayaCategoryService {
     @Autowired
     private CategoryRangeService categoryRangeService;

@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.util;
+package ir.piana.business.multishop.common.util;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

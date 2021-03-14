@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
@@ -29,7 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
-@Profile({ "production"})
+//@Profile({ "production"})
 @EnableConfigurationProperties({ JpaProperties.class })
 @EnableJpaRepositories(
 		basePackages = {
@@ -58,17 +58,18 @@ public class MultiTenantJpaConfiguration {
 		supportDs.setIdleTimeout(5000);
 		supportDs.setInitializationFailTimeout(5000);
 
-		InputStream resourceAsStream = MultiTenantJpaConfiguration.class.getResourceAsStream("/data.sql");
-		String[] split = IOUtils.toString(resourceAsStream).split(";");
 		SpecificSchemaQueryExecutor specificSchemaQueryExecutor = new SpecificSchemaQueryExecutor(supportDs);
-		for (String script : split) {
-			try {
-				specificSchemaQueryExecutor.execute(script);
-			} catch (SQLException throwables) {
-				throwables.printStackTrace();
+		InputStream resourceAsStream = MultiTenantJpaConfiguration.class.getResourceAsStream("/data.sql");
+		if(resourceAsStream != null) {
+			String[] split = IOUtils.toString(resourceAsStream).split(";");
+			for (String script : split) {
+				try {
+					specificSchemaQueryExecutor.execute(script);
+				} catch (SQLException throwables) {
+					throwables.printStackTrace();
+				}
 			}
 		}
-
 		return specificSchemaQueryExecutor;
 	}
 

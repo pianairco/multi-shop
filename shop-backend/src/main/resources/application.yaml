@@ -47,14 +47,13 @@ database:
   show-sql: true
   pool-size: 5
   support:
-    url: jdbc:h2:file:./data/support
-#    url: jdbc:h2:mem:support
+#    url: jdbc:h2:file:./data/support
+    url: jdbc:h2:mem:site
 #    url: jdbc:oracle:thin:@192.168.2.111:1521/site
-    username: support
+    username: site
     password: s
     driverClassName: org.h2.Driver
 #    driverClassName: oracle.jdbc.OracleDriver
   packages-to-scan:
     - ir.piana.business.multishop.common.data.entity
-    - ir.piana.business.multishop.data.entity
     - ir.piana.business.multishop.module.**.data.entity

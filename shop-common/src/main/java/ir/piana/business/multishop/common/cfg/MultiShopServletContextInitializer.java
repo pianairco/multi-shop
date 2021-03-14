@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import org.h2.server.web.WebServlet;
 import org.springframework.boot.web.servlet.ServletContextInitializer;

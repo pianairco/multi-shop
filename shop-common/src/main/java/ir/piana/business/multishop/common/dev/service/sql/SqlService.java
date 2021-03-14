@@ -4,6 +4,7 @@ import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Profile("production")
 public class SqlService {
 //    @Autowired
     private JdbcTemplate jdbcTemplate;

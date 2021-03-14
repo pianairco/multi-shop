@@ -5,6 +5,7 @@ import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
 import ir.piana.business.multishop.module.site.data.repository.BayaCategoryRepository;
 import ir.piana.business.multishop.module.site.service.BayaCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@Profile("production")
 @RequestMapping("/api/modules/site/baya")
 public class BayaRest {
 

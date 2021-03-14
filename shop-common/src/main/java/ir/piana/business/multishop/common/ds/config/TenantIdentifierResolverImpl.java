@@ -1,12 +1,10 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.TenantContext;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 @Component
-@Profile({ "production"})
+//@Profile({ "production"})
 public class TenantIdentifierResolverImpl
 		implements CurrentTenantIdentifierResolver {
 

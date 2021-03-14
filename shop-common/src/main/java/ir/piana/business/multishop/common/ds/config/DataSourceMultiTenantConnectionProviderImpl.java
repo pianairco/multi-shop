@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.engine.jdbc.connections.spi.AbstractDataSourceBasedMultiTenantConnectionProviderImpl;
@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 @Component
-@Profile({ "production"})
+//@Profile({"production"})
 public class DataSourceMultiTenantConnectionProviderImpl
 		extends AbstractDataSourceBasedMultiTenantConnectionProviderImpl {
 

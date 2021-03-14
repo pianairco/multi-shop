@@ -2,6 +2,7 @@ package ir.piana.business.multishop.common.dev.uploadrest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service("fileSystemStorageService")
+@Profile("production")
 public class FileSystemStorageService implements StorageService {
     private final Path rootLocation;
 

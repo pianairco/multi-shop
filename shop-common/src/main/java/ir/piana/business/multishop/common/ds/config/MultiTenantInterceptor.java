@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import ir.piana.business.multishop.common.data.cache.TenantContext;

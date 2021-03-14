@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.util;
+package ir.piana.business.multishop.common.util;
 
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.KeyDeserializer;

@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import org.springframework.cache.Cache;
 import org.springframework.core.io.Resource;

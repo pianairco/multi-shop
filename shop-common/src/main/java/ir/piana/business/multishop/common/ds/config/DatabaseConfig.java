@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.ds.config;
+package ir.piana.business.multishop.common.ds.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 @Getter
 @Setter
 @Configuration
-@Profile({ "production"})
+//@Profile({"production"})
 @ConfigurationProperties(prefix = "database")
 public class DatabaseConfig {
     private String[] packagesToScan;

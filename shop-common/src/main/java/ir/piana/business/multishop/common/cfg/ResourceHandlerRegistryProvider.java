@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

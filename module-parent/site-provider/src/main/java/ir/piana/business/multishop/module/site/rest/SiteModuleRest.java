@@ -5,7 +5,6 @@ import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.model.UserModel;
-import ir.piana.business.multishop.module.site.service.BayaCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -51,7 +50,7 @@ public class SiteModuleRest {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
 
-        List<SiteEntity> all = repository.findAllByCategoryId(categoryId);
+        List<SiteEntity> all = repository.findAllByCategory(categoryId);
         if(CommonUtils.isNull(all)) {
             return ResponseEntity.ok(
                     ResponseModel.builder().code(1)
