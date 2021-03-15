@@ -45,6 +45,10 @@ public class SpecificSchemaQueryExecutorProvider {
         }
     }
 
+    public SpecificSchemaQueryExecutor getSupportExecutor() {
+        return this.supportExecutor;
+    }
+
 //    public SpecificSchemaQueryExecutor getSpecificSchemaQueryExecutor(String tenantId) {
 //        return new SpecificSchemaQueryExecutor(datasources.get(tenantId));
 //    }

@@ -63,7 +63,6 @@ public class CommonUtils {
                 && normalizeString(ModelConststr).equals(normalizeString(toCompareStr)));
     }
 
-
     public static boolean isEqual(Object obj, String ModelConststr) {
         if (obj == null)
             return false;

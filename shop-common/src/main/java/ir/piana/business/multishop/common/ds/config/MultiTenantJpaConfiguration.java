@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -59,7 +58,7 @@ public class MultiTenantJpaConfiguration {
 		supportDs.setInitializationFailTimeout(5000);
 
 		SpecificSchemaQueryExecutor specificSchemaQueryExecutor = new SpecificSchemaQueryExecutor(supportDs);
-		InputStream resourceAsStream = MultiTenantJpaConfiguration.class.getResourceAsStream("/data.sql");
+		InputStream resourceAsStream = MultiTenantJpaConfiguration.class.getResourceAsStream("/common.sql");
 		if(resourceAsStream != null) {
 			String[] split = IOUtils.toString(resourceAsStream).split(";");
 			for (String script : split) {
