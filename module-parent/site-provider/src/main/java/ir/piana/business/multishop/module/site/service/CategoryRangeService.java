@@ -1,7 +1,5 @@
 package ir.piana.business.multishop.module.site.service;
 
-import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
-import ir.piana.business.multishop.module.site.data.entity.PianaCategoryEntity;
 import ir.piana.business.multishop.module.site.data.repository.PianaCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

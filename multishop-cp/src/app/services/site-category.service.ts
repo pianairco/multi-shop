@@ -19,6 +19,7 @@ export class SiteCategoryService {
     console.log("cached", this._rootCategory)
     if(!this._rootCategory) {
       this.restClientService.getSiteCategories().then(res => {
+        console.log(res.data)
         console.log(res.data.data)
         this.pianaStorageService.putObject("rootCategory", res.data.data);
         this.rootCategory = res.data.data;

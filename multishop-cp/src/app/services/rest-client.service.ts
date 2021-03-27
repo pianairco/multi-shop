@@ -21,6 +21,10 @@ export class RestClientService {
     return this.ajaxCallService.read(this.ajaxUrlMap.site + '/all-sites');
   }
 
+  getAllSitesByCategory(categoryId) {
+    return this.ajaxCallService.read(this.ajaxUrlMap.site + '/by-category?category-id=' + categoryId);
+  }
+
   getSiteCategories() {
     return this.ajaxCallService.read(this.ajaxUrlMap.siteCategory + '/root');
   }

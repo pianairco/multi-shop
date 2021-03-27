@@ -54,4 +54,14 @@ export class HomeViewComponent implements OnInit {
     // })
   }
 
+  selectCategory(categoryId) {
+    console.log(categoryId)
+    this.restClientService.getAllSitesByCategory(categoryId).then(res => {
+      if(res.status === 200 && res.data.code === 0) {
+        this.allSites = res.data.data;
+      }
+    }, err => {
+
+    });
+  }
 }

@@ -5,6 +5,7 @@ import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.model.UserModel;
+import ir.piana.business.multishop.module.site.service.CategoryRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,14 +26,17 @@ public class SiteModuleRest {
     @Autowired
     private SiteRepository repository;
 
+    @Autowired
+    private CategoryRangeService rangeService;
+
 //    @Autowired
 //    private BayaCategoryService bayaCategoryService;
 
     @Transactional
     @GetMapping("all-sites")
     public ResponseEntity<ResponseModel> allSites() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserModel userModel = (UserModel) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserModel userModel = (UserModel) authentication.getPrincipal();
 
         List<SiteEntity> all = repository.findAll();
         if(CommonUtils.isNull(all)) {
@@ -47,10 +51,11 @@ public class SiteModuleRest {
     @Transactional
     @GetMapping("by-category")
     public ResponseEntity<ResponseModel> allSitesByCategory(@RequestParam("category-id") long categoryId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserModel userModel = (UserModel) authentication.getPrincipal();
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserModel userModel = (UserModel) authentication.getPrincipal();
 
-        List<SiteEntity> all = repository.findAllByCategory(categoryId);
+        List<SiteEntity> all = repository.findByCategory(categoryId, rangeService.detectBoundary(categoryId));
+//        List<SiteEntity> all = repository.findAllByCategory(categoryId);
         if(CommonUtils.isNull(all)) {
             return ResponseEntity.ok(
                     ResponseModel.builder().code(1)

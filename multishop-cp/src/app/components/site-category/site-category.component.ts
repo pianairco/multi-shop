@@ -33,10 +33,12 @@ export class SiteCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteCategoryService.rootCategorySubject.subscribe(rootCategory => {
+      console.log(rootCategory);
       this.rootCategory = rootCategory;
       this.selected = rootCategory;
       this.last = this.selected;
       if(this.selected) {
+        console.log(this.selected)
         this.onSelect.emit(this.last.id);
       }
     })
