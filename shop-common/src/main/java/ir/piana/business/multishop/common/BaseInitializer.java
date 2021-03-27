@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class CommonInitializer {
+public abstract class BaseInitializer {
     protected SpecificSchemaQueryExecutorProvider queryExecutorProvider;
 
     public abstract InputStream getSupportSql();

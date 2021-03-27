@@ -1,6 +1,6 @@
 package ir.piana.business.multishop.module.shop.initializr;
 
-import ir.piana.business.multishop.common.CommonInitializer;
+import ir.piana.business.multishop.common.BaseInitializer;
 import ir.piana.business.multishop.common.data.component.SpecificSchemaQueryExecutorProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import java.io.InputStream;
 @Configuration
 @Slf4j
 @DependsOn("SpecificSchemaQueryExecutorProvider")
-public class ShopInitializer extends CommonInitializer {
+public class ShopInitializer extends BaseInitializer {
 
     @Autowired
     public void setQueryExecutorProvider(SpecificSchemaQueryExecutorProvider executorProvider) {

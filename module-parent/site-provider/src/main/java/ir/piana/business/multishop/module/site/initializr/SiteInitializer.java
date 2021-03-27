@@ -1,7 +1,7 @@
 package ir.piana.business.multishop.module.site.initializr;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ir.piana.business.multishop.common.CommonInitializer;
+import ir.piana.business.multishop.common.BaseInitializer;
 import ir.piana.business.multishop.common.data.component.SpecificSchemaQueryExecutorProvider;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
 import ir.piana.business.multishop.module.site.data.entity.BayaCategoryEntity;
@@ -23,8 +23,8 @@ import java.util.Map;
 
 @Configuration
 @Slf4j
-@DependsOn("SpecificSchemaQueryExecutorProvider")
-public class SiteInitializer extends CommonInitializer {
+@DependsOn({"SpecificSchemaQueryExecutorProvider", "CommonInitializer"})
+public class SiteInitializer extends BaseInitializer {
 
     @Autowired
     private ObjectMapper objectMapper;
