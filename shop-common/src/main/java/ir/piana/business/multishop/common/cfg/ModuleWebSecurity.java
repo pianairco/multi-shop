@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.module.site.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -10,7 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Configuration
 @EnableWebSecurity
 @Profile("module-application")
-public class WebSecurity extends WebSecurityConfigurerAdapter {
+public class ModuleWebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()

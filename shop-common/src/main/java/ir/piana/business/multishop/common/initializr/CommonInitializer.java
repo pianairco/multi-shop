@@ -6,6 +6,7 @@ import ir.piana.business.multishop.common.data.component.SpecificSchemaQueryExec
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
@@ -19,6 +20,9 @@ import java.sql.SQLException;
 @Slf4j
 @DependsOn("SpecificSchemaQueryExecutorProvider")
 public class CommonInitializer extends BaseInitializer {
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Autowired
     private ObjectMapper objectMapper;

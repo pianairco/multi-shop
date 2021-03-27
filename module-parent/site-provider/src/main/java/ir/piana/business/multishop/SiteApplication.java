@@ -19,7 +19,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class SiteApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SiteApplication.class, args);
+		SpringApplication app = new SpringApplication(SiteApplication.class);
+		app.setAdditionalProfiles("module-application");
+		app.run(args);
+//		SpringApplication.run(SiteApplication.class, args);
 	}
 
 }
