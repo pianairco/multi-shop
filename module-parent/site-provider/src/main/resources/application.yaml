@@ -32,7 +32,8 @@ database:
   show-sql: true
   pool-size: 5
   support:
-    url: jdbc:h2:file:./data/support
+    url: jdbc:h2:mem:support
+#    url: jdbc:h2:file:./data/site/support
     username: support
     password: s
     driverClassName: org.h2.Driver

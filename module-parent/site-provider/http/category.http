@@ -6,7 +6,7 @@ GET http://piana.ir/api/modules/site/all-sites
 Host: piana.ir
 
 ###
-GET http://piana.ir/api/modules/site/by-category?category-id=4611686018427387904
+GET http://piana.ir/api/modules/site/by-category?categoryIdString=4611686018427387904
 Host: piana.ir
 
 ###

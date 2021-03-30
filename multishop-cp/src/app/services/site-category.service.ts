@@ -56,6 +56,7 @@ export class SiteCategoryService {
 
 export class SiteCategory {
   id: number;
+  number: string;
   title: string;
   image: string;
   children: SiteCategory[];

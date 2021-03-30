@@ -75,7 +75,7 @@ public class CategoryRangeService {
             } else {
                 long temp = category >> shiftCounter;
                 temp += 1;
-                return temp << shiftCounter;
+                return (temp << shiftCounter) - 1;
             }
         }
         return Long.MAX_VALUE;

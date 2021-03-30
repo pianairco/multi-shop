@@ -88,6 +88,8 @@ public class SiteInitializer extends BaseInitializer {
                 !bayaCategoryEntity.getBayaCategoryEntities().isEmpty()) {
             long childSiblingCount = 0;
             for (BayaCategoryEntity child : bayaCategoryEntity.getBayaCategoryEntities()) {
+                if(pianaCategoryEntity == null)
+                    System.out.println();
                 proccess(child, pianaCategoryEntity.getId(), level + 1, ++childSiblingCount);
             }
         }

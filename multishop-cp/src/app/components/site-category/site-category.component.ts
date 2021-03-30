@@ -11,7 +11,7 @@ export class SiteCategoryComponent implements OnInit {
   last: SiteCategory;
   rootCategory: SiteCategory;
 
-  @Output() onSelect = new EventEmitter<number>();
+  @Output() onSelect = new EventEmitter<string>();
 
   constructor(private siteCategoryService: SiteCategoryService) { }
 
@@ -22,13 +22,13 @@ export class SiteCategoryComponent implements OnInit {
       this.selected = this.selected.parent ?  this.selected.parent : this.selected;
       this.last = this.selected;
     }
-    this.onSelect.emit(this.last.id);
+    this.onSelect.emit(this.last.number);
   }
 
   goNext(siteCategory: SiteCategory) {
     this.selected = siteCategory.children.length > 0 ? siteCategory : this.selected;
     this.last = siteCategory;
-    this.onSelect.emit(this.last.id);
+    this.onSelect.emit(this.last.number);
   }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class SiteCategoryComponent implements OnInit {
       this.last = this.selected;
       if(this.selected) {
         console.log(this.selected)
-        this.onSelect.emit(this.last.id);
+        this.onSelect.emit(this.last.number);
       }
     })
   }

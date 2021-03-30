@@ -14,6 +14,9 @@ public class PianaCategoryModel {
     @JsonProperty("id")
     private long id;
 
+    @JsonProperty("number")
+    private String number;
+
     @JsonProperty("title")
     private String title;
 

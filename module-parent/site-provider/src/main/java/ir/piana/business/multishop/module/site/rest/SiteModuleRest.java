@@ -4,12 +4,9 @@ import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
-import ir.piana.business.multishop.module.auth.model.UserModel;
 import ir.piana.business.multishop.module.site.service.CategoryRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,11 +47,14 @@ public class SiteModuleRest {
 
     @Transactional
     @GetMapping("by-category")
-    public ResponseEntity<ResponseModel> allSitesByCategory(@RequestParam("category-id") long categoryId) {
+    public ResponseEntity<ResponseModel> allSitesByCategory(@RequestParam("category-id") String categoryIdString) {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        UserModel userModel = (UserModel) authentication.getPrincipal();
 
-        List<SiteEntity> all = repository.findByCategory(categoryId, rangeService.detectBoundary(categoryId));
+        long startCategoryId = Long.valueOf(categoryIdString);
+        long endCategoryId = rangeService.detectBoundary(Long.valueOf(categoryIdString));
+
+        List<SiteEntity> all = repository.findByCategory(startCategoryId, endCategoryId);
 //        List<SiteEntity> all = repository.findAllByCategory(categoryId);
         if(CommonUtils.isNull(all)) {
             return ResponseEntity.ok(

@@ -49,6 +49,7 @@ public class SiteCategoryManagerService {
                         categoryModelMap = all.stream().collect(
                                 Collectors.toMap(x -> x.getId(), x -> PianaCategoryModel.builder()
                                         .id(x.getId())
+                                        .number(String.valueOf(x.getId()))
                                         .image(x.getImage())
                                         .title(x.getTitle())
                                         .children(new ArrayList<>()).build()));
