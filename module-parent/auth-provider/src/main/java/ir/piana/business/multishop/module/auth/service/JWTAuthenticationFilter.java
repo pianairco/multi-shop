@@ -81,10 +81,12 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     Authentication byForm(String username, String password, String captcha, Captcha sessionCaptcha, String host)
             throws IOException {
-        if(!sessionCaptcha.isCorrect(captcha)) {
-            throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
-        } else if(CommonUtils.isNull(username) || CommonUtils.isNull(password)) {
-            throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+        if(captcha != null && sessionCaptcha != null) {
+            if (!sessionCaptcha.isCorrect(captcha)) {
+                throw new HttpCommonRuntimeException(HttpStatus.UNAUTHORIZED, 1, "captcha failed");
+            } else if (CommonUtils.isNull(username) || CommonUtils.isNull(password)) {
+                throw new HttpCommonRuntimeException(HttpStatus.valueOf(404), 1, "access token not provided");
+            }
         }
 //        if(loginInfo != null) {
 //            userEntity = userRepository.findByUsername(loginInfo.getUsername());
@@ -278,8 +280,8 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     return byForm(
                             "rahmatii1366@gmail.com",
                             "0000",
-                            ((Captcha)request.getSession().getAttribute("simpleCaptcha")).getAnswer(),
-                            (Captcha)request.getSession().getAttribute("simpleCaptcha"), host);
+                            null,
+                            null, host);
                 }
                 if(host.equalsIgnoreCase(appDataCache.getDomain())) {
                     if (loginInfo != null && !CommonUtils.isNull(loginInfo.getAccessToken()))

@@ -1,7 +1,8 @@
 .header-background {
   background-size: cover;
   backgroundRepeat: 'no-repeat';
-  background-image: url('../../../assets/images/header.svg');
+  background-image: url('../../../assets/images/shop.jpg');
+  /*background-image: url('../../../assets/images/header.svg');*/
 }
 
 .description {
