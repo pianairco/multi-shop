@@ -5,10 +5,8 @@ password: 123
 JSESSIONID: 8BB57FBD4EC334BE42EE4F24B50D27F3
 
 ###
-GET http://localhost:8081/test
-Host: vavishka.ir
-username: admin
-password: 123
+GET https://piana.ir:8443/test
+Host: piana.ir
 JSESSIONID: 8BB57FBD4EC334BE42EE4F24B50D27F3
 ###
 POST https://piana.ir:8443/api/app-info
@@ -53,3 +51,5 @@ GET https://piana.ir:8443/api/modules/site/baya/save-piana
 Host: piana.ir
 
 ###
+GET https://piana.ir:8443/async/test
+Host: piana.ir
