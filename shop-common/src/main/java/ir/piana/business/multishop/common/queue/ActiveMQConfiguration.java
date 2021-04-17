@@ -1,7 +1,5 @@
 package ir.piana.business.multishop.common.queue;
 
-import ir.piana.business.multishop.common.queue.ActiveMQSpec;
-import ir.piana.business.multishop.common.queue.DispatcherQueue;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.context.support.StandardServletEnvironment;
 
-import java.lang.annotation.Annotation;
 import java.util.LinkedHashMap;
 import java.util.Set;
-import org.reflections.Reflections;
-import org.springframework.web.context.support.StandardServletEnvironment;
 
 @EnableJms
 @Configuration

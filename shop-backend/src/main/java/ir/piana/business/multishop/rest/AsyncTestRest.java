@@ -1,6 +1,5 @@
 package ir.piana.business.multishop.rest;
 
-import ir.piana.business.multishop.common.queue.ActiveMQSpec;
 import ir.piana.business.multishop.common.queue.DispatcherQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,7 +38,7 @@ public class AsyncTestRest {
 
     @PostConstruct
     public void init() {
-        executorService = Executors.newFixedThreadPool(5);
+        executorService = Executors.newFixedThreadPool(3);
     }
 
     @GetMapping(path = "async/test")
