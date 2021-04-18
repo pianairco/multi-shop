@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService, SiteInfo} from "../../services/authentication-service.service";
+import {ShareStateService} from "../../services/share-state.service";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import {AuthenticationService, SiteInfo} from "../../services/authentication-ser
 export class HeaderComponent implements OnInit {
   siteInfo: SiteInfo = new SiteInfo();
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(public authService: AuthenticationService,
+              public shareStateService: ShareStateService) { }
 
   ngOnInit(): void {
     this.authService.authSubject.subscribe(appInfo => {

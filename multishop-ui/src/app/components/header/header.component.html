@@ -3,13 +3,43 @@
   <!-- Hero content: will be in the middle -->
 
   <div class="hero-body header-background" >
-    <div class="container has-text-centered description py-2" >
-      <h1 class="title" style="font-family: IranNastaliq; font-size: 28px;">
-        {{siteInfo.title}}
-      </h1>
-      <h2 class="subtitle">
-        آموزش آشپزی همراه با تامین مواد غذایی از دل طبیعت
-      </h2>
+    <div class="container">
+      <div class="message is-fullwidth">
+        <div class="message-header">
+          <button class="delete is-medium" aria-label="delete"></button>
+        </div>
+        <div class="message-body">
+          <div class="container has-text-centered description py-2" >
+            <ng-container *ngIf="(authService.authSubject | async).isAdmin">
+              <div class="columns">
+                <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
+                  <input class="input is-small" type="text" placeholder="عنوان"
+                         style="font-family: IranNastaliq; text-align: center" [(ngModel)]="siteInfo.title">
+                </div>
+              </div>
+              <div class="columns is-center">
+                <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
+                  <textarea class="textarea is-small" [(ngModel)]="siteInfo.description"></textarea>
+                </div>
+              </div>
+              <div class="columns is-center">
+                <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
+                  <button class="button is-success is-small" >تغییر</button>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!(authService.authSubject | async).isAdmin">
+              <h1 class="title" style="font-family: IranNastaliq; font-size: 28px;">
+                {{siteInfo.title}}
+              </h1>
+              <h2 class="subtitle">
+                {{siteInfo.description}}
+                <!--        آموزش آشپزی همراه با تامین مواد غذایی از دل طبیعت-->
+              </h2>
+            </ng-container>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

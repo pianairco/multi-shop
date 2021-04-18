@@ -111,6 +111,7 @@ export class AuthenticationService {
 
 export class SiteInfo {
   title: string;
+  description: string;
   instagramLink: string;
   whatsappLink: string;
   facebookLink: string;

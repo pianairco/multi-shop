@@ -10,6 +10,7 @@ import {PictureBoxComponent} from './picture-box/picture-box.component';
 import {HeaderComponent} from './header/header.component';
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -31,9 +32,10 @@ import {RouterModule} from "@angular/router";
     LoadingComponent,
     PictureBoxComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule
+    ]
 })
 export class SharedModule { }
