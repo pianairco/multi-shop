@@ -9,6 +9,8 @@ import {ShareStateService} from "../../services/share-state.service";
 })
 export class HeaderComponent implements OnInit {
   siteInfo: SiteInfo = new SiteInfo();
+  isEditedMode: boolean = false;
+  tabName: string = 'image';
 
   constructor(public authService: AuthenticationService,
               public shareStateService: ShareStateService) { }
@@ -17,5 +19,13 @@ export class HeaderComponent implements OnInit {
     this.authService.authSubject.subscribe(appInfo => {
       this.siteInfo = appInfo.siteInfo;
     });
+  }
+
+  updateSiteInfo() {
+    this.authService.updateSiteInfo(this.siteInfo);
+  }
+
+  tabChange(tabName) {
+    this.tabName = tabName;
   }
 }

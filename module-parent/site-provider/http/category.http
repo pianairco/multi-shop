@@ -10,4 +10,7 @@ GET http://piana.ir/api/modules/site/by-category?categoryIdString=46116860184273
 Host: piana.ir
 
 ###
+GET https://piana.ir/api/modules/shop/category/list
+Host: shop.piana.ir
 
+###

@@ -32,6 +32,9 @@ public class SiteEntity {
     @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Column(name = "INSTAGRAM_LINK")
     private String instagramLink;
 

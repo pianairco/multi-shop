@@ -4,15 +4,14 @@ import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
+import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.site.service.CategoryRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,5 +62,27 @@ public class SiteModuleRest {
                             .build());
         }
         return ResponseEntity.ok(ResponseModel.builder().code(0).data(all).build());
+    }
+
+    @Autowired
+    private SiteRepository siteRepository;
+
+    @Transactional
+    @PutMapping("info")
+    public ResponseEntity<ResponseModel> updateInfo(
+            HttpServletRequest request, @RequestBody SiteInfo siteInfo) {
+        String host = (String) request.getAttribute("host");
+        SiteEntity siteEntity = siteRepository.findByTenantId(host);
+
+        siteEntity.setTitle(siteInfo.getTitle());
+        siteEntity.setDescription(siteInfo.getDescription());
+        siteRepository.save(siteEntity);
+        return ResponseEntity.ok(
+                    ResponseModel.builder().code(0)
+                            .data(SiteInfo.builder()
+                                    .title(siteEntity.getTitle())
+                                    .description(siteEntity.getDescription())
+                                    .build())
+                            .build());
     }
 }

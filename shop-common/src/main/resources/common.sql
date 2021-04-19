@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS SITE (
     TENANT_ID varchar(32) not null,
     CATEGORY bigint not null,
     TITLE varchar(128) not null,
+    DESCRIPTION varchar(512),
     INSTAGRAM_LINK varchar(256),
     WHATSAPP_LINK varchar(256),
     FACEBOOK_LINK varchar(256),

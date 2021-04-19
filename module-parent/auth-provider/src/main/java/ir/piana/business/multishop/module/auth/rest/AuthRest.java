@@ -1,11 +1,15 @@
 package ir.piana.business.multishop.module.auth.rest;
 
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.entity.SiteEntity;
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.exceptions.HttpCommonRuntimeException;
 import ir.piana.business.multishop.module.auth.action.AuthAction;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.LoginInfo;
+import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.auth.model.UserModel;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
 import nl.captcha.Captcha;
@@ -45,18 +49,43 @@ public class AuthRest {
     @Value("${login.redirect.url}")
     private String loginRedirect;
 
+    @Autowired
+    private AppDataCache appDataCache;
+
+    @Autowired
+    private SiteRepository siteRepository;
+
     @PostConstruct
     public void init() {
         System.out.println(loginRedirect);
     }
 
-    @PostMapping(path = "sign-out", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AppInfo> signOut(@RequestBody Map map, HttpSession session) throws IOException {
+    @PostMapping(path = "sign-out",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AppInfo> signOut(
+            @RequestBody Map map, HttpServletRequest request, HttpSession session) throws IOException {
         session.invalidate();
 //        SecurityContext sc = SecurityContextHolder.getContext();
 //        sc.setAuthentication(authenticate);
+        String host = (String) request.getAttribute("host");
+        SiteEntity siteEntity = null;
+        if(!appDataCache.getDomain().equalsIgnoreCase(host))
+            siteEntity = siteRepository.findByTenantId(host);
         AppInfo appInfo = AppInfo.builder().isLoggedIn(false)
                 .isAdmin(false).build();
+        if(siteEntity != null) {
+            appInfo.setSiteInfo(SiteInfo.builder()
+                    .title(siteEntity.getTitle())
+                    .facebookLink(siteEntity.getFacebookLink())
+                    .instagramLink(siteEntity.getInstagramLink())
+                    .whatsappLink(siteEntity.getWhatsappLink())
+                    .telNumber(siteEntity.getTelNumber())
+                    .build());
+        } else {
+            appInfo.setSiteInfo(SiteInfo.builder()
+                    .title(appDataCache.getDomain()).build());
+        }
         return ResponseEntity.ok(appInfo);
     }
 

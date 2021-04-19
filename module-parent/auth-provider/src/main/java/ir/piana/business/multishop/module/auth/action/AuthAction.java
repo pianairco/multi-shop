@@ -53,6 +53,7 @@ public class AuthAction extends AjaxController.Action {
             if(siteEntity != null) {
                 appInfo.setSiteInfo(SiteInfo.builder()
                         .title(siteEntity.getTitle())
+                        .description(siteEntity.getDescription())
                         .facebookLink(siteEntity.getFacebookLink())
                         .instagramLink(siteEntity.getInstagramLink())
                         .whatsappLink(siteEntity.getWhatsappLink())
@@ -72,6 +73,7 @@ public class AuthAction extends AjaxController.Action {
             if(siteEntity != null) {
                 appInfo.setSiteInfo(SiteInfo.builder()
                         .title(siteEntity.getTitle())
+                        .description(siteEntity.getDescription())
                         .facebookLink(siteEntity.getFacebookLink())
                         .instagramLink(siteEntity.getInstagramLink())
                         .whatsappLink(siteEntity.getWhatsappLink())

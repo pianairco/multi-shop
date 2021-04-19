@@ -16,3 +16,14 @@ CREATE TABLE IF NOT EXISTS PIANA_CATEGORIES (
     TITLE varchar(512),
     IMAGE varchar(32)
 );
+
+CREATE TABLE IF NOT EXISTS SITE_INFO (
+    ID bigint primary key,
+    SITE_ID bigint,
+    TITLE varchar(128),
+    DESCRIPTION varchar(512),
+    TIP_TITLE varchar(128),
+    TIP_DESCRIPTION varchar(512),
+    HEADER_IMAGE varchar(128),
+);
+

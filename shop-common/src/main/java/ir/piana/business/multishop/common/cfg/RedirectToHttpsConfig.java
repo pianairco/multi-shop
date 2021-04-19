@@ -1,4 +1,4 @@
-package ir.piana.business.multishop.cfg;
+package ir.piana.business.multishop.common.cfg;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;

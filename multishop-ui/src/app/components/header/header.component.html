@@ -3,14 +3,25 @@
   <!-- Hero content: will be in the middle -->
 
   <div class="hero-body header-background" >
-    <div class="container">
-      <div class="message is-fullwidth">
-        <div class="message-header">
-          <button class="delete is-medium" aria-label="delete"></button>
+    <div class="container description">
+      <div class="message is-fullwidth description">
+        <div class="message-header" *ngIf="(authService.authSubject | async).isAdmin">
+          <button class="edit is-medium" (click)="isEditedMode = !isEditedMode;">
+            <span *ngIf="!isEditedMode" class="fa fa-edit"></span>
+            <span *ngIf="isEditedMode" class="fa fa-eye"></span>
+          </button>
         </div>
-        <div class="message-body">
+
+        <div class="tabs is-centered">
+          <ul>
+            <li [class.is-active-tab]="tabName === 'image'" (click)="tabChange('image')"><a>تصویر</a></li>
+            <li [class.is-active-tab]="tabName === 'text'" (click)="tabChange('text')"><a>متن</a></li>
+          </ul>
+        </div>
+
+        <div class="message-body" [style]="{'border': (authService.authSubject | async).isAdmin ? '0px' : '0px'}">
           <div class="container has-text-centered description py-2" >
-            <ng-container *ngIf="(authService.authSubject | async).isAdmin">
+            <ng-container *ngIf="isEditedMode">
               <div class="columns">
                 <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
                   <input class="input is-small" type="text" placeholder="عنوان"
@@ -24,11 +35,11 @@
               </div>
               <div class="columns is-center">
                 <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
-                  <button class="button is-success is-small" >تغییر</button>
+                  <button class="button is-success is-small" (click)="updateSiteInfo()">ثبت</button>
                 </div>
               </div>
             </ng-container>
-            <ng-container *ngIf="!(authService.authSubject | async).isAdmin">
+            <ng-container *ngIf="!isEditedMode">
               <h1 class="title" style="font-family: IranNastaliq; font-size: 28px;">
                 {{siteInfo.title}}
               </h1>

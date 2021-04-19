@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SiteInfo {
     private String title;
+    private String description;
     private String instagramLink;
     private String whatsappLink;
     private String facebookLink;
