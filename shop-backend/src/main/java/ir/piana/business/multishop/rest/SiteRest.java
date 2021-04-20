@@ -9,6 +9,8 @@ import ir.piana.business.multishop.common.data.repository.SiteUserRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.model.UserModel;
+import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,9 @@ public class SiteRest {
 
     @Autowired
     private AppDataCache appDataCache;
+
+    @Autowired
+    private SiteInfoRepository siteInfoRepository;
 
     @Transactional
     @GetMapping("check-name/{name}")
@@ -101,6 +106,14 @@ public class SiteRest {
                 .isActive(true)
                 .build();
         siteRepository.save(siteEntity);
+        SiteInfoEntity siteInfoEntity = SiteInfoEntity.builder()
+                .tenantId(siteName + "." + appDataCache.getDomain())
+                .title("PianaShop")
+                .description("When you are visiting a business' Piana Shop, you can use the Message button to start a conversation with the business about a product that you're viewing.")
+                .tipTitle("Shop Tip")
+                .tipDescription("If you have a product idea or shop tip that you would like to share, count on us")
+                .build();
+        siteInfoRepository.save(siteInfoEntity);
         SiteUserEntity siteUserEntity = SiteUserEntity.builder()
                 .siteId(siteEntity.getId())
                 .agentId(siteEntity.getAgentId())

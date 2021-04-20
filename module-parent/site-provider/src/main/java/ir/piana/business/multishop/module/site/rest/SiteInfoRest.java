@@ -1,0 +1,54 @@
+package ir.piana.business.multishop.module.site.rest;
+
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
+import ir.piana.business.multishop.common.model.ResponseModel;
+import ir.piana.business.multishop.module.auth.model.SiteInfo;
+import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
+import ir.piana.business.multishop.module.site.service.CategoryRangeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/modules/site/site-info")
+public class SiteInfoRest {
+    @Autowired
+    private SiteInfoRepository siteInfoRepository;
+
+    @Transactional
+    @GetMapping
+    public ResponseEntity<ResponseModel> getSiteInfo(
+            HttpServletRequest request, @RequestBody SiteInfo siteInfo) {
+//        String host = (String) request.getAttribute("host");
+//        SiteEntity siteEntity = siteRepository.findByTenantId(host);
+        String tenant = (String) request.getAttribute("tenant");
+
+        SiteInfoEntity byTenantId = siteInfoRepository.findByTenantId(tenant);
+
+        return ResponseEntity.ok(
+                ResponseModel.builder().code(0)
+                        .data(byTenantId)
+                        .build());
+    }
+
+    @Transactional
+    @PutMapping
+    public ResponseEntity<ResponseModel> updateSiteInfo(
+            HttpServletRequest request, @RequestBody Map<String, String> siteInfo) {
+        String tenant = (String) request.getAttribute("tenant");
+        SiteInfoEntity siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
+
+        siteInfoEntity.setTitle(siteInfo.get("title"));
+        siteInfoEntity.setDescription(siteInfo.get("description"));
+        siteInfoRepository.save(siteInfoEntity);
+        return ResponseEntity.ok(
+                    ResponseModel.builder().code(0)
+                            .data(siteInfo)
+                            .build());
+    }
+}

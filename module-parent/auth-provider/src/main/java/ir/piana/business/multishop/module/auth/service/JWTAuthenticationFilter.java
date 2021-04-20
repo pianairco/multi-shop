@@ -276,13 +276,13 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     (request.getContentType().startsWith("APPLICATION/JSON") ||
                             request.getContentType().startsWith("application/json"))) {
                 LoginInfo loginInfo = new ObjectMapper().readValue(request.getInputStream(), LoginInfo.class);
-//                if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
-//                    return byForm(
-//                            "rahmatii1366@gmail.com",
-//                            "0000",
-//                            null,
-//                            null, host);
-//                }
+                if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
+                    return byForm(
+                            "rahmatii1366@gmail.com",
+                            "0000",
+                            null,
+                            null, host);
+                }
                 if(host.equalsIgnoreCase(appDataCache.getDomain())) {
                     if (loginInfo != null && !CommonUtils.isNull(loginInfo.getAccessToken()))
                         return byGoogle(loginInfo.getAccessToken(), host);
