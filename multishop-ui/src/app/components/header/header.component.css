@@ -83,3 +83,16 @@
   font-weight: bold;
   background-color: inherit;
 }
+
+.hero .tabs ul {
+  border-bottom: inset;
+}
+
+.tabs > ul > li > a {
+  text-decoration: none;
+  color: white;
+}
+
+.is-active-tab {
+  background-color: #c2dfe8;
+}

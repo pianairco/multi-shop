@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import {ConstantService} from "../../services/constant.service";
+import {AuthenticationService, SiteInfo} from "../../services/authentication-service.service";
 
 @Component({
   selector: 'app-home-view',
@@ -8,9 +9,15 @@ import {ConstantService} from "../../services/constant.service";
   styleUrls: ['./home-view.component.css']
 })
 export class HomeViewComponent implements OnInit {
-  constructor(public constantService: ConstantService) { }
+  siteInfo: SiteInfo = new SiteInfo();
+
+  constructor(public constantService: ConstantService,
+              public authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    this.authService.authSubject.subscribe(appInfo => {
+      this.siteInfo = appInfo.siteInfo;
+    });
     // axios.get('/api/message').then(res => {
     //   console.log(res);
     // }, err => {

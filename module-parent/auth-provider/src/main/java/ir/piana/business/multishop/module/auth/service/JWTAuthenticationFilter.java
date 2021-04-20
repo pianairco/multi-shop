@@ -18,6 +18,8 @@ import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
 import ir.piana.business.multishop.module.auth.model.*;
+import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import nl.captcha.Captcha;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private AuthenticationManager authenticationManager;
     private GoogleUserRepository googleUserRepository;
     private SiteRepository siteRepository;
+    private SiteInfoRepository siteInfoRepository;
     private AgentProvider agentProvider;
     private CrossDomainAuthenticationService crossDomainAuthenticationService;
     private AppDataCache appDataCache;
@@ -349,6 +352,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 //        res.sendRedirect("hello");
 //        res.addHeader("Authorization", "Bearer " + token);
         String host = (String) request.getAttribute("host");
+        String tenant = (String) request.getAttribute("tenant");
         Optional<? extends GrantedAuthority> role_owner = null;
         if(appDataCache.getDomain().equalsIgnoreCase(host)) {
             role_owner = auth.getAuthorities().stream()
@@ -359,8 +363,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         }
 
         SiteEntity siteEntity = null;
-        if(!appDataCache.getDomain().equalsIgnoreCase(host))
+        SiteInfoEntity siteInfoEntity = null;
+        if(!appDataCache.getDomain().equalsIgnoreCase(host)) {
             siteEntity = siteRepository.findByTenantId(host);
+            siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
+        }
         AppInfo appInfo = AppInfo.builder()
                 .isLoggedIn(true)
                 .isAdmin(role_owner.isPresent())
@@ -374,8 +381,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                 .build();
         if(siteEntity != null) {
             appInfo.setSiteInfo(SiteInfo.builder()
-                    .title(siteEntity.getTitle())
-                    .description(siteEntity.getDescription())
+                    .title(siteInfoEntity.getTitle())
+                    .description(siteInfoEntity.getDescription())
+                    .tipTitle(siteInfoEntity.getTipTitle())
+                    .tipDescription(siteInfoEntity.getTipDescription())
+                    .headerImage(siteInfoEntity.getHeaderImage())
                     .facebookLink(siteEntity.getFacebookLink())
                     .instagramLink(siteEntity.getInstagramLink())
                     .whatsappLink(siteEntity.getWhatsappLink())

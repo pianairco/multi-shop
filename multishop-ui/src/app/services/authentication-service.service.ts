@@ -74,8 +74,24 @@ export class AuthenticationService {
     }
   }
 
+/*  getSiteInfo(siteInfo): Promise<SiteInfo> {
+    return new Promise((resolve, reject) => {
+      axios.put('/api/modules/site/info', siteInfo, {headers: {}}).then(
+        res => {
+          if (res.status === 200) {
+            // this._appInfo.siteInfo.title = res['data']['data']['title'];
+            // this._appInfo.siteInfo.description = res['data']['data']['description'];
+            // this.setAppInfo(this._appInfo);
+          }
+        }, err => {
+        }
+      );
+
+    });
+  }*/
+
   async updateSiteInfo(siteInfo) {
-    let res = await axios.put('/api/modules/site/info', siteInfo, {headers: {}});
+    let res = await axios.put('/api/modules/site/site-info', siteInfo, {headers: {}});
     if (res.status === 200) {
       this._appInfo.siteInfo.title = res['data']['data']['title'];
       this._appInfo.siteInfo.description = res['data']['data']['description'];
@@ -132,6 +148,8 @@ export class AuthenticationService {
 export class SiteInfo {
   title: string;
   description: string;
+  tipTitle: string;
+  tipDescription: string;
   instagramLink: string;
   whatsappLink: string;
   facebookLink: string;

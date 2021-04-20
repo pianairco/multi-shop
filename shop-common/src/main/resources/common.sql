@@ -34,6 +34,8 @@ INSERT INTO AGENT select * from (
     select 2, 'assistant'
 ) where not exists(select * from AGENT);
 
+-- alter table SITE add DESCRIPTION varchar(512);
+
 CREATE TABLE IF NOT EXISTS SITE (
     ID bigint primary key,
     AGENT_ID bigint not null,

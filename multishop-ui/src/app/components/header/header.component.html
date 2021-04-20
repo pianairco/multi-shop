@@ -12,7 +12,7 @@
           </button>
         </div>
 
-        <div class="tabs is-centered">
+        <div class="tabs is-centered" *ngIf="isEditedMode">
           <ul>
             <li [class.is-active-tab]="tabName === 'image'" (click)="tabChange('image')"><a>تصویر</a></li>
             <li [class.is-active-tab]="tabName === 'text'" (click)="tabChange('text')"><a>متن</a></li>

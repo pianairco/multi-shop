@@ -8,6 +8,8 @@ import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.model.AppInfo;
 import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.auth.model.UserModel;
+import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,13 +29,20 @@ public class AuthAction extends AjaxController.Action {
     @Autowired
     private AppDataCache appDataCache;
 
+    @Autowired
+    private SiteInfoRepository siteInfoRepository;
+
     public BiFunction<HttpServletRequest, Map<String, Object>, ResponseEntity> appInfo = (request, body) -> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // ToDo => appInfo setter
         String host = (String) request.getAttribute("host");
+        String tenant = (String) request.getAttribute("tenant");
         SiteEntity siteEntity = null;
-        if(!appDataCache.getDomain().equalsIgnoreCase(host))
+        SiteInfoEntity siteInfoEntity = null;
+        if(!appDataCache.getDomain().equalsIgnoreCase(host)) {
             siteEntity = siteRepository.findByTenantId(host);
+            siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
+        }
         AppInfo appInfo = null;
         if(authentication.getPrincipal() instanceof UserModel) {
             GoogleUserEntity userEntity = ((UserModel) authentication.getPrincipal()).getUserEntity();
@@ -52,8 +61,11 @@ public class AuthAction extends AjaxController.Action {
                     .build();
             if(siteEntity != null) {
                 appInfo.setSiteInfo(SiteInfo.builder()
-                        .title(siteEntity.getTitle())
-                        .description(siteEntity.getDescription())
+                        .title(siteInfoEntity.getTitle())
+                        .description(siteInfoEntity.getDescription())
+                        .tipTitle(siteInfoEntity.getTipTitle())
+                        .tipDescription(siteInfoEntity.getTipDescription())
+                        .headerImage(siteInfoEntity.getHeaderImage())
                         .facebookLink(siteEntity.getFacebookLink())
                         .instagramLink(siteEntity.getInstagramLink())
                         .whatsappLink(siteEntity.getWhatsappLink())
@@ -70,10 +82,13 @@ public class AuthAction extends AjaxController.Action {
                     .username(authentication.getName())
                     .build();
 
-            if(siteEntity != null) {
+            if(siteEntity != null && siteInfoEntity != null) {
                 appInfo.setSiteInfo(SiteInfo.builder()
-                        .title(siteEntity.getTitle())
-                        .description(siteEntity.getDescription())
+                        .title(siteInfoEntity.getTitle())
+                        .description(siteInfoEntity.getDescription())
+                        .tipTitle(siteInfoEntity.getTipTitle())
+                        .tipDescription(siteInfoEntity.getTipDescription())
+                        .headerImage(siteInfoEntity.getHeaderImage())
                         .facebookLink(siteEntity.getFacebookLink())
                         .instagramLink(siteEntity.getInstagramLink())
                         .whatsappLink(siteEntity.getWhatsappLink())
