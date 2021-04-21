@@ -150,6 +150,7 @@ export class SiteInfo {
   description: string;
   tipTitle: string;
   tipDescription: string;
+  headerImage: string;
   instagramLink: string;
   whatsappLink: string;
   facebookLink: string;

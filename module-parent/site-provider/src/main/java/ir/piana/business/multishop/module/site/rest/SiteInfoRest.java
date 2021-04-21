@@ -1,12 +1,14 @@
 package ir.piana.business.multishop.module.site.rest;
 
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
+import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
 import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import ir.piana.business.multishop.module.site.service.CategoryRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,11 @@ public class SiteInfoRest {
                         .build());
     }
 
+    @Autowired
+    @Qualifier("fileSystemStorageService")
+//    @Qualifier("databaseStorageService")
+    private StorageService storageService;
+
     @Transactional
     @PutMapping
     public ResponseEntity<ResponseModel> updateSiteInfo(
@@ -45,6 +52,11 @@ public class SiteInfoRest {
 
         siteInfoEntity.setTitle(siteInfo.get("title"));
         siteInfoEntity.setDescription(siteInfo.get("description"));
+        String headerImage = siteInfo.get("headerImage");
+        if(headerImage != null && !headerImage.isEmpty()) {
+            headerImage = storageService.store(headerImage, "header2", 0);
+            siteInfoEntity.setHeaderImage(headerImage);
+        }
         siteInfoRepository.save(siteInfoEntity);
         return ResponseEntity.ok(
                     ResponseModel.builder().code(0)

@@ -38,6 +38,10 @@ storage:
       width: 640
       height: 640
       sql: insert into header (path, orders) values (?, ?)
+    header2:
+      folder: /assets/header
+      width: 640
+      height: 640
 sql:
   groups:
     sample:

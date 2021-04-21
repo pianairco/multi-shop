@@ -61,6 +61,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
             BCryptPasswordEncoder bCryptPasswordEncoder,
             GoogleUserRepository googleUserRepository,
             SiteRepository siteRepository,
+            SiteInfoRepository siteInfoRepository,
             CrossDomainAuthenticationService crossDomainAuthenticationService,
             AppDataCache appDataCache,
             AgentProvider agentProvider,
@@ -70,6 +71,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.googleUserRepository = googleUserRepository;
         this.siteRepository = siteRepository;
+        this.siteInfoRepository = siteInfoRepository;
         this.crossDomainAuthenticationService = crossDomainAuthenticationService;
         this.appDataCache = appDataCache;
         this.agentProvider = agentProvider;

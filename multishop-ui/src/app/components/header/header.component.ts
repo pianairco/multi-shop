@@ -10,7 +10,9 @@ import {ShareStateService} from "../../services/share-state.service";
 export class HeaderComponent implements OnInit {
   siteInfo: SiteInfo = new SiteInfo();
   isEditedMode: boolean = false;
-  tabName: string = 'image';
+  tabName: string = 'text';
+  image: string = null;
+  // bac = 'https://shop.piana.ir:8443/assets/header/4Tb9tC59dg1Wd0…tJJHiPn10uDUml5jz2G424JWWUyjoLbjtwiG3C84TvB9.jpeg';
 
   constructor(public authService: AuthenticationService,
               public shareStateService: ShareStateService) { }
@@ -18,6 +20,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.authService.authSubject.subscribe(appInfo => {
       this.siteInfo = appInfo.siteInfo;
+      console.log(this.siteInfo.headerImage)
+      this.siteInfo.headerImage = this.siteInfo.headerImage.replace(/\s/g, '')
+      console.log(this.siteInfo.headerImage)
     });
   }
 
@@ -27,5 +32,12 @@ export class HeaderComponent implements OnInit {
 
   tabChange(tabName) {
     this.tabName = tabName;
+  }
+
+  selectImage(image) {
+    this.image = image;
+    console.log(this.image)
+    this.siteInfo.headerImage = this.image;
+    this.authService.updateSiteInfo(this.siteInfo)
   }
 }

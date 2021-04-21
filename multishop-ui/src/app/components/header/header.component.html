@@ -2,7 +2,9 @@
   <!-- Hero head: will stick at the top -->
   <!-- Hero content: will be in the middle -->
 
-  <div class="hero-body header-background" >
+  <div class="hero-body "
+       *ngIf="siteInfo.headerImage"
+       [ngStyle]="{'background': 'url(' + siteInfo.headerImage + ') no-repeat 0 0 / cover'}">
     <div class="container description">
       <div class="message is-fullwidth description">
         <div class="message-header" *ngIf="(authService.authSubject | async).isAdmin">
@@ -14,14 +16,21 @@
 
         <div class="tabs is-centered" *ngIf="isEditedMode">
           <ul>
-            <li [class.is-active-tab]="tabName === 'image'" (click)="tabChange('image')"><a>تصویر</a></li>
-            <li [class.is-active-tab]="tabName === 'text'" (click)="tabChange('text')"><a>متن</a></li>
+            <li [class.is-active-tab]="tabName === 'text'"
+                (click)="tabChange('text')"><a>متن</a></li>
+            <li [class.is-active-tab]="tabName === 'image'"
+                (click)="tabChange('image')"><a>تصویر</a></li>
           </ul>
         </div>
 
         <div class="message-body" [style]="{'border': (authService.authSubject | async).isAdmin ? '0px' : '0px'}">
-          <div class="container has-text-centered description py-2" >
-            <ng-container *ngIf="isEditedMode">
+          <div class="container has-text-centered description py-2 is-centered" >
+            <ng-container *ngIf="isEditedMode && tabName === 'image'">
+              <app-picture-box #pictureBox [image]="siteInfo.headerImage"
+                               (onSelect)="selectImage($event)"
+                               [isUpload]="true"></app-picture-box>
+            </ng-container>
+            <ng-container *ngIf="isEditedMode && tabName === 'text'">
               <div class="columns">
                 <div class="column is-10-mobile is-4-desktop is-offset-1-mobile is-offset-4-desktop">
                   <input class="input is-small" type="text" placeholder="عنوان"

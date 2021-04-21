@@ -4,6 +4,7 @@ import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +55,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SiteRepository siteRepository;
+
+    @Autowired
+    private SiteInfoRepository siteInfoRepository;
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -140,6 +144,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                                 authenticationManager(), bCryptPasswordEncoder,
                                 googleUserRepository,
                                 siteRepository,
+                                siteInfoRepository,
                                 crossDomainAuthenticationService, appDataCache,
                                 agentProvider, env),
                         UsernamePasswordAuthenticationFilter.class)
