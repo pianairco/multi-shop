@@ -10,8 +10,8 @@ server:
       force-response: true
 spring:
   profiles:
-#    include: resources, store, production, develop
-    include: resources, store, production, product
+    include: resources, store, production, develop
+#    include: resources, store, production, product
 #    include: resources, store, production
 #  config:
 #    activate:

@@ -11,6 +11,7 @@ import {HeaderComponent} from './header/header.component';
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {TipComponent} from "./tip/tip.component";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {FormsModule} from "@angular/forms";
     TopbarComponent,
     FooterComponent,
     HeaderComponent,
+    TipComponent,
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
@@ -27,6 +29,7 @@ import {FormsModule} from "@angular/forms";
     TopbarComponent,
     FooterComponent,
     HeaderComponent,
+    TipComponent,
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,

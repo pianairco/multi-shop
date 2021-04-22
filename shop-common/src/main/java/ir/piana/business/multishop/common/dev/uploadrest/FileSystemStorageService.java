@@ -121,7 +121,7 @@ public class FileSystemStorageService implements StorageService {
             }
             String random = RandomStringUtils.randomAlphanumeric(64).concat(".").concat(format);
             String filePath = "".concat(storageProperties.getGroups().get(group).getFolder())
-                    .concat(File.separator).concat(random);
+                    .concat("/").concat(random);
 
             BufferedImage originalImage = null;
             byte[] imageByte;

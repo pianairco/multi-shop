@@ -2,9 +2,9 @@
   <!-- Hero head: will stick at the top -->
   <!-- Hero content: will be in the middle -->
 
-  <div class="hero-body "
+  <div class="hero-body header-background"
        *ngIf="siteInfo.headerImage"
-       [ngStyle]="{'background': 'url(' + siteInfo.headerImage + ') no-repeat 0 0 / cover'}">
+       [ngStyle]="{'background-image': 'url(' + siteInfo.headerImage + ')'}">
     <div class="container description">
       <div class="message is-fullwidth description">
         <div class="message-header" *ngIf="(authService.authSubject | async).isAdmin">
@@ -27,6 +27,8 @@
           <div class="container has-text-centered description py-2 is-centered" >
             <ng-container *ngIf="isEditedMode && tabName === 'image'">
               <app-picture-box #pictureBox [image]="siteInfo.headerImage"
+                               [maxWidth]="'256px'"
+                               [maxHeight]="'256px'"
                                (onSelect)="selectImage($event)"
                                [isUpload]="true"></app-picture-box>
             </ng-container>

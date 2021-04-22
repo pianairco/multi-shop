@@ -44,14 +44,35 @@ public class SiteInfoRest {
     private StorageService storageService;
 
     @Transactional
-    @PutMapping
-    public ResponseEntity<ResponseModel> updateSiteInfo(
+    @PutMapping("header-text")
+    public ResponseEntity<ResponseModel> updateSiteInfoHeaderText(
             HttpServletRequest request, @RequestBody Map<String, String> siteInfo) {
         String tenant = (String) request.getAttribute("tenant");
         SiteInfoEntity siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
 
         siteInfoEntity.setTitle(siteInfo.get("title"));
         siteInfoEntity.setDescription(siteInfo.get("description"));
+//        String headerImage = siteInfo.get("headerImage");
+//        if(headerImage != null && !headerImage.isEmpty()) {
+//            headerImage = storageService.store(headerImage, "header2", 0);
+//            siteInfoEntity.setHeaderImage(headerImage);
+//        }
+        siteInfoRepository.save(siteInfoEntity);
+        return ResponseEntity.ok(
+                    ResponseModel.builder().code(0)
+                            .data(siteInfo)
+                            .build());
+    }
+
+    @Transactional
+    @PutMapping("header-image")
+    public ResponseEntity<ResponseModel> updateSiteInfoHeaderImage(
+            HttpServletRequest request, @RequestBody Map<String, String> siteInfo) {
+        String tenant = (String) request.getAttribute("tenant");
+        SiteInfoEntity siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
+
+//        siteInfoEntity.setTitle(siteInfo.get("title"));
+//        siteInfoEntity.setDescription(siteInfo.get("description"));
         String headerImage = siteInfo.get("headerImage");
         if(headerImage != null && !headerImage.isEmpty()) {
             headerImage = storageService.store(headerImage, "header2", 0);
@@ -59,8 +80,30 @@ public class SiteInfoRest {
         }
         siteInfoRepository.save(siteInfoEntity);
         return ResponseEntity.ok(
-                    ResponseModel.builder().code(0)
-                            .data(siteInfo)
-                            .build());
+                ResponseModel.builder().code(0)
+                        .data(siteInfo)
+                        .build());
     }
+
+    @Transactional
+    @PutMapping("tip")
+    public ResponseEntity<ResponseModel> updateSiteInfoTip(
+            HttpServletRequest request, @RequestBody Map<String, String> siteInfo) {
+        String tenant = (String) request.getAttribute("tenant");
+        SiteInfoEntity siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
+
+        siteInfoEntity.setTipTitle(siteInfo.get("tipTitle"));
+        siteInfoEntity.setTipDescription(siteInfo.get("tipDescription"));
+//        String headerImage = siteInfo.get("headerImage");
+//        if(headerImage != null && !headerImage.isEmpty()) {
+//            headerImage = storageService.store(headerImage, "header2", 0);
+//            siteInfoEntity.setHeaderImage(headerImage);
+//        }
+        siteInfoRepository.save(siteInfoEntity);
+        return ResponseEntity.ok(
+                ResponseModel.builder().code(0)
+                        .data(siteInfo)
+                        .build());
+    }
+
 }

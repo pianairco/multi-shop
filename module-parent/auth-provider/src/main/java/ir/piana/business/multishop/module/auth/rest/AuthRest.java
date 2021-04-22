@@ -12,6 +12,8 @@ import ir.piana.business.multishop.module.auth.model.LoginInfo;
 import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.auth.model.UserModel;
 import ir.piana.business.multishop.module.auth.service.CrossDomainAuthenticationService;
+import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
+import ir.piana.business.multishop.module.site.service.SiteInfoService;
 import nl.captcha.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +57,9 @@ public class AuthRest {
     @Autowired
     private SiteRepository siteRepository;
 
+    @Autowired
+    private SiteInfoService siteInfoService;
+
     @PostConstruct
     public void init() {
         System.out.println(loginRedirect);
@@ -75,13 +80,19 @@ public class AuthRest {
         AppInfo appInfo = AppInfo.builder().isLoggedIn(false)
                 .isAdmin(false).build();
         if(siteEntity != null) {
-            appInfo.setSiteInfo(SiteInfo.builder()
-                    .title(siteEntity.getTitle())
-                    .facebookLink(siteEntity.getFacebookLink())
-                    .instagramLink(siteEntity.getInstagramLink())
-                    .whatsappLink(siteEntity.getWhatsappLink())
-                    .telNumber(siteEntity.getTelNumber())
-                    .build());
+            SiteInfoEntity siteInfoEntity = siteInfoService.getSiteInfoEntity(request);
+            if(siteInfoEntity != null) {
+                appInfo.setSiteInfo(SiteInfo.builder()
+                        .title(siteInfoEntity.getTitle())
+                        .description(siteInfoEntity.getDescription())
+                        .headerImage(siteInfoEntity.getHeaderImage())
+                        .tipTitle(siteInfoEntity.getTipTitle())
+                        .tipDescription(siteInfoEntity.getTipDescription())
+                        .facebookLink(siteEntity.getFacebookLink())
+                        .instagramLink(siteEntity.getInstagramLink())
+                        .whatsappLink(siteEntity.getWhatsappLink())
+                        .telNumber(siteEntity.getTelNumber()).build());
+            }
         } else {
             appInfo.setSiteInfo(SiteInfo.builder()
                     .title(appDataCache.getDomain()).build());
