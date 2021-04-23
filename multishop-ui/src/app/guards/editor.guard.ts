@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
-  CanActivate,
+  ActivatedRoute,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
+  CanActivate,
   Router,
-  ActivatedRoute
+  RouterStateSnapshot,
+  UrlTree
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import {PianaStorageService} from "../services/piana-storage.service";
+import {Observable} from 'rxjs';
 import {AuthenticationService} from "../services/authentication-service.service";
 import {ShareStateService} from "../services/share-state.service";
 

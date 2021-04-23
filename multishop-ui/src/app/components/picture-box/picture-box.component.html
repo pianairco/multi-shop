@@ -1,7 +1,7 @@
 <div class="card-image has-text-centered"
      [ngStyle]="{ 'max-width': maxWidth != null ? maxWidth : 'unset',
           'max-height': maxHeight != null ? maxHeight : 'unset' }">
-  <figure class="image is-4by3">
+  <figure class="image {{!res ? 'is-4by3' : res}}">
     <img *ngIf="item.image" [src]="item.image"
          [ngStyle]="{ 'max-width': maxWidth != null ? maxWidth : 'unset',
           'max-height': maxHeight != null ? maxHeight : 'unset' }"/>

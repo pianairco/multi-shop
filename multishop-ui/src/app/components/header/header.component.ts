@@ -23,9 +23,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.authService.authSubject.subscribe(appInfo => {
       this.siteInfo = appInfo.siteInfo;
-      console.log(this.siteInfo.headerImage)
-      this.siteInfo.headerImage = this.siteInfo.headerImage.replace(/\s/g, '')
-      console.log(this.siteInfo.headerImage)
     });
   }
 

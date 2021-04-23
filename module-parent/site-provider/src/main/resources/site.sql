@@ -33,3 +33,11 @@ INSERT INTO SITE_INFO (ID, TENANT_ID, TITLE, DESCRIPTION,  TIP_TITLE, TIP_DESCRI
            'Shop Tip' TIP_TITLE,
            'If you have a product idea or shop tip that you would like to share, count on us' TIP_DESCRIPTION
 ) where not exists(select * from SITE_INFO);
+
+CREATE TABLE IF NOT EXISTS SITE_INFO_BOX (
+    ID bigint primary key,
+    TENANT_ID varchar(32) not null,
+    TITLE varchar(128),
+    DESCRIPTION varchar(512),
+    IMAGE varchar(128)
+);

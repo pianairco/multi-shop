@@ -18,6 +18,10 @@ export class PianaStorageService {
     return null;
   }
 
+  removeObject(key: string) {
+    let item = localStorage.removeItem(key);
+  }
+
   getFieldValue(key: string, field: string) {
     let item = this.getObject(key);
     if(item)

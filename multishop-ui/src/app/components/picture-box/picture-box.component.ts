@@ -7,6 +7,7 @@ import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} f
 })
 export class PictureBoxComponent implements OnInit {
   @Input() isUpload: false;
+  @Input() res: string = null;
   @Input() maxWidth: string = null;
   @Input() maxHeight: string = null;
   @Input() images: string[];

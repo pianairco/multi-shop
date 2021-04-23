@@ -67,7 +67,7 @@ export class ShareStateService {
     this.editModeSubject.subscribe(next => {
       // console.log(next)
       if (next.editMode)
-        this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { order: 'popular' }});
+        this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { }});
       // this.router.navigate([this.urlMap[next.urlKey]], { queryParams: { returnUrl: next.returnUrl } })
     });
   }
@@ -95,21 +95,30 @@ export class ShareStateService {
   }
 
   navigateReturn () {
-    this.router.navigate([this._editModeObject.returnUrl]);
+    let returnUrl = this._editModeObject.returnUrl;
+    console.log(returnUrl)
+    this._editModeObject = new EditModeObject(
+      false, null, null, null);
+    this.router.navigateByUrl('/tile/home');
+    // this.router.navigate([returnUrl]);
   }
 
   navigateToShop (category) {
     console.log(category)
     if(category) {
+      console.log('category')
       this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', category);
       this.categoryService.setAsSelectedCategory(category);
       this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
     } else {
+      console.log('no category')
       category = this.pianaStorageService.getFieldValue(this.LAST_LINK, 'shop-category');
       if(category) {
+        console.log('category1')
         this.categoryService.setAsSelectedCategory(category);
         this.router.navigate(['/tile/shop/products-gallery/' + category.routerLink]);
       } else {
+        console.log('category2')
         this.categoryService.setAsSelectedCategory(null);
         this.pianaStorageService.setFieldValue(this.LAST_LINK, 'shop-category', {routerLink: 'default'});
         this.router.navigate(['/tile/shop/products-gallery/default']);

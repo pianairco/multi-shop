@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import {ConstantService} from "../../services/constant.service";
 import {AuthenticationService, SiteInfo} from "../../services/authentication-service.service";
+import {ShareStateService} from "../../services/share-state.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-view',
@@ -11,10 +13,14 @@ import {AuthenticationService, SiteInfo} from "../../services/authentication-ser
 export class HomeViewComponent implements OnInit {
   siteInfo: SiteInfo = new SiteInfo();
 
-  constructor(public constantService: ConstantService,
+  constructor(private route: ActivatedRoute,
+              public router: Router,
+              public constantService: ConstantService,
+              public shareStateService: ShareStateService,
               public authService: AuthenticationService) { }
 
   ngOnInit(): void {
+    console.log("d")
     this.authService.authSubject.subscribe(appInfo => {
       this.siteInfo = appInfo.siteInfo;
     });

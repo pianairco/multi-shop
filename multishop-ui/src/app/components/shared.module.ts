@@ -12,6 +12,7 @@ import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {TipComponent} from "./tip/tip.component";
+import {InfoBoxComponent} from "./info-box/info-box.component";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {TipComponent} from "./tip/tip.component";
     FooterComponent,
     HeaderComponent,
     TipComponent,
+    InfoBoxComponent,
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
@@ -30,6 +32,7 @@ import {TipComponent} from "./tip/tip.component";
     FooterComponent,
     HeaderComponent,
     TipComponent,
+    InfoBoxComponent,
     FormMakerComponent,
     NotificationComponent,
     LoadingComponent,
