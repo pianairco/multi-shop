@@ -67,7 +67,7 @@
           "options": {
             "ssl": true,
             "proxyConfig": "src/proxy.conf.js",
-            "port": 443,
+            "port": 7443,
             "browserTarget": "multishop-cp:build"
           },
           "configurations": {

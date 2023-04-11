@@ -6,13 +6,17 @@ const PROXY_CONFIG = [
       "/resource",
       "/assets"
     ],
-    target: "https://shop.piana.ir:8443",
-    // target: "https://shop.piana.ir:8443",
+    target: "https://piana.ir:8443",
+    // target: "https://localhost:8443",
     secure: false,
-    changeOrigin: true,
+    changeOrigin: false,
     // cookieDomainRewrite: "localhost",
-    cookieDomainRewrite: "shop.piana.ir",
+    // cookieDomainRewrite: "vavishka.piana.ir",
+    // cookieDomainRewrite: req.headers['Host'],
     withCredentials: false,
+    /*bypass: function(req, res, proxyOptions) {
+      req.headers['Host'] = 'shop.piana.ir'
+    },*/
     onProxyRes: (proxyRes, req, res) => {
       // console.log(proxyRes);
       // console.log(req.headers['Set-Cookie']);

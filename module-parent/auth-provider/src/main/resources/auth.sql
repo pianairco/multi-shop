@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- image => https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c
 INSERT INTO users (id, agent_id, user_uuid, email, email_verified, password, form_password, locale, given_name, picture_url) select * from (
     select 1 id, 1 agent_id, 'admin' user_uuid, 'rahmatii1366@gmail.com' email, 1 email_verified,
-           '$2a$10$J.qCx8tB1axgUJFqzrk6NupFsQ/ObT1tmhhVVf3MDewdumSwkxsDO' password, '$2a$10$J.qCx8tB1axgUJFqzrk6NupFsQ/ObT1tmhhVVf3MDewdumSwkxsDO' form_password, 'fa' locale,
+           '$2a$10$9VrVPJ4IfzrbO82TUxNJCOUt9hPlj4ZLP/i2i7rSscYaYetkTmxoi' password, '$2a$10$9VrVPJ4IfzrbO82TUxNJCOUt9hPlj4ZLP/i2i7rSscYaYetkTmxoi' form_password, 'fa' locale,
            'admin' given_name, 'https://lh3.googleusercontent.com/a-/AOh14Gg8K7kIHhlEo0-oJjPmGBG73ciHeRQnMFuRWRjQ4A=s96-c' picture_url
 ) where not exists(select * from users);
 

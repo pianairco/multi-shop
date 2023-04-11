@@ -195,15 +195,18 @@ public class AuthRest {
             HttpSession session) throws IOException {
         GoogleUserEntity byEmail = userRepository.findByEmail(loginInfo.getUsername());
         Captcha sessionCaptcha = (Captcha)session.getAttribute("simpleCaptcha");
-        if(byEmail != null &&
-                sessionCaptcha != null &&
-                bCryptPasswordEncoder.matches(loginInfo.getPassword(), byEmail.getPassword()) &&
-                sessionCaptcha.isCorrect(loginInfo.getCaptcha())) {
-            if(crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo, sessionCaptcha)) {
-                return ResponseEntity.ok().build();
+        if (byEmail != null &&
+                sessionCaptcha != null) {
+            if (!bCryptPasswordEncoder.matches(loginInfo.getPassword(), byEmail.getPassword())) {
+                throw new HttpCommonRuntimeException(HttpStatus.BAD_REQUEST, 11, "password is wrong");
+            } else if (!sessionCaptcha.isCorrect(loginInfo.getCaptcha())) {
+                throw new HttpCommonRuntimeException(HttpStatus.BAD_REQUEST, 12, "captcha is wrong");
             }
         }
-        return ResponseEntity.notFound().build();
+        if(crossDomainAuthenticationService.addLoginInfo(loginInfo.getUuid(), loginInfo, sessionCaptcha)) {
+                return ResponseEntity.ok().build();
+        }
+        throw new HttpCommonRuntimeException(HttpStatus.BAD_REQUEST, 13, "error occurred!");
     }
 
     @CrossOrigin

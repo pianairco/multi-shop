@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.NestedServletException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -106,12 +107,15 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } catch (Exception e) {
-            if(e instanceof TenantNotSpecifiedException) {
-                tenantNotSpecifiedExceptionHandler((TenantNotSpecifiedException)e, httpServletResponse);
-            } else if (e instanceof HttpCommonRuntimeException) {
-                httpCommonRuntimeExceptionHandler((HttpCommonRuntimeException)e, httpServletResponse);
-            } else if(e instanceof SiteRefreshException) {
-                siteRefreshExceptionHandler((SiteRefreshException)e, httpServletResponse);
+            Throwable target = e;
+            if(e instanceof NestedServletException)
+                target = e.getCause();
+            if(target instanceof TenantNotSpecifiedException) {
+                tenantNotSpecifiedExceptionHandler((TenantNotSpecifiedException)target, httpServletResponse);
+            } else if (target instanceof HttpCommonRuntimeException) {
+                httpCommonRuntimeExceptionHandler((HttpCommonRuntimeException)target, httpServletResponse);
+            } else if(target instanceof SiteRefreshException) {
+                siteRefreshExceptionHandler((SiteRefreshException)target, httpServletResponse);
             } else {
                 unknownExceptionHandler(e, httpServletResponse);
             }

@@ -71,7 +71,7 @@
             "ssl": true,
             "proxyConfig": "src/proxy.conf.js",
             "host": "localhost",
-            "port": 443,
+            "port": 9443,
             "browserTarget": "multishop-ui:build"
           },
           "configurations": {

@@ -42,7 +42,7 @@ public class CaptchaServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TextProducer renderer = new NumbersAnswerProducer(numbersAnswerProducer);
         Captcha captcha = (new Captcha.Builder(width, height))
-                .addText(renderer).addNoise().build();
+                .addText(renderer)/*.addNoise()*/.build();
         CaptchaServletUtil.writeImage(resp, captcha.getImage());
         req.getSession().setAttribute("simpleCaptcha", captcha);
     }
