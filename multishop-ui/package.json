@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "serve": "ng serve --disable-host-check",
-    "start": "ng serve",
+    "start": "ng serve --disable-host-checko",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

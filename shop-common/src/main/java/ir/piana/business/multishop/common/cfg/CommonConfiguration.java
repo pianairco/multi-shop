@@ -40,7 +40,7 @@ public class CommonConfiguration {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder() {
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                if(Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
+                if (Arrays.stream(env.getActiveProfiles()).anyMatch(p -> "develop".matches(p))) {
                     return true;
                 }
                 return super.matches(rawPassword, encodedPassword);
