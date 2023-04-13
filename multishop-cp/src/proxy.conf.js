@@ -10,7 +10,7 @@ const PROXY_CONFIG = [
     // target: "https://localhost:8443",
     secure: false,
     changeOrigin: true,
-    // cookieDomainRewrite: "piana.ir",
+    cookieDomainRewrite: "piana.ir",
     // cookieDomainRewrite: "localhost",
     withCredentials: false,
     onProxyRes: (proxyRes, req, res) => {

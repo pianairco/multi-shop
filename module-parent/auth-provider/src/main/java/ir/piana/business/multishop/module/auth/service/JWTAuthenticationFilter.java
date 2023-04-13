@@ -21,6 +21,7 @@ import ir.piana.business.multishop.module.auth.model.*;
 import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
 import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import nl.captcha.Captcha;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;

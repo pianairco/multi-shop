@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SiteRepository extends JpaRepository<SiteEntity, Long> {
     SiteEntity findByTenantId(String tenant);
-    List<SiteEntity> findAllByUserId(Long agentId);
+//    List<SiteEntity> findAllByUserId(Long agentId);
     List<SiteEntity> findAllByAgentId(Long agentId);
     List<SiteEntity> findAllByCategory(Long category);
     @Query(value = "SELECT * FROM SITE s WHERE s.category between :start and :end", nativeQuery = true)
