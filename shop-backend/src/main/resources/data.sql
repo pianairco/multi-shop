@@ -52,11 +52,10 @@ CREATE TABLE IF NOT EXISTS SITE (
     MODIFICATION_TIME CHAR(8) not null default '00:00:00',
     constraint FK_SITE_AGENT_ID foreign key (AGENT_ID) references AGENT(ID),
     constraint UK_SITE_TENANT_ID unique (TENANT_ID)
-);
+);v
 
 INSERT INTO SITE (ID, AGENT_ID, TENANT_ID, CATEGORY, TITLE, IS_ACTIVE) select * from (
-   select 1 ID, 1 AGENT_ID, 'vavishka.piana.ir' TENANT_ID, 0x4000000000000000 category, 'vavishka', 1 IS_ACTIVE union
-   select 2, 1, 'shop.piana.ir', 0x4000000000000000, 'shop', 1
+    select 1, 1, 'shop.piana.ir', 0x4000000000000000, 'shop', 1
 ) where not exists(select * from SITE);
 
 CREATE TABLE IF NOT EXISTS SITE_ROLE (

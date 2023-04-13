@@ -24,7 +24,7 @@
   <tbody>
   <tr *ngFor="let site of sites">
     <th>
-      <a [href]="'https://' + site.siteName">{{site.siteName}}</a>
+      <a [href]="'https://' + site.siteName + ':9443'" target="_blank">{{site.siteName}}</a>
     </th>
     <th>{{site.title}}</th>
     <th>
