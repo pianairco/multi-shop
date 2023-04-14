@@ -1,0 +1,91 @@
+<div class="card">
+  <app-picture-box [image]="product.image"></app-picture-box>
+  <div class="card-content p-1">
+    <div class="content">
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-12 pb-0">
+          <div class="field">
+            <div class="control">
+              <p type="text">{{product.title}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control">
+              <p type="text">قیمت</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control">
+              <p style="text-align: left">{{product.price}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control">
+              <p>{{product.currency}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control">
+              <p>موجودی</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control" >
+              <p style="text-align: left">{{product.measurement}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-mobile-4 is-4 pb-0">
+          <div class="field">
+            <div class="control">
+              <p>{{product.measurementUnit}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="column is-12">
+          <div class="field mt-3">
+            <div class="control">
+              <div style="overflow-x: hidden; overflow-y: auto; height: 72px;"
+                   placeholder="توضیحات"
+                   rows="2">{{product.description}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  <footer class="card-footer" *ngIf="editable || insertable">-->
+<!--    <button class="card-footer-item button is-success">-->
+<!--      ثبت-->
+<!--    </button>-->
+<!--    <a class="card-footer-item button is-danger">-->
+<!--      انصراف-->
+<!--    </a>-->
+<!--  </footer>-->
+
+  <footer class="card-footer">
+    <button *ngIf="(authService.authSubject | async).isAdmin"
+            class="card-footer-item button is-white"
+            (click)="this.shareStateService.setEditModeObject(
+            true, product, 'product', this.router.routerState.snapshot.url)">
+      <i class="fas fa-edit" style="color: #357e25"></i>
+    </button>
+    <button class="card-footer-item button is-white">
+      مشاهده
+    </button>
+    <button class="card-footer-item button is-white">
+      خرید
+    </button>
+  </footer>
+</div>

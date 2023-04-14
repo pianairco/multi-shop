@@ -1,0 +1,16 @@
+GET http://piana.ir/api/modules/site/category/root
+Host: piana.ir
+
+###
+GET http://piana.ir/api/modules/site/all-sites
+Host: piana.ir
+
+###
+GET http://piana.ir/api/modules/site/by-category?categoryIdString=4611686018427387904
+Host: piana.ir
+
+###
+GET https://piana.ir/api/modules/shop/category/list
+Host: shop.piana.ir
+
+###

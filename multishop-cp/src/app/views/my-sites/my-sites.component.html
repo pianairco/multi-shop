@@ -1,0 +1,38 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>نام سایت</th>
+    <th>عنوان</th>
+    <th>فعال</th>
+  </tr>
+  </thead>
+<!--  <tfoot>
+  <tr>
+    <th><abbr title="Position">Pos</abbr></th>
+    <th>Team</th>
+    <th><abbr title="Played">Pld</abbr></th>
+    <th><abbr title="Won">W</abbr></th>
+    <th><abbr title="Drawn">D</abbr></th>
+    <th><abbr title="Lost">L</abbr></th>
+    <th><abbr title="Goals for">GF</abbr></th>
+    <th><abbr title="Goals against">GA</abbr></th>
+    <th><abbr title="Goal difference">GD</abbr></th>
+    <th><abbr title="Points">Pts</abbr></th>
+    <th>Qualification or relegation</th>
+  </tr>
+  </tfoot>-->
+  <tbody>
+  <tr *ngFor="let site of sites">
+    <th>
+      <a [href]="'https://' + site.siteName + ':9443'" target="_blank">{{site.siteName}}</a>
+    </th>
+    <th>{{site.title}}</th>
+    <th>
+      <span class="icon is-small is-left">
+            <i *ngIf="site.isActive" class="fas fa-check" style="color: #1b7419"></i>
+            <i *ngIf="!site.isActive" class="fas fa-times" style="color: red"></i>
+          </span>
+    </th>
+  </tr>
+  </tbody>
+</table>

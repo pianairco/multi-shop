@@ -1,0 +1,20 @@
+<div class="container mx-0 is-fluid px-0" >
+  <div class="columns is-multiline" >
+    <div class="column is-12" *ngIf="(authService.authSubject | async).isAdmin && (categoryService.selectedSubject | async) != null">
+      <button class="button is-fullwidth is-success"
+              (click)="shareStateService.setEditModeObject(
+            true, null, 'product-creator', router.routerState.snapshot.url)">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <div class="column is-full-mobile is-one-quarter-desktop"
+         *ngFor="let product of products">
+      <app-product [product]="product"></app-product>
+    </div>
+  </div>
+</div>
+
+<!--<app-product-editor-modal #insertProduct [isActive]="insertMode"-->
+<!--                    (insertClick)="insertNewProduct($event)"-->
+<!--                    (closeClick)="closeProductCreator($event)"-->
+<!--                    [insertable]="true"></app-product-editor-modal>-->

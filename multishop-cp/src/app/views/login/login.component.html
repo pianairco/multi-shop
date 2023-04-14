@@ -1,0 +1,102 @@
+<div class="columns is-mobile is-centered mx-1 modal-background is-vcentered">
+  <div class="column is-half-desktop is-full-mobile my-1"
+       style="border: 1px solid rgb(127, 255, 212); border-radius: 12px; background-color: rgba(127, 255, 212, 0.5);">
+    <div class="columns is-mobile is-multiline">
+      <div class="column is-12">
+        <div class="field">
+          <label class="label">نام کاربری</label>
+          <div class="control">
+            <input class="input is-normal" type="text" placeholder="" [(ngModel)]="loginInfo.username">
+          </div>
+        </div>
+      </div>
+      <div class="column is-12">
+        <div class="field">
+          <label class="label">کلمه عبور</label>
+          <div class="control">
+            <input class="input is-normal" type="password" placeholder="" [(ngModel)]="loginInfo.password">
+          </div>
+        </div>
+      </div>
+      <div class="column is-12">
+        <div class="field">
+          <label class="label">کد امنیتی</label>
+          <div class="field has-addons">
+          <span class="control">
+            <input class="input is-normal" type="text" placeholder="" [(ngModel)]="loginInfo.captcha">
+          </span>
+            <span class="control">
+            <img [src]="getLinkPicture()" style="height: 31px"/>
+          </span>
+          </div>
+        </div>
+      </div>
+      <div class="column is-12">
+        <button class="button is-success is-fullwidth" (click)="login()">ورود</button>
+      </div>
+      <div class="column is-12">
+        <button class="button is-danger is-fullwidth" (click)="handleClickGoogleSignIn()">
+          <span>ورود با گوگل</span>
+          <!--            <span>Sign in with Google</span>-->
+          <span class="icon is-small">
+              <i class="fab fa-google"></i>
+            </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="modal" [class.is-active]="showModal" >-->
+<!--  <div class="modal-background"></div>-->
+<!--  <div class="modal-card" >-->
+<!--&lt;!&ndash;    <header class="modal-card-head">&ndash;&gt;-->
+<!--&lt;!&ndash;      <p class="modal-card-title has-text-centered">ورود</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    </header>&ndash;&gt;-->
+<!--    <section class="modal-card-body" style="min-height: 280px">-->
+<!--      <div class="columns is-mobile is-multiline">-->
+<!--        <div class="column is-12">-->
+<!--          <div class="field">-->
+<!--            <label class="label">نام کاربری</label>-->
+<!--            <div class="control">-->
+<!--              <input class="input is-normal" type="text" placeholder="" [(ngModel)]="loginInfo.username">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="column is-12">-->
+<!--          <div class="field">-->
+<!--            <label class="label">کلمه عبور</label>-->
+<!--            <div class="control">-->
+<!--              <input class="input is-normal" type="password" placeholder="" [(ngModel)]="loginInfo.password">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="column is-12">-->
+<!--          <div class="field">-->
+<!--            <label class="label">کد امنیتی</label>-->
+<!--            <div class="field has-addons">-->
+<!--          <span class="control">-->
+<!--            <input class="input is-normal" type="text" placeholder="" [(ngModel)]="loginInfo.captcha">-->
+<!--          </span>-->
+<!--              <span class="control">-->
+<!--            <img [src]="getLinkPicture()" style="height: 31px"/>-->
+<!--          </span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="column is-12" style="padding: 2px">-->
+<!--          <button class="button is-success is-fullwidth" (click)="login()">ورود</button>-->
+<!--        </div>-->
+<!--        <div class="column is-12" style="padding: 2px">-->
+<!--          <button class="button is-danger is-fullwidth" (click)="handleClickGoogleSignIn()">-->
+<!--            <span>ورود با گوگل</span>-->
+<!--            &lt;!&ndash;            <span>Sign in with Google</span>&ndash;&gt;-->
+<!--            <span class="icon is-small">-->
+<!--              <i class="fab fa-google"></i>-->
+<!--            </span>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </section>-->
+<!--  </div>-->
+<!--</div>-->

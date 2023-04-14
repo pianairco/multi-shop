@@ -1,0 +1,96 @@
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-4">
+        <p class="footer-link-title has-text-weight-bold">{{siteInfo.title}}</p>
+        <!-- Loop through the navigation items -->
+        <a class="navbar-item nav-home is-active" href="https://biron.bironthemes.com/">درباره {{siteInfo.title}}</a>
+        <a class="navbar-item nav-style-guide" href="https://biron.bironthemes.com/style-guide/">قوانین و مقررات</a>
+        <a class="navbar-item nav-features" href="https://biron.bironthemes.com/features/">حریم خصوصی</a>
+        <a class="navbar-item nav-tech" href="https://biron.bironthemes.com/tag/technology/">تماس با ما</a>
+        <a class="navbar-item nav-web" href="https://biron.bironthemes.com/tag/web/">راهنمای خرید</a>
+
+      </div>
+      <div class="column is-4">
+        <p class="footer-link-title has-text-weight-bold">{{siteInfo.title}} در شبکه های اجتماعی</p>
+        <div class="social-media">
+          <a class="social-link facebook" href="{{siteInfo.facebookLink}}" target="_blank" title="Facebook" aria-label="Facebook">
+            <div class="icon facebook">
+              <svg class="icon__svg">
+                <use xlink:href="#facebook"></use>
+              </svg>
+            </div>
+            <p>
+              <i class="fab fa-facebook"></i>
+              فیسبوک</p>
+          </a>
+          <a class="social-link instagram" href="{{siteInfo.instagramLink}}" target="_blank" title="Instagram" aria-label="Instagram">
+            <div class="icon instagram">
+              <svg class="icon__svg">
+                <use xlink:href="#instagram"></use>
+              </svg>
+            </div>
+            <p>
+              <i class="fab fa-instagram"></i>
+              اینستاگرام</p>
+          </a>
+          <a class="social-link whatsapp" href="{{siteInfo.whatsappLink}}" target="_blank" title="whatsapp" aria-label="Linkedin">
+            <div class="icon whatsapp">
+              <svg class="icon__svg">
+                <use xlink:href="#whatsapp"></use>
+              </svg>
+            </div>
+            <p>
+              <i class="fab fa-whatsapp"></i>
+              واتس اپ</p>
+          </a>
+          <a class="social-link tel" href="" target="_blank" title="tel" aria-label="tel">
+            <div class="icon tel">
+              <svg class="icon__svg">
+                <use xlink:href="#tel"></use>
+              </svg>
+            </div>
+            <p>
+              <i class="fa fa-phone"></i>
+              شماره تماس</p>
+          </a>
+        </div>
+      </div>
+      <div class="column is-4">
+        <p class="footer-link-title has-text-weight-bold">اشتراک خبرنامه</p>
+        <p class="footer-text">جهت اطلاع از آخرین آموزش ها آدرس ایمیل خود را وارد کنید و در خبرنامه مشترک شوید</p>
+        <form method="post" action="/subscribe/" class="">
+          <input class="confirm" type="hidden" name="confirm"><input class="location" type="hidden" name="location" value="https://biron.bironthemes.com/"><input class="referrer" type="hidden" name="referrer" value="">
+
+          <div class="form-group">
+            <input class="input is-rounded" type="email" name="email" placeholder="ایمیل خود را وارد کنید">
+          </div>
+          <button class="button is-primary is-rounded has-text-weight-bold" type="submit"><span>مشترک شوید</span></button>
+        </form>
+
+      </div>
+    </div>
+    <hr>
+    <div class="footer-bottom has-text-centered">
+      <div>کلیه حقوق این وب سایت متعلق به گروه <a class="piana-social-link" href="http://vavishka.piana.ir">Piana</a> است.</div>
+      <div class="has-text-centered is-centered">
+        <a class="piana-social-link mx-2" href="{{siteInfo.facebookLink}}"
+           target="_blank" title="پیانا در فیسبوک" aria-label="پیانا در فیسبوک">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a class="piana-social-link mx-2" href="{{siteInfo.facebookLink}}" target="_blank"
+           title="پیانا در واتس اپ" aria-label="پیانا در واتس اپ">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a class="piana-social-link mx-2" href="{{siteInfo.facebookLink}}" target="_blank"
+           title="پیانا در اینستاگرام" aria-label="پیانا در اینستاگرام">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a class="piana-social-link mx-2" href="{{siteInfo.facebookLink}}" target="_blank"
+           title="تماس با پیانا" aria-label="تماس با پیانا">
+          <i class="fa fa-phone"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

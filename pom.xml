@@ -28,6 +28,7 @@
 		<module>shop-gateway</module>
         <module>shop-common</module>
 		<module>module-parent</module>
+		<module>simplecaptcha</module>
     </modules>
 
 	<dependencyManagement>

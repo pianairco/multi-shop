@@ -1,0 +1,109 @@
+<app-header></app-header>
+<section class="section" style="padding: 8px;">
+  <div class="container is-fluid has-text-centered" style="padding: 4px;">
+    <app-tip></app-tip>
+
+    <div class="columns is-mobile is-centered is-multiline" style="padding: 0px">
+      <div class="column is-12" *ngIf="(authService.authSubject | async).isAdmin">
+        <button class="button is-fullwidth is-success"
+                (click)="shareStateService.setEditModeObject(
+            true, null, 'product-creator', router.routerState.snapshot.url)">
+          <i class="fa fa-plus"></i>
+        </button>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+      <div class="column is-12-mobile is-6-tablet is-3-desktop">
+        <app-info-box></app-info-box>
+      </div>
+    </div>
+
+<!--    <div class="columns is-centered" style="padding: 0px">-->
+<!--      <div class="column">-->
+<!--        <div class="card">-->
+<!--          <div class="card-image">-->
+<!--            <figure class="image is-2by1">-->
+<!--              <img src="../../../assets/images/256x256.png" alt="Placeholder image">-->
+<!--            </figure>-->
+<!--          </div>-->
+<!--          <div class="card-content">-->
+<!--            <div class="media">-->
+<!--              <div class="media-content">-->
+<!--                <p class="title is-4">John Smith</p>-->
+<!--                <p class="subtitle is-6">@johnsmith</p>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="content">-->
+<!--              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.-->
+<!--              <a>@bulmaio</a>.-->
+<!--              <a href="#">#css</a>-->
+<!--              <a href="#">#responsive</a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="column">-->
+<!--        <div class="card">-->
+<!--          <div class="card-image">-->
+<!--            <figure class="image is-2by1">-->
+<!--              <img src="../../../assets/images/256x256.png" alt="Placeholder image">-->
+<!--            </figure>-->
+<!--          </div>-->
+<!--          <div class="card-content">-->
+<!--            <div class="media">-->
+<!--              <div class="media-content">-->
+<!--                <p class="title is-4">John Smith</p>-->
+<!--                <p class="subtitle is-6">@johnsmith</p>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="content">-->
+<!--              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.-->
+<!--              <a>@bulmaio</a>.-->
+<!--              <a href="#">#css</a>-->
+<!--              <a href="#">#responsive</a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="column">-->
+<!--        <div class="card">-->
+<!--          <div class="card-image">-->
+<!--            <figure class="image is-2by1">-->
+<!--              <img src="../../../assets/images/256x256.png" alt="Placeholder image">-->
+<!--            </figure>-->
+<!--          </div>-->
+<!--          <div class="card-content">-->
+<!--            <div class="media">-->
+<!--              <div class="media-content">-->
+<!--                <p class="title is-4">John Smith</p>-->
+<!--                <p class="subtitle is-6">@johnsmith</p>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="content">-->
+<!--              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.-->
+<!--              <a>@bulmaio</a>.-->
+<!--              <a href="#">#css</a>-->
+<!--              <a href="#">#responsive</a>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</section>

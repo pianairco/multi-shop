@@ -2,6 +2,7 @@ package ir.piana.business.multishop.common.dev.uploadrest;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 @Service("fileSystemStorageService")
+@Profile("production")
 public class FileSystemStorageService implements StorageService {
     private final Path rootLocation;
 
@@ -90,10 +92,10 @@ public class FileSystemStorageService implements StorageService {
                 } else {
                     is = inputStream;
                 }
-                Files.copy(is, this.rootLocation.resolve(filePath),
+                Files.copy(is, this.rootLocation.resolve("./" + filePath),
                         StandardCopyOption.REPLACE_EXISTING);
 
-                return "/" + filePath;
+                return filePath;
 
             }
         }
@@ -119,7 +121,7 @@ public class FileSystemStorageService implements StorageService {
             }
             String random = RandomStringUtils.randomAlphanumeric(64).concat(".").concat(format);
             String filePath = "".concat(storageProperties.getGroups().get(group).getFolder())
-                    .concat(File.separator).concat(random);
+                    .concat("/").concat(random);
 
             BufferedImage originalImage = null;
             byte[] imageByte;
@@ -142,7 +144,7 @@ public class FileSystemStorageService implements StorageService {
             // Passing: ​(RenderedImage im, String formatName, OutputStream output)
             InputStream is = new ByteArrayInputStream(os.toByteArray());
 
-            Files.copy(is, this.rootLocation.resolve(filePath),
+            Files.copy(is, this.rootLocation.resolve("./" + filePath),
                     StandardCopyOption.REPLACE_EXISTING);
 
             return filePath;

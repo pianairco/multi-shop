@@ -16,7 +16,7 @@ public class UserRolesEntity {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "id")
-    private long Id;
+    private long id;
     @Column(name = "user_id")
     private long userId;
     @Column(name = "role_name")

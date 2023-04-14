@@ -1,0 +1,86 @@
+<nav class="navbar is-black" role="navigation" aria-label="main navigation" style="direction: rtl">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#" >
+      <img src="../../assets/images/topbar-logo.png" width="112" height="28">
+    </a>
+
+    <a #toggled (click)="forceShowClick()" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" [class.is-active]="istoggled && forceShow" class="navbar-menu" >
+    <div class="navbar-start">
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+      <a class="navbar-item" [routerLink]="['/tile/home']" routerLinkActive="menu-active-link">خانه</a>
+      <a class="navbar-item" [routerLink]="['/tile/shop']" routerLinkActive="menu-active-link">فروشگاه</a>
+
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">تنظیمات</a>-->
+
+<!--        <div class="navbar-dropdown">-->
+<!--          <a class="navbar-item" [routerLink]="['fund-settings', 'page-accessibility']">دسترسی صفحات</a>-->
+<!--          <a class="navbar-item" [routerLink]="['fund-settings', 'fund-settings']">تنظیمات صندوق</a>-->
+<!--          <a class="navbar-item">تنظیمات وب سرویس</a>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">گزارشات</a>-->
+
+<!--        <div class="navbar-dropdown">-->
+<!--          <a class="navbar-item">وضعیت سبد</a>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+<!--          *ngIf="!authenticationService.isLoggedIn()"-->
+          <button class="button is-danger"
+                  *ngIf="!(authenticationService.authSubject | async).isLoggedIn"
+                  (click)="openLoginWindow()">ورود</button>
+<!--          authenticationService.isLoggedIn()-->
+          <button *ngIf="(authenticationService.authSubject | async).isLoggedIn"
+                  class="button is-success" >پنل کاربری</button>
+<!--          *ngIf="authenticationService.isLoggedIn()"-->
+          <button *ngIf="(authenticationService.authSubject | async).isLoggedIn"
+                  (click)="authenticationService.logout()"
+                  class="button is-danger" >خروج</button>
+        </div>
+      </div>
+<!--      <div class="navbar-item has-dropdown is-hoverable">-->
+<!--        <a class="navbar-link">مدیریت کاربری</a>-->
+
+<!--        <div class="navbar-dropdown" style="left: 0px; right: unset">-->
+<!--          <a class="navbar-item">-->
+<!--            اطلاعات کاربری-->
+<!--          </a>-->
+<!--          <a class="navbar-item" [routerLink]="['/tile/password-setting']">-->
+<!--            تغییر رمز-->
+<!--          </a>-->
+<!--          <hr class="navbar-divider">-->
+<!--          <a class="navbar-item" [routerLink]="['/logout']">-->
+<!--            خروج-->
+<!--          </a>-->
+<!--        </div>-->
+<!--      </div>-->
+
+    </div>
+<!--    <div class="navbar-end">-->
+<!--      <div class="navbar-item">-->
+<!--        <div class="buttons">-->
+<!--          <a class="button is-primary">-->
+<!--            <strong>Sign up</strong>-->
+<!--          </a>-->
+<!--          <button class="button is-light" (click)="loginClick()">-->
+<!--            Log in-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+  </div>
+</nav>

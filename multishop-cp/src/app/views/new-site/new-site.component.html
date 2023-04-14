@@ -1,0 +1,174 @@
+<div class="columns is-multiline is-centered">
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">دسته بندی</label>
+      <app-site-category (onSelect)="selectCategory($event)"></app-site-category>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">نام دامنه</label>
+      <div class="field">
+        <div class="control" [class.is-loading]="isLoading">
+          <p class="control has-icons-left">
+
+            <input #siteName
+                   class="input" type="text"
+                   [disabled]="isLoading"
+                   (ngModelChange)="onModelChange($event)"
+                   [style.background-color]="siteInfo.siteName.length >= 5 && isAccept? '#17b41445' : 'blanchedalmond'"
+                   numberOnly="^[a-zA-Z]*$"
+                   [(ngModel)]="siteInfo.siteName">
+            <span class="icon is-small is-left">
+              <i *ngIf="siteInfo.siteName.length < 5" class="fas fa-asterisk" style="color: red"></i>
+              <i *ngIf="siteInfo.siteName.length >= 5 && isAccept" class="fas fa-check" style="color: #1b7419"></i>
+              <i *ngIf="siteInfo.siteName.length >= 5 && !isAccept" class="fas fa-times" style="color: red"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">عنوان سایت</label>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="text"
+                 [style.background-color]="siteInfo.title.length <= 0 ? 'blanchedalmond' : '#17b41445'"
+                 [(ngModel)]="siteInfo.title">
+          <span class="icon is-small is-left">
+            <i *ngIf="siteInfo.title.length >= 1" class="fas fa-check" style="color: #1b7419"></i>
+            <i *ngIf="siteInfo.title.length < 1" class="fas fa-asterisk" style="color: red"></i>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک اینستاگرام</label>
+      <div class="field">
+        <input class="input" type="text"
+                 [(ngModel)]="siteInfo.instagramLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک فیسبوک</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.facebookLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">لینک واتس اپ</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.whatsappLink">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <div class="field">
+      <label class="label">شماره تلفن</label>
+      <div class="field">
+        <input class="input" type="text"
+               [(ngModel)]="siteInfo.telNumber">
+      </div>
+    </div>
+  </div>
+  <div class="column is-12">
+    <button class="button is-fullwidth is-success" (click)="addSite()">
+      ثبت
+    </button>
+  </div>
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <label class="label">Username</label>-->
+<!--      <div class="control has-icons-left has-icons-right">-->
+<!--        <input class="input is-success" type="text" placeholder="Text input" value="bulma">-->
+<!--        <span class="icon is-small is-left">-->
+<!--      <i class="fas fa-user"></i>-->
+<!--    </span>-->
+<!--        <span class="icon is-small is-right">-->
+<!--      <i class="fas fa-check"></i>-->
+<!--    </span>-->
+<!--      </div>-->
+<!--      <p class="help is-success">This username is available</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <label class="label">Email</label>-->
+<!--      <div class="control has-icons-left has-icons-right">-->
+<!--        <input class="input is-danger" type="email" placeholder="Email input" value="hello@">-->
+<!--        <span class="icon is-small is-left">-->
+<!--      <i class="fas fa-envelope"></i>-->
+<!--    </span>-->
+<!--        <span class="icon is-small is-right">-->
+<!--      <i class="fas fa-exclamation-triangle"></i>-->
+<!--    </span>-->
+<!--      </div>-->
+<!--      <p class="help is-danger">This email is invalid</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <label class="label">Subject</label>-->
+<!--      <div class="control">-->
+<!--        <div class="select">-->
+<!--          <select>-->
+<!--            <option>Select dropdown</option>-->
+<!--            <option>With options</option>-->
+<!--          </select>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <label class="label">Message</label>-->
+<!--      <div class="control">-->
+<!--        <textarea class="textarea" placeholder="Textarea"></textarea>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <div class="control">-->
+<!--        <label class="checkbox">-->
+<!--          <input type="checkbox">-->
+<!--          I agree to the <a href="#">terms and conditions</a>-->
+<!--        </label>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field">-->
+<!--      <div class="control">-->
+<!--        <label class="radio">-->
+<!--          <input type="radio" name="question">-->
+<!--          Yes-->
+<!--        </label>-->
+<!--        <label class="radio">-->
+<!--          <input type="radio" name="question">-->
+<!--          No-->
+<!--        </label>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column is-6">-->
+<!--    <div class="field is-grouped">-->
+<!--      <div class="control">-->
+<!--        <button class="button is-link">Submit</button>-->
+<!--      </div>-->
+<!--      <div class="control">-->
+<!--        <button class="button is-link is-light">Cancel</button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>

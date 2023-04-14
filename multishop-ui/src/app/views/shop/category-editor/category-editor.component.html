@@ -1,0 +1,45 @@
+<nav class="navbar is-light" role="navigation" aria-label="main navigation" style="direction: rtl">
+  <div class="navbar-brand">
+    <a class="navbar-item" (click)="close()"><i class="fa fa-times"></i></a>
+  </div>
+</nav>
+<div class="container">
+  <div class="columns is-desktop">
+    <div class="column is-half-desktop is-offset-one-quarter-desktop">
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <div class="field">
+              <div class="control">
+                <label class="label">عنوان</label>
+                <input class="input" type="text"
+                       [(ngModel)]="category.title" >
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="label">لینک نمایشی</label>
+                <input class="input" type="text"
+                       [inputMask]="'^[a-zA-Z0-9]*$'"
+                       [(ngModel)]="category.routerLink">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="card-footer" >
+          <button class="card-footer-item button is-success" (click)="registerClick()">
+            ثبت
+          </button>
+          <button *ngIf="category.id" class="card-footer-item button is-danger" (click)="deleteClick()">
+            حذف
+          </button>
+          <button class="card-footer-item button is-warning" (click)="close()">
+            انصراف
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>

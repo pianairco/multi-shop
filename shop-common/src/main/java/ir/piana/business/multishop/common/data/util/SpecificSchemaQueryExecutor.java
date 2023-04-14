@@ -139,6 +139,11 @@ public class SpecificSchemaQueryExecutor {
         }
     }
 
+    public long nextSequence(String sequenceName) throws SQLException {
+        String query = String.format("select %s.nextvalue from dual", sequenceName);
+        return queryLong(query, new Object[0]);
+    }
+
     public long queryLong(String query) throws SQLException {
         return queryLong(query, new Object[0]);
     }
@@ -197,6 +202,19 @@ public class SpecificSchemaQueryExecutor {
             QueryRunner runner = new QueryRunner();
             int execute = runner.execute(conn, query, sqlParams);
             return execute > 0;
+        } finally {
+            ds.evictConnection(conn);
+        }
+    }
+
+    private static final String countQuery = "select count(*) from (%s)";
+
+    public long countOfResults(String query) throws SQLException {
+        Connection conn = ds.getConnection();
+        try {
+            QueryRunner runner = new QueryRunner();
+            Long value = runner.query(conn, String.format(countQuery, query), new ScalarHandler<>());
+            return value.longValue();
         } finally {
             ds.evictConnection(conn);
         }

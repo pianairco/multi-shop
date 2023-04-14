@@ -1,15 +1,12 @@
 package ir.piana.business.multishop.common.dev.sqlrest;
 
-import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.data.util.SpecificSchemaQueryExecutor;
-import ir.piana.business.multishop.common.ds.utils.TenantContext;
+import ir.piana.business.multishop.common.data.cache.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +20,7 @@ public class SqlQueryService {
 //    HikariDataSource dataSource;
 
     @Autowired
-    @Qualifier("multiShopExecutors")
-    Map<String, SpecificSchemaQueryExecutor> executorMap;
+    SpecificSchemaQueryExecutor executor;
 
     public <T> T execute(ServiceProperties.SQL sql, Object[] params) {
         if (sql.getType().equalsIgnoreCase("select")) {
@@ -56,7 +52,7 @@ public class SqlQueryService {
 
     public Map<String, Object> select(String query, Object[] sqlParams) {
         try {
-            return executorMap.get(TenantContext.getTenantId()).queryMap(query, sqlParams);
+            return executor.queryMap(query, sqlParams);
 //            return executorMap.get(dataSource.getPoolName()).queryMap(query, sqlParams);
 //            return jdbcTemplate.queryForMap(query, sqlParams);
         } catch (SQLException ex) {
@@ -68,7 +64,7 @@ public class SqlQueryService {
 
     public List<Map<String, Object>> list(String query, Object[] sqlParams) {
         try {
-            return executorMap.get(TenantContext.getTenantId()).queryListOfMap(query, sqlParams);
+            return executor.queryListOfMap(query, sqlParams);
 //            return executorMap.get(dataSource.getPoolName()).queryListOfMap(query, sqlParams);
         } catch (SQLException e) {
             return null;
@@ -78,7 +74,7 @@ public class SqlQueryService {
 
     public <T> T selectObject(String query, Object[] sqlParams, Class<T> requiredType) {
         try {
-            return (T) executorMap.get(TenantContext.getTenantId()).queryObject(query, requiredType, sqlParams);
+            return (T) executor.queryObject(query, requiredType, sqlParams);
 //            return (T) executorMap.get(dataSource.getPoolName()).queryObject(query, requiredType, sqlParams);
 //            return (T) jdbcTemplate.queryForObject(query, sqlParams, requiredType);
         } catch (EmptyResultDataAccessException ex) {
@@ -90,7 +86,7 @@ public class SqlQueryService {
 
     public Long selectSequenceValue(String sequenceName) {
         try {
-            return executorMap.get(TenantContext.getTenantId()).queryLong("select " + sequenceName + ".nextval from dual");
+            return executor.queryLong("select " + sequenceName + ".nextval from dual");
 //            return executorMap.get(dataSource.getPoolName()).queryLong("select " + sequenceName + ".nextval from dual");
         } catch (SQLException e) {
             return null;
@@ -108,7 +104,7 @@ public class SqlQueryService {
 //            }
 //        }
         try {
-            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+            executor.execute(query, sqlParams);
 //            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
         } catch (SQLException e) {
             return 1l;
@@ -121,7 +117,7 @@ public class SqlQueryService {
 
     public void update(String query, Object[] sqlParams) {
         try {
-            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+            executor.execute(query, sqlParams);
 //            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
         } catch (SQLException e) {
         }
@@ -130,7 +126,7 @@ public class SqlQueryService {
 
     public void delete(String query, Object[] sqlParams) {
         try {
-            executorMap.get(TenantContext.getTenantId()).execute(query, sqlParams);
+            executor.execute(query, sqlParams);
 //            executorMap.get(dataSource.getPoolName()).execute(query, sqlParams);
         } catch (SQLException e) {
         }

@@ -16,6 +16,9 @@ public class AppInfo {
     private String pictureUrl;
     @JsonProperty("isLoggedIn")
     private boolean isLoggedIn;
+    @JsonProperty("isFormPassword")
+    private boolean isFormPassword;
     @JsonProperty("isAdmin")
     private boolean isAdmin;
+    private SiteInfo siteInfo;
 }

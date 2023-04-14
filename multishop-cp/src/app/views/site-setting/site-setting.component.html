@@ -1,0 +1,41 @@
+<div class="container-fluid" style="padding: 10px 8px">
+  <div class="columns" style="padding: 0px;">
+    <div class="column is-2-desktop" >
+      <div class="columns is-multiline p-0 m-0">
+        <div class="column is-12">
+          <button class="button is-fullwidth is-outlined"
+                  (click)="toggleSidebar()">
+            <span>گزینه های سایت</span>
+            <span class="icon is-small">
+          <i [ngClass]="!showSidebar ? 'fas fa-angle-down' : 'fas fa-angle-up'"></i>
+        </span>
+          </button>
+        </div>
+      </div>
+      <div class="column is-12">
+        <aside class="menu" *ngIf="showSidebar">
+          <ul class="menu-list">
+            <li><a [routerLink]="['my-sites']" routerLinkActive="active-link">سایت های من</a></li>
+            <li><a [routerLink]="['new-site']" routerLinkActive="active-link">سایت جدید</a></li>
+          </ul>
+          <!--        <p class="menu-label">Administration</p>-->
+          <!--        <ul class="menu-list">-->
+          <!--          <li><a>Team Settings</a></li>-->
+          <!--          <li>-->
+          <!--            <a class="is-active">Manage Your Team</a>-->
+          <!--            <ul>-->
+          <!--              <li><a>Members</a></li>-->
+          <!--              <li><a>Plugins</a></li>-->
+          <!--              <li><a>Add a member</a></li>-->
+          <!--            </ul>-->
+          <!--          </li>-->
+          <!--          <li><a>Invitations</a></li>-->
+          <!--        </ul>-->
+        </aside>
+      </div>
+    </div>
+    <div class="column is-10-desktop" >
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

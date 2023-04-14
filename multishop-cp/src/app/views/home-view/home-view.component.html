@@ -1,0 +1,66 @@
+<div class="columns is-multiline is-mobile" >
+  <div class="column is-2-desktop is-12-mobile">
+    <app-site-category (onSelect)="selectCategory($event)"></app-site-category>
+  </div>
+  <div class="column is-10-desktop is-12-mobile">
+    <div class="columns is-multiline is-mobile" >
+      <div class="column is-3-desktop is-6-mobile" *ngFor="let site of allSites">
+        <div class="card">
+          <app-picture-box #pictureBox></app-picture-box>
+          <div class="card-content">
+            <div class="content">
+              <div class="field">
+                <div class="control" style="overflow-x: hidden; overflow-y: auto; height: 72px;">
+                  <p class="px-3">{{site.title}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <footer class="card-footer" >
+            <a [href]="'https://' + site.siteName + ':9443'" target="_blank" class="card-footer-item button is-warning" >
+              <span class="icon is-small">
+                <i class="fa fa-eye"></i>
+              </span>
+<!--              <span class="px-3" style="direction: ltr">https://{{site.siteName}}</span>-->
+            </a>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<div class="columns">-->
+<!--  <div class="column">-->
+<!--  </div>-->
+<!--  <div class="column">-->
+<!--    Second column-->
+<!--  </div>-->
+<!--  <div class="column">-->
+<!--    Third column-->
+<!--  </div>-->
+<!--  <div class="column">-->
+<!--    Fourth column-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<p>home-view works!</p>-->
+<!--<h4>Basic mat-select</h4>-->
+<!--<mat-form-field appearance="fill">-->
+<!--  <mat-label>Favorite food</mat-label>-->
+<!--  <mat-select>-->
+<!--    <mat-option *ngFor="let food of foods" [value]="food.value">-->
+<!--      {{food.viewValue}}-->
+<!--    </mat-option>-->
+<!--  </mat-select>-->
+<!--</mat-form-field>-->
+
+<!--<h4>Basic native select</h4>-->
+<!--<mat-form-field appearance="fill">-->
+<!--  <mat-label>Cars</mat-label>-->
+<!--  <select matNativeControl required>-->
+<!--    <option value="volvo">Volvo</option>-->
+<!--    <option value="saab">Saab</option>-->
+<!--    <option value="mercedes">Mercedes</option>-->
+<!--    <option value="audi">Audi</option>-->
+<!--  </select>-->
+<!--</mat-form-field>-->

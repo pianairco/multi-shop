@@ -22,6 +22,8 @@
 		<module>auth-provider</module>
 		<module>zarinpal</module>
 		<module>zarinpal-provider</module>
+		<module>site</module>
+		<module>site-provider</module>
 		<module>shop</module>
 		<module>shop-provider</module>
 		<module>cart</module>

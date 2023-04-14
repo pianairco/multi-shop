@@ -1,11 +1,17 @@
 package ir.piana.business.multishop.module.auth.service;
 
+import ir.piana.business.multishop.common.data.cache.AppDataCache;
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
+import ir.piana.business.multishop.common.data.service.AgentProvider;
 import ir.piana.business.multishop.module.auth.data.repository.GoogleUserRepository;
+import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +33,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@Profile("production")
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    @Qualifier("dataSources")
@@ -47,6 +54,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    private SiteRepository siteRepository;
+
+    @Autowired
+    private SiteInfoRepository siteInfoRepository;
+
+    @Autowired
     @Qualifier("userDetailsService")
     UserDetailsServiceImpl userDetailsService;
 
@@ -60,19 +73,43 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private GoogleUserRepository googleUserRepository;
 
+    @Autowired
+    private AppDataCache appDataCache;
+
+    @Autowired
+    private CrossDomainAuthenticationService crossDomainAuthenticationService;
+
+    @Autowired
+    private AgentProvider agentProvider;
+
+    @Autowired
+    private Environment env;
 
     //https://www.logicbig.com/tutorials/spring-framework/spring-boot/jdbc-security-with-h2-console.html
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.csrf().disable()
+//        http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/sign-in",
+                .antMatchers(HttpMethod.POST,
+                        "/api/sign-in",
+                        "/api/sign-in/sub-domain",
+                        "/api/sign-in/sub-domain/set-token",
+                        "/api/sign-in/sub-domain/set-login-info",
+                        "/api/sign-in/sub-domain/set-principal",
                         "/api/sign-up",
                         "/api/app-info"/*,
                         "/h2/console/**"*/)
                 .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/ajax/serve").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/sign-out").hasRole("AUTHENTICATED")
+                .antMatchers(HttpMethod.POST, "/api/site/**").hasRole("AUTHENTICATED")
+                .antMatchers(HttpMethod.PUT, "/api/site/**").hasRole("AUTHENTICATED")
+                .antMatchers(HttpMethod.DELETE, "/api/site/**").hasRole("AUTHENTICATED")
+                .antMatchers(HttpMethod.POST, "/api/shop/**").hasRole("SITE_OWNER")
+                .antMatchers(HttpMethod.PUT, "/api/shop/**").hasRole("SITE_OWNER")
+                .antMatchers(HttpMethod.DELETE, "/api/shop/**").hasRole("SITE_OWNER")
 //                .antMatchers(HttpMethod.POST, "/api/ajax/serve").hasRole("user")
 //                .antMatchers(HttpMethod.POST, "/vavishka-shop/login").permitAll()
 //                .antMatchers(HttpMethod.POST, "/action").permitAll()//.authenticated()
@@ -104,7 +141,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //                        CustomAuthenticationFilter.class)
 //                .addFilter(new CustomAuthenticationFilter(authenticationManager()))
                 .addFilterBefore(new JWTAuthenticationFilter("/api/sign-in",
-                        authenticationManager(), bCryptPasswordEncoder, googleUserRepository), UsernamePasswordAuthenticationFilter.class)
+                                authenticationManager(), bCryptPasswordEncoder,
+                                googleUserRepository,
+                                siteRepository,
+                                siteInfoRepository,
+                                crossDomainAuthenticationService, appDataCache,
+                                agentProvider, env),
+                        UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager(), authTokenModelRepository),
 //                        UsernamePasswordAuthenticationFilter.class);
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()))

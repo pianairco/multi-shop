@@ -1,7 +1,7 @@
 server:
   port: 8443
   redirect:
-    from: 80
+    from: 8080
     to: 443
   ssl:
     key-store-type: PKCS12
@@ -11,4 +11,7 @@ server:
     enabled: true
 debug:
   tenant:
-    if-null: piana.ir
+    if-null: shop.piana.ir
+login:
+  redirect:
+    url: https://piana.ir:8443
