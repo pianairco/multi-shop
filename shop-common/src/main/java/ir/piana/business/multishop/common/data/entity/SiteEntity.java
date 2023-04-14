@@ -19,8 +19,8 @@ public class SiteEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "masterSeq")
     private long id;
 
-    @Column(name = "AGENT_ID")
-    private long agentId;
+    @Column(name = "OWNER_ID")
+    private long ownerId;
 
     @Column(name = "TENANT_ID")
     @JsonProperty("siteName")
@@ -32,8 +32,8 @@ public class SiteEntity {
     @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    /*@Column(name = "DESCRIPTION")
+    private String description;*/
 
     @Column(name = "INSTAGRAM_LINK")
     private String instagramLink;

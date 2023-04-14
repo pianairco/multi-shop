@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS PRODUCT_CATEGORIZATION (
 );
 
 INSERT INTO PRODUCT_CATEGORIZATION select * from (
-    select 1 ID, 'گروه یک' TITLE, 'pack1' ROUTER_LINK, 1 ORDERS, 2 SITE_ID UNION
-    select 2 ID, 'گروه دو' TITLE, 'pack2' ROUTER_LINK, 2 ORDERS, 2 SITE_ID UNION
-    select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 2 SITE_ID
+    select 1 ID, 'گروه یک' TITLE, 'pack1' ROUTER_LINK, 1 ORDERS, 1 SITE_ID UNION
+    select 2 ID, 'گروه دو' TITLE, 'pack2' ROUTER_LINK, 2 ORDERS, 1 SITE_ID UNION
+    select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 1 SITE_ID
 ) where not exists(select * from PRODUCT_CATEGORIZATION);
 
 CREATE TABLE IF NOT EXISTS PRODUCT (

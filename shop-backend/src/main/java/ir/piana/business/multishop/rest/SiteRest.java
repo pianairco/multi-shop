@@ -2,10 +2,10 @@ package ir.piana.business.multishop.rest;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
+import ir.piana.business.multishop.common.data.entity.AgentEntity;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
-import ir.piana.business.multishop.common.data.entity.SiteUserEntity;
+import ir.piana.business.multishop.common.data.repository.AgentRepository;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
-import ir.piana.business.multishop.common.data.repository.SiteUserRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.model.UserModel;
@@ -38,7 +38,7 @@ public class SiteRest {
     private SiteRepository siteRepository;
 
     @Autowired
-    private SiteUserRepository siteUserRepository;
+    private AgentRepository agentRepository;
 
     @Autowired
     private DataSourceService dataSourceService;
@@ -52,7 +52,7 @@ public class SiteRest {
     @Transactional
     @GetMapping("check-name/{name}")
     public ResponseEntity<ResponseModel> checkSiteName(@PathVariable("name") String siteName) {
-        SiteEntity byTenantId = siteRepository.findByTenantId(siteName.concat("." + appDataCache.getDomain()));
+        SiteEntity byTenantId = siteRepository.findByDomain(siteName.concat("." + appDataCache.getDomain()));
         if(byTenantId == null) {
             return ResponseEntity.ok(ResponseModel.builder().code(0).build());
         }
@@ -65,7 +65,7 @@ public class SiteRest {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserModel userModel = (UserModel) authentication.getPrincipal();
 
-        List<SiteEntity> byAgentId = siteRepository.findAllByAgentId(userModel.getUserEntity().getAgentId());
+        List<SiteEntity> byAgentId = siteRepository.findByAgentUserId(userModel.getUserEntity().getId());
         if(CommonUtils.isNull(byAgentId)) {
             return ResponseEntity.ok(
                     ResponseModel.builder().code(1)
@@ -91,7 +91,7 @@ public class SiteRest {
         if(CommonUtils.isNull(title))
             return ResponseEntity.ok(ResponseModel.builder().code(2).build());
         SiteEntity siteEntity = SiteEntity.builder()
-                .agentId(userModel.getUserEntity().getAgentId())
+                .ownerId(userModel.getUserEntity().getId())
                 .tenantId(siteName + "." + appDataCache.getDomain())
                 .title(title)
                 .instagramLink(body.get("instagramLink"))
@@ -114,11 +114,12 @@ public class SiteRest {
                 .tipDescription("If you have a product idea or shop tip that you would like to share, count on us")
                 .build();
         siteInfoRepository.save(siteInfoEntity);
-        SiteUserEntity siteUserEntity = SiteUserEntity.builder()
+        /*SiteUserEntity siteUserEntity = SiteUserEntity.builder()
                 .siteId(siteEntity.getId())
                 .agentId(siteEntity.getAgentId())
-                .build();
-        siteUserRepository.save(siteUserEntity);
+                .build();*/
+        AgentEntity agentEntity = AgentEntity.builder().siteId(siteEntity.getId()).userId(siteEntity.getOwnerId()).build();
+        agentRepository.save(agentEntity);
         dataSourceService.siteActivation(siteEntity.getTenantId());
         return ResponseEntity.ok(body);
     }

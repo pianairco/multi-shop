@@ -55,9 +55,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<GrantedAuthority> authorities = googleUserEntity.getUserRolesEntities().stream()
                 .map(e -> new SimpleGrantedAuthority(e.getRoleName())).collect(Collectors.toList());
 
-        SiteEntity byTenantId = siteRepository.findByTenantId(split[1]);
+        SiteEntity byTenantId = siteRepository.findByDomain(split[1]);
         if(!appDataCache.getDomain().equalsIgnoreCase(split[1]) &&
-                byTenantId.getAgentId() == googleUserEntity.getAgentId())
+                byTenantId.getOwnerId() == googleUserEntity.getId())
             authorities.add(new SimpleGrantedAuthority("ROLE_SITE_OWNER"));
         authorities.add(new SimpleGrantedAuthority("ROLE_AUTHENTICATED"));
         return new UserModel(googleUserEntity.getEmail(),

@@ -179,14 +179,14 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
                     .build();
         }
 
-        if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
+        /*if (googleUserRepository.findByEmail(userEntity.getEmail()) == null) {
             AgentEntity agentEntity = agentProvider.createAgentEntity(UUID.randomUUID().toString());
             userEntity.setPassword(bCryptPasswordEncoder.encode("0000"));
             userEntity.setUserId(agentEntity.getUsername());
             userEntity.setAgentId(agentEntity.getId());
             googleUserRepository.save(userEntity);
             userEntity.setPassword("0000");
-        }
+        }*/
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -376,7 +376,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         SiteEntity siteEntity = null;
         SiteInfoEntity siteInfoEntity = null;
         if(!appDataCache.getDomain().equalsIgnoreCase(host)) {
-            siteEntity = siteRepository.findByTenantId(host);
+            siteEntity = siteRepository.findByDomain(host);
             siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
         }
         AppInfo appInfo = AppInfo.builder()

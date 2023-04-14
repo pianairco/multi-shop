@@ -81,7 +81,7 @@ public class AuthRest {
         String host = (String) request.getAttribute("host");
         SiteEntity siteEntity = null;
         if(!appDataCache.getDomain().equalsIgnoreCase(host))
-            siteEntity = siteRepository.findByTenantId(host);
+            siteEntity = siteRepository.findByDomain(host);
         AppInfo appInfo = AppInfo.builder().isLoggedIn(false)
                 .isAdmin(false).build();
         if(siteEntity != null) {

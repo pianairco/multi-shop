@@ -72,16 +72,16 @@ public class SiteModuleRest {
     public ResponseEntity<ResponseModel> updateInfo(
             HttpServletRequest request, @RequestBody SiteInfo siteInfo) {
         String host = (String) request.getAttribute("host");
-        SiteEntity siteEntity = siteRepository.findByTenantId(host);
+        SiteEntity siteEntity = siteRepository.findByDomain(host);
 
         siteEntity.setTitle(siteInfo.getTitle());
-        siteEntity.setDescription(siteInfo.getDescription());
+//        siteEntity.setDescription(siteInfo.getDescription());
         siteRepository.save(siteEntity);
         return ResponseEntity.ok(
                     ResponseModel.builder().code(0)
                             .data(SiteInfo.builder()
                                     .title(siteEntity.getTitle())
-                                    .description(siteEntity.getDescription())
+//                                    .description(siteEntity.getDescription())
                                     .build())
                             .build());
     }

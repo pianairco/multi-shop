@@ -1,12 +1,15 @@
 package ir.piana.business.multishop.common.ds.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.cfg.ResourceHandlerRegistryProvider;
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import ir.piana.business.multishop.common.data.cache.SiteDataCache;
 import ir.piana.business.multishop.common.data.cache.TenantContext;
+import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.exceptions.TenantNotSpecifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
@@ -22,6 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
@@ -32,6 +36,9 @@ public class ProductionMultiTenantFilter extends OncePerRequestFilter {
 
     @Autowired
     ResourceHandlerRegistryProvider resourceHandlerRegistryProvider;
+
+    @Autowired
+    private SiteRepository siteRepository;
 
     @Value("${debug.tenant.if-null:piana.ir}")
     private String ifTenantNull;
@@ -54,6 +61,7 @@ public class ProductionMultiTenantFilter extends OncePerRequestFilter {
 //        if (dataSourceService.isLock()) {
 //            throw new HTTPException(HttpStatus.BAD_REQUEST.value());
 //        }
+//        TenantContext.setTenantId("support");
         String hostString = request.getHeader("Host") != null
                 && !request.getHeader("Host").startsWith("localhost") ?
                 request.getHeader("Host") : request.getHeader("dsCode") != null ?
@@ -62,7 +70,10 @@ public class ProductionMultiTenantFilter extends OncePerRequestFilter {
             hostString = hostString.substring(0, hostString.indexOf(":"));
         String host = hostString == null ?
                 (ifTenantNull != null && !ifTenantNull.isEmpty() ? ifTenantNull : null) : hostString;
-        request.setAttribute("tenant", host);
+
+        String tenantId = host;
+
+        request.setAttribute("tenant", tenantId);
         request.setAttribute("host", host);
         if(appDataCache.getDomain().equalsIgnoreCase(host)) {
             request.setAttribute("resource-prefix", "multishop-cp/");
@@ -72,8 +83,8 @@ public class ProductionMultiTenantFilter extends OncePerRequestFilter {
         if (host == null) {
             throw new TenantNotSpecifiedException();
         } else if (host.equalsIgnoreCase(appDataCache.getDomain())) {
-            TenantContext.setTenantId(host);
-            request.setAttribute("tenantId", host);
+            TenantContext.setTenantId(tenantId);
+            request.setAttribute("tenantId", tenantId);
             filterChain.doFilter(request, response);
             return;
         } else if (request.getServletPath().startsWith("/login") || request.getServletPath().startsWith("/h2")) {
@@ -84,7 +95,7 @@ public class ProductionMultiTenantFilter extends OncePerRequestFilter {
             return;
         } else if(dataSourceService.checkAndAddDatasource(host)) {
             TenantContext.setTenantId(host);
-            request.setAttribute("tenantId", host);
+            request.setAttribute("tenantId", tenantId);
             request.setAttribute("host", host);
             filterChain.doFilter(request, response);
             return;

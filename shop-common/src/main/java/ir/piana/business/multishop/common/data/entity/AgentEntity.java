@@ -18,6 +18,9 @@ public class AgentEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "masterSeq")
     private long id;
 
-    @Column(name = "USERNAME")
-    private String username;
+    @Column(name = "USER_ID")
+    private long userId;
+
+    @Column(name = "SITE_ID")
+    private long siteId;
 }

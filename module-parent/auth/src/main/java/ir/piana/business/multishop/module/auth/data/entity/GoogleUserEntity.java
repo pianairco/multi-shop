@@ -18,8 +18,6 @@ public class GoogleUserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "ID")
     private long id;
-    @Column(name = "AGENT_ID")
-    private long agentId;
     @Column(name = "USER_UUID")
     private String userId;
     @Column(name = "email")

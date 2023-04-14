@@ -40,7 +40,7 @@ public class AuthAction extends AjaxController.Action {
         SiteEntity siteEntity = null;
         SiteInfoEntity siteInfoEntity = null;
         if(!appDataCache.getDomain().equalsIgnoreCase(host)) {
-            siteEntity = siteRepository.findByTenantId(host);
+            siteEntity = siteRepository.findByDomain(host);
             siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
         }
         AppInfo appInfo = null;

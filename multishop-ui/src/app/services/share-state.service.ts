@@ -99,8 +99,8 @@ export class ShareStateService {
     console.log(returnUrl)
     this._editModeObject = new EditModeObject(
       false, null, null, null);
-    this.router.navigateByUrl('/tile/home');
-    // this.router.navigate([returnUrl]);
+    // this.router.navigateByUrl('/tile/home');
+    this.router.navigate([returnUrl]);
   }
 
   navigateToShop (category) {

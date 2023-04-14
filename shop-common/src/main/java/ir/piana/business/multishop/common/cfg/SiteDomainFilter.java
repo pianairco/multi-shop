@@ -24,9 +24,11 @@ public class SiteDomainFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        String tenant = (String) request.getAttribute("tenant");
-        if(!CommonUtils.isNull(tenant)) {
-            SiteEntity byTenantId = siteRepository.findByTenantId(tenant);
+        String domain = (String) request.getAttribute("host");
+        if(!CommonUtils.isNull(domain)) {
+//            String tenantId = siteRepository.getTenantId(domain);
+            //ToDo should be get from ram
+            SiteEntity byTenantId = siteRepository.findByDomain(domain);
             request.setAttribute("site", byTenantId);
             filterChain.doFilter(request, response);
         }
