@@ -1,12 +1,10 @@
 package ir.piana.business.multishop.module.site.rest;
 
-import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.module.auth.model.SiteInfo;
 import ir.piana.business.multishop.module.site.data.entity.SiteInfoEntity;
 import ir.piana.business.multishop.module.site.data.repository.SiteInfoRepository;
-import ir.piana.business.multishop.module.site.service.CategoryRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;

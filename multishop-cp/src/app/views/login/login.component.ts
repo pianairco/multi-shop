@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
         console.log("window force closed!")
         window.close()
       } else {
-        console.log(appInfo);
+        console.log(appInfo, this.returnUrl);
         this.router.navigate([this.returnUrl]);
       }
     }, err => {

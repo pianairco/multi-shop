@@ -67,7 +67,7 @@ export class AuthGuard implements CanActivate {
         return false;
       }
     } else if(state['url'].startsWith('logout') || state['url'].startsWith('/logout')) {
-      // console.log("gaurd => logout", appInfo)
+      console.log("gaurd => logout", appInfo)
       if(appInfo === null || appInfo['isLoggedIn'] === false) {
         // if((route['routeConfig']['path'].startsWith('login') || route['routeConfig']['path'].startsWith('/login')) && localStorage.getItem('currentUser')) {
         // this.router.navigate(['/home'], { queryParams: { returnUrl: state.url }});

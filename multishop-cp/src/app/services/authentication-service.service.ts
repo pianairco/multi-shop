@@ -115,6 +115,8 @@ export class AuthenticationService {
         // console.log(JSON.stringify(appInfo));
         // localStorage.setItem('currentUser', JSON.stringify(appInfo));
         this.pianaStorageService.putObject('appInfo', appInfo);
+        console.log(appInfo)
+        console.log(this.pianaStorageService.getObject('appInfo'));
         // console.log(localStorage.getItem('currentUser'));
         return appInfo;
       }

@@ -1,10 +1,12 @@
-package ir.piana.business.multishop.rest;
+package ir.piana.business.multishop.module.site.rest;
 
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
 import ir.piana.business.multishop.common.data.entity.AgentEntity;
+import ir.piana.business.multishop.common.data.entity.DomainsEntity;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.data.repository.AgentRepository;
+import ir.piana.business.multishop.common.data.repository.DomainsRepository;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.model.ResponseModel;
 import ir.piana.business.multishop.common.util.CommonUtils;
@@ -36,6 +38,9 @@ public class SiteRest {
 
     @Autowired
     private SiteRepository siteRepository;
+
+    @Autowired
+    private DomainsRepository domainsRepository;
 
     @Autowired
     private AgentRepository agentRepository;
@@ -109,6 +114,7 @@ public class SiteRest {
         SiteInfoEntity siteInfoEntity = SiteInfoEntity.builder()
                 .tenantId(siteName + "." + appDataCache.getDomain())
                 .title("PianaShop")
+                .headerImage("/assets/header/bg1.jpeg")
                 .description("When you are visiting a business' Piana Shop, you can use the Message button to start a conversation with the business about a product that you're viewing.")
                 .tipTitle("Shop Tip")
                 .tipDescription("If you have a product idea or shop tip that you would like to share, count on us")
@@ -120,6 +126,8 @@ public class SiteRest {
                 .build();*/
         AgentEntity agentEntity = AgentEntity.builder().siteId(siteEntity.getId()).userId(siteEntity.getOwnerId()).build();
         agentRepository.save(agentEntity);
+        DomainsEntity save = domainsRepository.save(
+                DomainsEntity.builder().domain(siteEntity.getTenantId()).siteId(siteEntity.getId()).build());
         dataSourceService.siteActivation(siteEntity.getTenantId());
         return ResponseEntity.ok(body);
     }

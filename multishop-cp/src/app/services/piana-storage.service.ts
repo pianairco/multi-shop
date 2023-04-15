@@ -12,6 +12,7 @@ export class PianaStorageService {
   }
 
   getObject(key: string): any {
+    console.log(localStorage.length)
     return JSON.parse(localStorage.getItem(key));
   }
 
