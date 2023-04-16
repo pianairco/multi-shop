@@ -1,11 +1,25 @@
 create sequence IF NOT EXISTS master_seq;
 
+CREATE TABLE IF NOT EXISTS PRODUCT (
+    ID bigint primary key,
+    registrar_ID bigint,
+    piana_CATEGORY_ID bigint,
+    TITLE varchar(256),
+    DESCRIPTION varchar(1024),
+    IMAGE varchar(256),
+    is_confirmed number(1) default 0,
+    register_time timestamp default CURRENT_TIMESTAMP,
+    constraint FK_PRODUCT_registrar_ID foreign key (registrar_ID) references users(ID),
+    constraint FK_PRODUCT_piana_CATEGORY_ID foreign key (piana_CATEGORY_ID) references piana_CATEGORIes(ID)
+);
+
 CREATE TABLE IF NOT EXISTS PRODUCT_CATEGORIZATION (
     ID bigint primary key,
     TITLE varchar(256),
     ROUTER_LINK varchar(64),
     ORDERS number(3),
     SITE_ID bigint,
+    PIANA_CATEGORY_ID bigint,
     constraint FK_PRODUCT_CATEGORIZATION_SITE_ID foreign key (SITE_ID) references SITE(ID),
     constraint UK_PRODUCT_CATEGORIZATION_TITLE unique (SITE_ID, TITLE),
     constraint UK_PRODUCT_CATEGORIZATION_ROUTER_LINK unique (SITE_ID, ROUTER_LINK),
@@ -13,73 +27,81 @@ CREATE TABLE IF NOT EXISTS PRODUCT_CATEGORIZATION (
 );
 
 INSERT INTO PRODUCT_CATEGORIZATION select * from (
-    select 1 ID, 'گروه یک' TITLE, 'pack1' ROUTER_LINK, 1 ORDERS, 1 SITE_ID UNION
-    select 2 ID, 'گروه دو' TITLE, 'pack2' ROUTER_LINK, 2 ORDERS, 1 SITE_ID UNION
-    select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 1 SITE_ID
+    select 1 ID, 'گروه یک' TITLE, 'pack1' ROUTER_LINK, 1 ORDERS, 1 SITE_ID, 4629771610314768384 PIANA_CATEGORY_ID UNION
+    select 2 ID, 'گروه دو' TITLE, 'pack2' ROUTER_LINK, 2 ORDERS, 1 SITE_ID, 4629771612462252032 UNION
+    select 3 ID, 'گروه سه' TITLE, 'pack3' ROUTER_LINK, 3 ORDERS, 1 SITE_ID, 4629771619978444800
 ) where not exists(select * from PRODUCT_CATEGORIZATION);
 
-CREATE TABLE IF NOT EXISTS PRODUCT (
+CREATE TABLE IF NOT EXISTS store_pool (
     ID bigint primary key,
+    PRODUCT_ID bigint primary key,
+    SITE_ID bigint,
+    PIANA_CATEGORY_ID bigint primary key,
+    CATEGORY_ID bigint,
     TITLE varchar(256),
     DESCRIPTION varchar(1024),
     IMAGE varchar(256),
-    MEASUREMENT bigint,
     MEASUREMENT_UNIT varchar(64),
+    MEASUREMENT_UNIT_RATIO int,
+    inventory bigint,
     PRICE bigint,
-    CURRENCY varchar(64),
-    PERCENT bigint,
-    SITE_ID bigint,
-    CATEGORY_ID bigint,
-    constraint FK_PRODUCT_SITE_ID foreign key (SITE_ID) references SITE(ID),
-    constraint FK_PRODUCT_CATEGORY_ID foreign key (CATEGORY_ID) references PRODUCT_CATEGORIZATION(ID),
-    constraint UK_PRODUCT_TITLE unique (SITE_ID, TITLE)
+    PERCENTAGE int,
+    constraint FK_store_pool_PRODUCT_ID foreign key (product_id) references product(ID),
+    constraint FK_store_pool_SITE_ID foreign key (SITE_ID) references SITE(ID),
+    constraint FK_store_pool_piana_CATEGORY_ID foreign key (PIANA_CATEGORY_ID) references PIANA_CATEGORIES(ID),
+    constraint FK_store_pool_CATEGORY_ID foreign key (CATEGORY_ID) references PRODUCT_CATEGORIZATION(ID),
+    constraint UK_store_pool_TITLE_measurement unique (SITE_ID, TITLE, MEASUREMENT_UNIT)
 );
 
-CREATE TABLE IF NOT EXISTS header (
+CREATE TABLE IF NOT EXISTS sale_price (
     ID bigint primary key,
-    PATH varchar(128),
-    ORDERS number(1),
+    product_ID bigint,
+    store_pool_ID bigint,
     SITE_ID bigint,
-    constraint FK_HEADER_SITE_ID foreign key (SITE_ID) references SITE(ID)
+    changer_id bigint,
+    change_time timestamp,
+    PRICE bigint,
+    percentage int,
+    constraint FK_sale_price_PRODUCT_ID foreign key (product_id) references product(ID),
+    constraint FK_sale_price_store_pool_ID foreign key (store_pool_id) references store_pool(ID),
+    constraint FK_sale_price_site_ID foreign key (SITE_ID) references Site(ID),
+    constraint FK_sale_price_changer_id foreign key (changer_id) references users(ID)
 );
 
-CREATE TABLE IF NOT EXISTS samples (
-    id bigint default master_seq.nextval primary key,
-    title char(128),
-    description varchar(256) NOT NULL,
-    image_src varchar(256),
+CREATE TABLE IF NOT EXISTS purchase_invoice (
+    ID bigint primary key,
+    product_ID bigint,
+    store_pool_ID bigint,
     SITE_ID bigint,
-    constraint FK_SAMPLES_SITE_ID foreign key (SITE_ID) references SITE(ID)
+    buyer_id bigint,
+    buy_date char(10),
+    buy_time timestamp,
+    quantity int,
+    MEASUREMENT_UNIT varchar(64),
+    MEASUREMENT_UNIT_RATIO int,
+    unit_price bigint,
+    total_price bigint,
+    constraint FK_sale_price_PRODUCT_ID foreign key (product_id) references product(ID),
+    constraint FK_sale_price_store_pool_ID foreign key (store_pool_id) references store_pool(ID),
+    constraint FK_sale_price_site_ID foreign key (SITE_ID) references Site(ID),
+    constraint FK_sale_price_changer_id foreign key (buyer_id) references users(ID)
 );
 
-CREATE TABLE IF NOT EXISTS samples_session (
-    id bigint default master_seq.nextval primary key,
-    samples_id bigint,
-    title char(128),
-    description varchar(256),
-    detail varchar(4096) ,
-    icon_src varchar(256),
-    orders int,
+CREATE TABLE IF NOT EXISTS sale_invoice (
+    ID bigint primary key,
+    product_ID bigint,
+    store_pool_ID bigint,
     SITE_ID bigint,
-    constraint FK_SAMPLES_SESSION_SITE_ID foreign key (SITE_ID) references SITE(ID),
-    CONSTRAINT FK_SESSION_TO_SAMPLES FOREIGN KEY ( samples_id ) REFERENCES samples( id )
-);
-
-CREATE TABLE IF NOT EXISTS samples_session_image (
-    id bigint default master_seq.nextval primary key,
-    samples_session_id bigint,
-    orders int,
-    image_src varchar(256),
-    SITE_ID bigint,
-    CONSTRAINT FK_SAMPLES_SESSION_IMAGE_SITE_ID foreign key (SITE_ID) references SITE(ID),
-    CONSTRAINT FK_SESSION_IMAGE_TO_SAMPLES_SESSION FOREIGN KEY ( samples_session_id ) REFERENCES samples_session( id )
-);
-
-CREATE TABLE IF NOT EXISTS images (
-    id bigint default master_seq.nextval primary key,
-    image_src char(70),
-    image_type char(10),
-    image_data binary(100000),
-    SITE_ID bigint,
-    constraint FK_IMAGES_SITE_ID foreign key (SITE_ID) references SITE(ID)
+    seller_id bigint,
+    sell_date char(10),
+    sell_time timestamp,
+    quantity int,
+    MEASUREMENT_UNIT varchar(64),
+    MEASUREMENT_UNIT_RATIO int,
+    unit_price bigint,
+    total_price bigint,
+    constraint FK_sale_price_PRODUCT_ID foreign key (product_id) references product(ID),
+    constraint FK_sale_price_store_pool_ID foreign key (store_pool_id) references store_pool(ID),
+    constraint FK_sale_price_site_ID foreign key (SITE_ID) references Site(ID),
+    constraint FK_sale_price_changer_id foreign key (seller_id) references users(ID)
 );

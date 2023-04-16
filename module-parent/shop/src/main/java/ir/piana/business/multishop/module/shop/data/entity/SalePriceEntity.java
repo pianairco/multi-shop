@@ -3,6 +3,7 @@ package ir.piana.business.multishop.module.shop.data.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Time;
 
 @Builder
 @Getter
@@ -10,23 +11,25 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PRODUCT_CATEGORIZATION")
+@Table(name = "sale_price")
 @SequenceGenerator(name = "master_seq", initialValue = 1, sequenceName = "master_seq", allocationSize = 1)
-public class ProductCategoryEntity {
+public class SalePriceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "ID")
     private long id;
-    @Column(name = "TITLE")
-    private String title;
-    @Column(name = "ROUTER_LINK")
-    private String routerLink;
-    @Column(name = "ORDERS")
-    private long orders;
+    @Column(name = "PRODUCT_ID")
+    private long productId;
+    @Column(name = "Store_pool_ID")
+    private long storePoolId;
     @Column(name = "SITE_ID")
     private long siteId;
-    @Column(name = "PIANA_CATEGORY_ID")
-    private long pianaCategoryId;
-//    @ManyToOne(targetEntity = SiteEntity.class, fetch = FetchType.EAGER)
-//    private SiteEntity siteEntity;
+    @Column(name = "changer_id")
+    private long changerId;
+    @Column(name = "change_time")
+    private Time changeTime;
+    @Column(name = "PRICE")
+    private String price;
+    @Column(name = "percentage")
+    private String percentage;
 }
