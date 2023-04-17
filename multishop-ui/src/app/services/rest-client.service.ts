@@ -12,7 +12,8 @@ import {log} from "util";
 export class RestClientService {
   ajaxUrlMap = {
     'product': 'api/modules/shop/product',
-    'category': 'api/modules/shop/category'
+    'category': 'api/modules/shop/category',
+    'siteCategory': 'api/modules/site/category'
   }
 
   remoteServer: string = "";
@@ -59,5 +60,13 @@ export class RestClientService {
     if (product.id > 0) {
       return this.ajaxCallService.delete(this.ajaxUrlMap.product, product.id);
     }
+  }
+
+  getSiteCategories() {
+    return this.ajaxCallService.read(this.ajaxUrlMap.siteCategory + '/root');
+  }
+
+  getAllProductsByCategory(categoryId) {
+    return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' + categoryId);
   }
 }

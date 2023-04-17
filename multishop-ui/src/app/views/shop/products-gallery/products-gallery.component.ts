@@ -57,7 +57,7 @@ export class ProductsGalleryComponent implements OnInit {
         // this.categoryService.checkCategory(this.routerLink);
         // console.log(this.routerLink)
         let res = await this.restClient.productList(this.routerLink);
-        this.products = res['data'];
+        this.products = res['data']['data'];
         this.loadingService.changeState(false);
       } catch (e) {
         this.loadingService.changeState(false);

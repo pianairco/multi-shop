@@ -4,7 +4,8 @@ const PROXY_CONFIG = [
       "/api",
       "/h2",
       "/resource",
-      "/assets"
+      "/assets",
+      "/Iranian_Sans.ttf"
     ],
     target: "https://piana.ir:8443",
     // target: "https://localhost:8443",

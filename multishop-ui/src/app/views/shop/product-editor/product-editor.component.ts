@@ -27,6 +27,7 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   returnUrl: string;
   onInitCalled = false;
   product = null;
+  allProducts = null;
 
   constructor(
     private router: Router,
@@ -113,5 +114,17 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
     this.shareStateService.navigateReturn();
     // this.router.navigate([this.returnUrl])
     // this.isActive = false;
+  }
+
+  selectCategory(categoryId) {
+    console.log(categoryId)
+    this.restClientService.getAllProductsByCategory(categoryId).then(res => {
+      if(res.status === 200 && res.data.code === 0) {
+        this.allProducts = res.data.data;
+        console.log('all-products', this.allProducts)
+      }
+    }, err => {
+      console.log('all-products', null)
+    });
   }
 }

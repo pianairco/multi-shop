@@ -18,8 +18,8 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "ID")
     private long id;
-    @Column(name = "registrar_id")
-    private long registrarId;
+    @Column(name = "registrar_site_ID")
+    private long registrarSiteId;
     @Column(name = "PIANA_CATEGORY_ID")
     private long pianaCategoryId;
     @Column(name = "TITLE")

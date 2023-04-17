@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-    List<ProductEntity> findAllBySiteId(long id);
-    List<ProductEntity> findAllBySiteIdAndCategoryId(long siteId, long categoryId);
-    ProductEntity findBySiteIdAndId(long siteId, long id);
-    void deleteBySiteIdAndId(long siteId, long id);
+    List<ProductEntity> findAllByRegistrarSiteId(long id);
+    List<ProductEntity> findAllByRegistrarSiteIdAndPianaCategoryId(long siteId, long categoryId);
+    ProductEntity findByRegistrarSiteIdAndId(long siteId, long id);
+    void deleteByRegistrarSiteIdAndId(long siteId, long id);
 }

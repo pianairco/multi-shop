@@ -87,7 +87,6 @@ export class ProductCategoryService {
   }
 
   private checkCategory(routerLink) {
-    console.log(routerLink)
     if(this._selected && this._selected.routerLink === routerLink) {
       return true;
     } else {
@@ -118,7 +117,6 @@ export class ProductCategoryService {
   }
 
   getCategoryId(routerLink) {
-    console.log("dddddd")
     this.checkCategory(routerLink);
     for(let category of this._categories) {
       if (category.routerLink == routerLink)
