@@ -6,36 +6,16 @@ public class CategoryUtils {
     }
 
     public static long getNextCategory(long category, int[] pattern) {
-        long lastActiveBits = 0;
-        long preLastActiveBits = 0;
-        int beforeBitsCount = 0;
-        for (int i = 0; i < pattern.length; i++) {
-            long levelBits = getBitsAsTrue(pattern[i]);
-            long t = category & (levelBits << (64 - beforeBitsCount - pattern[i]));
-            if (t != 0)
-                lastActiveBits = t;
-            else
-                break;
-            beforeBitsCount += pattern[i];
-            if (i > 0)
-                preLastActiveBits += pattern[i];
-        }
-        long next = (category >> (64 - beforeBitsCount + preLastActiveBits) << (64 - beforeBitsCount + preLastActiveBits)) |
-                (((lastActiveBits >> (64 - beforeBitsCount)) + 1) << (64 - beforeBitsCount));
-        return  next;
-    }
-
-    public static long getNextCategory2(long category, int[] pattern) {
         int beforeBitsCount = 0;
         for (int i = pattern.length - 1; i > 0; i--) {
-            long levelBits = getBitsAsTrue(pattern[i]) << beforeBitsCount;
             beforeBitsCount += pattern[i];
+            long levelBits = getBitsAsTrue(pattern[i]) << beforeBitsCount;
             long l = category & levelBits;
             if (l > 0) {
                 if (l != levelBits) {
-                    long t = ((l >> (beforeBitsCount - pattern[i])) + 1) << (beforeBitsCount - pattern[i]);
-                    long next =  (((category >> beforeBitsCount) << beforeBitsCount) | t) |
-                            ((category << 64 - beforeBitsCount + pattern[i]) >> 64 - beforeBitsCount + pattern[i]);
+                    long t = ((l >> (beforeBitsCount)) + 1) << (beforeBitsCount);
+                    long next =  (((category >> (beforeBitsCount + pattern[i])) << (beforeBitsCount + pattern[i])) | t) |
+                            (category & getBitsAsTrue(beforeBitsCount));
                     return next;
                 }
             }
@@ -44,7 +24,7 @@ public class CategoryUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNextCategory2(4041028100000000l,
-                new int[] {2, 8, 8, 8, 8, 8, 8, 8, 6}));
+        System.out.println(getNextCategory(0x40bff3c000000000l,
+                new int[] {2, 8, 8, 8, 8, 8, 8, 6}));
     }
 }

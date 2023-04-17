@@ -1,5 +1,6 @@
 storage:
-  location: /home/rahmati/upload_dir/
+  location: c:/upload-dir
+#  location: /home/rahmati/upload_dir/
   bean: afterSaveImage
   groups:
     product:

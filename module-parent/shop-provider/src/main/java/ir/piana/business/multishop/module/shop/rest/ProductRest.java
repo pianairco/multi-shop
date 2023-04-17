@@ -3,6 +3,7 @@ package ir.piana.business.multishop.module.shop.rest;
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
 import ir.piana.business.multishop.common.dev.uploadrest.StorageService;
 import ir.piana.business.multishop.common.model.ResponseModel;
+import ir.piana.business.multishop.common.util.CategoryUtils;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.service.AuthenticationService;
@@ -62,7 +63,8 @@ public class ProductRest {
                 ResponseModel.<List<ProductEntity>>builder()
                         .code(0)
                         .data(productRepository.findAllByRegistrarSiteIdAndPianaCategoryId(
-                                siteEntity.getId(), categoryId))
+                                siteEntity.getId(), categoryId,
+                                CategoryUtils.getNextCategory(categoryId, new int[]{2, 8, 8, 8, 8, 8, 8, 6})))
                         .build()
                 );
     }
