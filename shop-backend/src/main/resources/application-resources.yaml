@@ -5,8 +5,8 @@ static-resource:
       - classpath:/multishop-ui/
       - classpath:/public/
       - classpath:/static/
-      - file:///c:/upload-dir/
-#      - file:///home/rahmati/upload_dir/
+#      - file:///c:/upload-dir/
+      - file:///home/rahmati/upload_dir/
     '[/assets]':
-      - file:///c:/upload-dir/
-#      - file:///home/rahmati/upload_dir/
+#      - file:///c:/upload-dir/
+      - file:///home/rahmati/upload_dir/

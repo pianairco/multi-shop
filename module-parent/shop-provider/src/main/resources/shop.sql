@@ -1,53 +1,88 @@
 create sequence IF NOT EXISTS master_seq;
 
+CREATE TABLE IF NOT EXISTS measurement_unit (
+    ID bigint primary key,
+    parent_id bigint,
+    is_primary number(1) default (0),
+    english_name varchar(128),
+    persian_name varchar(128),
+    ratio number(12, 8)
+);
+
+INSERT INTO measurement_unit select * from (
+    select 1 ID, 0 parent_id, 1 is_primary, 'kilogram' english_name, 'کیلوگرم' persian_name, 1 ratio UNION
+    select 2, 1, 0, 'gram', 'گرم', 0.001 UNION
+    select 3, 1, 0, 'Shekel', 'مثقال', 0.004608 UNION
+    select 4, 1, 0, 'ton', 'تن', 1000 UNION
+    select 5, 1, 0, 'sir', 'سیر', 0.075 UNION
+    select 6, 1, 0, 'sot', 'سوت', 0.000001 UNION
+    select 7, 0, 1, 'meter', 'متر', 1 UNION
+    select 8, 7, 0, 'centimeter', 'سانتیمتر', 0.01 UNION
+    select 9, 7, 0, 'Inch', 'اینچ', 0.0254 UNION
+    select 10, 7, 0, 'kilometer', 'کیلومتر', 1000 UNION
+    select 11, 7, 0, 'militimeter', 'میلیمتر', 0.001 UNION
+    select 12, 7, 0, 'gaz', 'گز', 1.0400000017 UNION
+    select 13, 7, 0, 'zar', 'ذرع', 1.0400000017 UNION
+    select 14, 7, 0, 'vajab', 'وجب', 0.2250000002 UNION
+    select 15, 7, 0, 'yard', 'یارد', 0.9144 UNION
+    select 16, 7, 0, 'mile', 'مایل', 1609.3439798948 UNION
+    select 17, 0, 1, 'liter', 'لیتر', 1 UNION
+    select 18, 17, 0, 'cc', 'سی سی', 0.001 UNION
+    select 19, 17, 0, 'cubic-meter', 'متر مکعب', 1000 UNION
+    select 20, 17, 0, 'mililiter', 'میلی لیتر', 0.001 UNION
+    select 21, 0, 1, 'quantity', 'عدد', 1
+) where not exists(select * from measurement_unit);
+
 CREATE TABLE IF NOT EXISTS PRODUCT (
     ID bigint primary key,
     registrar_site_ID bigint,
     piana_CATEGORY_ID bigint,
+    measurement_unit_id bigint,
     TITLE varchar(256),
     DESCRIPTION varchar(1024),
     IMAGE varchar(256),
     is_confirmed number(1) default 0,
     register_time timestamp default CURRENT_TIMESTAMP,
     constraint FK_PRODUCT_registrar_ID foreign key (registrar_site_ID) references site(ID),
-    constraint FK_PRODUCT_piana_CATEGORY_ID foreign key (piana_CATEGORY_ID) references piana_CATEGORIes(ID)
+    constraint FK_PRODUCT_piana_CATEGORY_ID foreign key (piana_CATEGORY_ID) references piana_CATEGORIes(ID),
+    constraint FK_PRODUCT_measurement_unit_id foreign key (measurement_unit_id) references measurement_unit(ID)
 );
 
-INSERT INTO PRODUCT (id, registrar_site_ID, PIANA_CATEGORY_ID, title, description, image) select * from (
-    select 1 ID, 1 registrar_site_ID, 4629770785681047552 PIANA_CATEGORY_ID, 'a' TITLE, 'aaa aaa' description, '/assets/products/a.jpg' image UNION
-    select 2 , 1 , 4629841154425225216, 'a1', 'aaa aaa', '/assets/products/a1.jpg' UNION
-    select 3 , 1 , 4629911523169402880, 'a2', 'aaa aaa', '/assets/products/a2.jpg' UNION
-    select 4 , 1 , 4629981891913580544, 'a3', 'aaa aaa', '/assets/products/a3.jpg'  UNION
-    select 5 , 1 , 4630052260657758208, 'a4', 'aaa aaa', '/assets/products/a4.jpg'  UNION
-    select 6 , 1 , 4630122629401935872, 'a5', 'aaa aaa', '/assets/products/a5.jpg'  UNION
-    select 7 , 1 , 4630192998146113536, 'a6', 'aaa aaa', '/assets/products/a6.jpg'  UNION
-    select 8 , 1 , 4630263366890291200, 'a7', 'aaa aaa', '/assets/products/a7.jpg'  UNION
-    select 9 , 1 , 4630333735634468864, 'a8', 'aaa aaa', '/assets/products/a8.jpg'  UNION
-    select 10 , 1 , 4630404104378646528, 'b', 'aaa aaa', '/assets/products/b.jpg'  UNION
-    select 11 , 1 , 4630474473122824192, 'c', 'aaa aaa', '/assets/products/c.jpg'  UNION
-    select 12 , 1 , 4630544841867001856, 'd', 'aaa aaa', '/assets/products/d.jpg'  UNION
-    select 13 , 1 , 4630615210611179520, 'e', 'aaa aaa', '/assets/products/e.jpg'  UNION
-    select 14 , 1 , 4647785184190529536, 'f', 'aaa aaa', '/assets/products/f.jpg'  UNION
-    select 15 , 1 , 4647855552934707200, 'g', 'aaa aaa', '/assets/products/g.jpg'  UNION
-    select 16 , 1 , 4647925921678884864, 'h', 'aaa aaa', '/assets/products/h.jpg'  UNION
-    select 17 , 1 , 4647996290423062528, 'i', 'aaa aaa', '/assets/products/i.jpg'  UNION
-    select 18 , 1 , 4648066659167240192, 'j', 'aaa aaa', '/assets/products/j.jpg'  UNION
-    select 19 , 1 , 4648137027911417856, 'k', 'aaa aaa', '/assets/products/k.jpg'  UNION
-    select 20 , 1 , 4648137027911417856, 'l', 'aaa aaa', '/assets/products/l.jpg'  UNION
-    select 21 , 1 , 4648207396655595520, 'm', 'aaa aaa', '/assets/products/m.jpg'  UNION
-    select 22 , 1 , 4648277765399773184, 'n', 'aaa aaa', '/assets/products/n.jpg'  UNION
-    select 23 , 1 , 4648348134143950848, 'o', 'aaa aaa', '/assets/products/o.jpg'  UNION
-    select 24 , 1 , 4648418502888128512, 'p', 'aaa aaa', '/assets/products/p.jpg'  UNION
-    select 25 , 1 , 4648488871632306176, 'q', 'aaa aaa', '/assets/products/q.jpg'  UNION
-    select 26 , 1 , 4648559240376483840, 'r', 'aaa aaa', '/assets/products/r.jpg'  UNION
-    select 27 , 1 , 4665799582700011520, 's', 'aaa aaa', '/assets/products/s.jpg'  UNION
-    select 28 , 1 , 4665869951444189184, 't', 'aaa aaa', '/assets/products/t.jpg'  UNION
-    select 29 , 1 , 4665940320188366848, 'u', 'aaa aaa', '/assets/products/u.jpg'  UNION
-    select 30 , 1 , 4629771060558954496, 'v', 'aaa aaa', '/assets/products/v.jpg'  UNION
-    select 31 , 1 , 4629771061632696320, 'w', 'aaa aaa', '/assets/products/w.jpg'  UNION
-    select 32 , 1 , 4629771062706438144, 'x', 'aaa aaa', '/assets/products/x.jpg'  UNION
-    select 33 , 1 , 4629771063780179968, 'y', 'aaa aaa', '/assets/products/y.jpg'  UNION
-    select 34 , 1 , 4629771064853921792, 'z', 'aaa aaa', '/assets/products/z.jpg'
+INSERT INTO PRODUCT (id, registrar_site_ID, PIANA_CATEGORY_ID, measurement_unit_id, title, description, image) select * from (
+    select 1 ID, 1 registrar_site_ID, 4629770785681047552 PIANA_CATEGORY_ID, 21 measurement_unit_id, 'a' TITLE, 'aaa aaa' description, '/assets/products/a.jpg' image UNION
+    select 2 , 1 , 4629841154425225216, 21, 'a1', 'aaa aaa', '/assets/products/a1.jpg' UNION
+    select 3 , 1 , 4629911523169402880, 21, 'a2', 'aaa aaa', '/assets/products/a2.jpg' UNION
+    select 4 , 1 , 4629981891913580544, 21, 'a3', 'aaa aaa', '/assets/products/a3.jpg'  UNION
+    select 5 , 1 , 4630052260657758208, 21, 'a4', 'aaa aaa', '/assets/products/a4.jpg'  UNION
+    select 6 , 1 , 4630122629401935872, 21, 'a5', 'aaa aaa', '/assets/products/a5.jpg'  UNION
+    select 7 , 1 , 4630192998146113536, 21, 'a6', 'aaa aaa', '/assets/products/a6.jpg'  UNION
+    select 8 , 1 , 4630263366890291200, 21, 'a7', 'aaa aaa', '/assets/products/a7.jpg'  UNION
+    select 9 , 1 , 4630333735634468864, 21, 'a8', 'aaa aaa', '/assets/products/a8.jpg'  UNION
+    select 10 , 1 , 4630404104378646528, 21, 'b', 'aaa aaa', '/assets/products/b.jpg'  UNION
+    select 11 , 1 , 4630474473122824192, 21, 'c', 'aaa aaa', '/assets/products/c.jpg'  UNION
+    select 12 , 1 , 4630544841867001856, 21, 'd', 'aaa aaa', '/assets/products/d.jpg'  UNION
+    select 13 , 1 , 4630615210611179520, 21, 'e', 'aaa aaa', '/assets/products/e.jpg'  UNION
+    select 14 , 1 , 4647785184190529536, 21, 'f', 'aaa aaa', '/assets/products/f.jpg'  UNION
+    select 15 , 1 , 4647855552934707200, 21, 'g', 'aaa aaa', '/assets/products/g.jpg'  UNION
+    select 16 , 1 , 4647925921678884864, 21, 'h', 'aaa aaa', '/assets/products/h.jpg'  UNION
+    select 17 , 1 , 4647996290423062528, 21, 'i', 'aaa aaa', '/assets/products/i.jpg'  UNION
+    select 18 , 1 , 4648066659167240192, 21, 'j', 'aaa aaa', '/assets/products/j.jpg'  UNION
+    select 19 , 1 , 4648137027911417856, 21, 'k', 'aaa aaa', '/assets/products/k.jpg'  UNION
+    select 20 , 1 , 4648137027911417856, 21, 'l', 'aaa aaa', '/assets/products/l.jpg'  UNION
+    select 21 , 1 , 4648207396655595520, 21, 'm', 'aaa aaa', '/assets/products/m.jpg'  UNION
+    select 22 , 1 , 4648277765399773184, 21, 'n', 'aaa aaa', '/assets/products/n.jpg'  UNION
+    select 23 , 1 , 4648348134143950848, 21, 'o', 'aaa aaa', '/assets/products/o.jpg'  UNION
+    select 24 , 1 , 4648418502888128512, 21, 'p', 'aaa aaa', '/assets/products/p.jpg'  UNION
+    select 25 , 1 , 4648488871632306176, 21, 'q', 'aaa aaa', '/assets/products/q.jpg'  UNION
+    select 26 , 1 , 4648559240376483840, 21, 'r', 'aaa aaa', '/assets/products/r.jpg'  UNION
+    select 27 , 1 , 4665799582700011520, 21, 's', 'aaa aaa', '/assets/products/s.jpg'  UNION
+    select 28 , 1 , 4665869951444189184, 21, 't', 'aaa aaa', '/assets/products/t.jpg'  UNION
+    select 29 , 1 , 4665940320188366848, 21, 'u', 'aaa aaa', '/assets/products/u.jpg'  UNION
+    select 30 , 1 , 4629771060558954496, 21, 'v', 'aaa aaa', '/assets/products/v.jpg'  UNION
+    select 31 , 1 , 4629771061632696320, 21, 'w', 'aaa aaa', '/assets/products/w.jpg'  UNION
+    select 32 , 1 , 4629771062706438144, 21, 'x', 'aaa aaa', '/assets/products/x.jpg'  UNION
+    select 33 , 1 , 4629771063780179968, 21, 'y', 'aaa aaa', '/assets/products/y.jpg'  UNION
+    select 34 , 1 , 4629771064853921792, 21, 'z', 'aaa aaa', '/assets/products/z.jpg'
 ) where not exists(select * from PRODUCT);
 
 
@@ -77,11 +112,10 @@ CREATE TABLE IF NOT EXISTS store_pool (
     SITE_ID bigint,
     PIANA_CATEGORY_ID bigint,
     CATEGORY_ID bigint,
+    MEASUREMENT_UNIT_id bigint,
     TITLE varchar(256),
     DESCRIPTION varchar(1024),
     IMAGE varchar(256),
-    MEASUREMENT_UNIT varchar(64),
-    MEASUREMENT_UNIT_RATIO int,
     inventory bigint,
     PRICE bigint,
     PERCENTAGE int,
@@ -89,7 +123,8 @@ CREATE TABLE IF NOT EXISTS store_pool (
     constraint FK_store_pool_SITE_ID foreign key (SITE_ID) references SITE(ID),
     constraint FK_store_pool_piana_CATEGORY_ID foreign key (PIANA_CATEGORY_ID) references PIANA_CATEGORIES(ID),
     constraint FK_store_pool_CATEGORY_ID foreign key (CATEGORY_ID) references PRODUCT_CATEGORIZATION(ID),
-    constraint UK_store_pool_TITLE_measurement unique (SITE_ID, TITLE, MEASUREMENT_UNIT)
+    constraint FK_store_pool_measurement_unit_id foreign key (measurement_unit_id) references measurement_unit(ID),
+    constraint UK_store_pool_TITLE_measurement unique (SITE_ID, TITLE, MEASUREMENT_UNIT_id)
 );
 
 CREATE TABLE IF NOT EXISTS sale_price (
@@ -116,14 +151,14 @@ CREATE TABLE IF NOT EXISTS purchase_invoice (
     buy_date char(10),
     buy_time timestamp,
     quantity int,
-    MEASUREMENT_UNIT varchar(64),
-    MEASUREMENT_UNIT_RATIO int,
+    MEASUREMENT_UNIT_id bigint,
     unit_price bigint,
     total_price bigint,
     constraint FK_purchase_invoice_PRODUCT_ID foreign key (product_id) references product(ID),
     constraint FK_purchase_invoice_store_pool_ID foreign key (store_pool_id) references store_pool(ID),
     constraint FK_purchase_invoice_site_ID foreign key (SITE_ID) references Site(ID),
-    constraint FK_purchase_invoice_changer_id foreign key (buyer_id) references users(ID)
+    constraint FK_purchase_invoice_changer_id foreign key (buyer_id) references users(ID),
+    constraint FK_purchase_invoice_measurement_unit_id foreign key (measurement_unit_id) references measurement_unit(ID)
 );
 
 CREATE TABLE IF NOT EXISTS sale_invoice (
@@ -135,12 +170,12 @@ CREATE TABLE IF NOT EXISTS sale_invoice (
     sell_date char(10),
     sell_time timestamp,
     quantity int,
-    MEASUREMENT_UNIT varchar(64),
-    MEASUREMENT_UNIT_RATIO int,
+    MEASUREMENT_UNIT_id bigint,
     unit_price bigint,
     total_price bigint,
     constraint FK_sale_invoice_PRODUCT_ID foreign key (product_id) references product(ID),
     constraint FK_sale_invoice_store_pool_ID foreign key (store_pool_id) references store_pool(ID),
     constraint FK_sale_invoice_site_ID foreign key (SITE_ID) references Site(ID),
-    constraint FK_sale_invoice_changer_id foreign key (seller_id) references users(ID)
+    constraint FK_sale_invoice_changer_id foreign key (seller_id) references users(ID),
+    constraint FK_sale_invoice_measurement_unit_id foreign key (measurement_unit_id) references measurement_unit(ID)
 );

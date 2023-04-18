@@ -5,12 +5,18 @@
 </nav>
 <div class="container">
   <div class="columns">
-    <div class="column is-three-quarters">
+    <div class="column is-three-fifths is-offset-one-fifth">
       <div class="block">
         انتخاب یا ثبت کالا جهت افزودن به انبار فروشگاه
       </div>
       <div class="block">
         <app-site-category (onSelect)="selectCategory($event)"></app-site-category>
+      </div>
+      <div class="columns is-multiline">
+        <div class="column is-full-mobile is-one-quarter-desktop"
+             *ngFor="let product of allProducts">
+          <app-product [product]="product"></app-product>
+        </div>
       </div>
     </div>
   </div>

@@ -77,6 +77,7 @@ export class ProductCategoryService {
     let res = await this.injector.get(RestClientService).categoryList()
     if(res.status == 200) {
       this.categories = res.data;
+      console.log(res.data)
     }
   }
 
@@ -119,8 +120,10 @@ export class ProductCategoryService {
   getCategoryId(routerLink) {
     this.checkCategory(routerLink);
     for(let category of this._categories) {
-      if (category.routerLink == routerLink)
-        return category.id;
+      if (category.routerLink == routerLink) {
+        // console.log(routerLink, category, category['pianaCategoryId'], category.id)
+        return category['id'];
+      }
     }
     return 0;
   }

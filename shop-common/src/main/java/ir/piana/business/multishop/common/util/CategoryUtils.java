@@ -24,7 +24,7 @@ public class CategoryUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getNextCategory(0x40bff3c000000000l,
+        System.out.println(getNextCategory(4629700416936870000l,
                 new int[] {2, 8, 8, 8, 8, 8, 8, 6}));
     }
 }

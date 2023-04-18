@@ -36,7 +36,7 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
       this.onInitCalled = true;
       this.category = this.shareStateService.editModeObject.changeable;
       if(!this.category) {
-        this.category = new ProductCategory(0, '', '', 0);
+        this.category = new ProductCategory(0, '', '', 0, 0);
       }
   }
 

@@ -8,6 +8,7 @@ import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.service.AuthenticationService;
 import ir.piana.business.multishop.module.shop.data.entity.ProductEntity;
+import ir.piana.business.multishop.module.shop.data.repository.ProductCategoryRepository;
 import ir.piana.business.multishop.module.shop.data.repository.ProductRepository;
 import ir.piana.business.multishop.module.shop.model.ProductItemModel;
 import ir.piana.business.multishop.module.shop.service.ShopService;
@@ -30,6 +31,8 @@ public class ProductRest {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductCategoryRepository categoryRepository;
 
     @Autowired
     @Qualifier("fileSystemStorageService")
@@ -59,6 +62,7 @@ public class ProductRest {
         if (CommonUtils.isNull(siteEntity)) {
             return ResponseEntity.badRequest().build();
         }
+        categoryRepository.
         return ResponseEntity.ok(
                 ResponseModel.<List<ProductEntity>>builder()
                         .code(0)

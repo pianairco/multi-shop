@@ -55,7 +55,7 @@ export class ProductsGalleryComponent implements OnInit {
       try {
         this.firstReload = true;
         // this.categoryService.checkCategory(this.routerLink);
-        // console.log(this.routerLink)
+        console.log(this.routerLink)
         let res = await this.restClient.productList(this.routerLink);
         this.products = res['data']['data'];
         this.loadingService.changeState(false);

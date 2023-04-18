@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findAllByRegistrarSiteId(long id);
-    @Query(value = "SELECT p.* FROM product p where p.registrar_site_ID = :siteId and p.PIANA_CATEGORY_ID between :fromCategoryId and :toCategoryId order by id asc", nativeQuery = true)
+    @Query(value = "SELECT p.* FROM product p where p.registrar_site_ID = :siteId and p.PIANA_CATEGORY_ID >= :fromCategoryId and p.PIANA_CATEGORY_ID < :toCategoryId order by id asc", nativeQuery = true)
     List<ProductEntity> findAllByRegistrarSiteIdAndPianaCategoryId(
             @Param("siteId") long siteId, @Param("fromCategoryId") long fromCategoryId, @Param("toCategoryId") long toCategoryId);
     ProductEntity findByRegistrarSiteIdAndId(long siteId, long id);

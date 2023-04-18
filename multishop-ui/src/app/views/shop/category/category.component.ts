@@ -12,7 +12,7 @@ import {AuthenticationService} from "../../../services/authentication-service.se
 export class CategoryComponent implements OnInit {
   // @Input() editable: boolean = false;
   // @Input() insertable: boolean = false;
-  @Input() productCategory: ProductCategory = new ProductCategory(0, null, null, null);
+  @Input() productCategory: ProductCategory = new ProductCategory(0, null, null, null, 0);
   // @Output() insertClick = new EventEmitter<ProductCategory>();
   // @Output() updateClick = new EventEmitter<{category: ProductCategory, component: CategoryComponent}>();
   // originalProductCategory: ProductCategory = new ProductCategory(0, null, null, null);
@@ -67,11 +67,13 @@ export class ProductCategory {
   title: string;
   routerLink: string;
   orders: string;
+  pianaCategoryId: number;
 
-  constructor(id, title, routerLink, orders) {
+  constructor(id, title, routerLink, orders, pianaCategoryId) {
     this.id = id;
     this.title = title;
     this.routerLink = routerLink;
     this.orders = orders;
+    this.pianaCategoryId = pianaCategoryId;
   }
 }
