@@ -26,6 +26,7 @@ export class SiteCategoryComponent implements OnInit {
   }
 
   goNext(siteCategory: SiteCategory) {
+    console.log(siteCategory)
     this.selected = siteCategory.children.length > 0 ? siteCategory : this.selected;
     this.last = siteCategory;
     this.onSelect.emit(this.last.number);

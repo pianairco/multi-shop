@@ -12,6 +12,8 @@ import {FormsModule} from "@angular/forms";
 import {ProductEditorModalComponent} from "./product-editor-modal/product-editor-modal.component";
 import {CategoryEditorComponent} from "./category-editor/category-editor.component";
 import {InputMaskDirective} from "../../directives/input-mask.directive";
+import { ProductSelectiveComponent } from './product-selective/product-selective.component';
+import { ProductRegisterComponent } from './product-register/product-register.component';
 
 
 @NgModule({
@@ -23,7 +25,9 @@ import {InputMaskDirective} from "../../directives/input-mask.directive";
     ProductComponent,
     ProductEditorComponent,
     ProductEditorModalComponent,
-    InputMaskDirective
+    InputMaskDirective,
+    ProductSelectiveComponent,
+    ProductRegisterComponent
   ],
   exports:[
     ShopComponent,

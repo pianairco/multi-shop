@@ -1,6 +1,8 @@
 package ir.piana.business.multishop.module.site.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.*;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PianaCategoryModel {
     @JsonProperty("id")
+    @JsonSerialize(using= ToStringSerializer.class)
     private long id;
 
     @JsonProperty("number")

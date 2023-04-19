@@ -7,6 +7,7 @@ import ir.piana.business.multishop.common.util.CategoryUtils;
 import ir.piana.business.multishop.common.util.CommonUtils;
 import ir.piana.business.multishop.module.auth.data.entity.GoogleUserEntity;
 import ir.piana.business.multishop.module.auth.service.AuthenticationService;
+import ir.piana.business.multishop.module.shop.data.entity.ProductCategoryEntity;
 import ir.piana.business.multishop.module.shop.data.entity.ProductEntity;
 import ir.piana.business.multishop.module.shop.data.repository.ProductCategoryRepository;
 import ir.piana.business.multishop.module.shop.data.repository.ProductRepository;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/modules/shop/product")
@@ -62,7 +64,26 @@ public class ProductRest {
         if (CommonUtils.isNull(siteEntity)) {
             return ResponseEntity.badRequest().build();
         }
-        categoryRepository.
+        Optional<ProductCategoryEntity> byId = categoryRepository.findById(categoryId);
+        return ResponseEntity.ok(
+                ResponseModel.<List<ProductEntity>>builder()
+                        .code(0)
+                        .data(productRepository.findAllByRegistrarSiteIdAndPianaCategoryId(
+                                siteEntity.getId(), Long.parseLong(byId.get().getPianaCategoryId()),
+                                CategoryUtils.getNextCategory(byId.get().getPianaCategoryId(), new int[]{2, 8, 8, 8, 8, 8, 8, 6})))
+                        .build()
+                );
+    }
+
+    @Transactional
+    @GetMapping("list/by-piana-categories/{categoryId}")
+    public ResponseEntity<ResponseModel<List<ProductEntity>>> getGroupItemModelsByPianaCategories(
+            HttpServletRequest request,
+            @PathVariable Long categoryId) {
+        SiteEntity siteEntity = (SiteEntity) request.getAttribute("site");
+        if (CommonUtils.isNull(siteEntity)) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(
                 ResponseModel.<List<ProductEntity>>builder()
                         .code(0)
@@ -70,7 +91,7 @@ public class ProductRest {
                                 siteEntity.getId(), categoryId,
                                 CategoryUtils.getNextCategory(categoryId, new int[]{2, 8, 8, 8, 8, 8, 8, 6})))
                         .build()
-                );
+        );
     }
 
     @Autowired

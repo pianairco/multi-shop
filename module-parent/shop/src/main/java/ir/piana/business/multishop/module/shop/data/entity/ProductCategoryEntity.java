@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.module.shop.data.entity;
 
+import ir.piana.business.multishop.module.shop.data.convertor.LongToStringConverter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,8 +26,9 @@ public class ProductCategoryEntity {
     private long orders;
     @Column(name = "SITE_ID")
     private long siteId;
+    @Convert(converter = LongToStringConverter.class)
     @Column(name = "PIANA_CATEGORY_ID")
-    private long pianaCategoryId;
+    private String pianaCategoryId;
 //    @ManyToOne(targetEntity = SiteEntity.class, fetch = FetchType.EAGER)
 //    private SiteEntity siteEntity;
 }

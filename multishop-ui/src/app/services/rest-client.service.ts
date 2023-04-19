@@ -69,4 +69,8 @@ export class RestClientService {
   getAllProductsByCategory(categoryId) {
     return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' + categoryId);
   }
+
+  getAllProductsByPianaCategory(categoryId) {
+    return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/by-piana-categories/' + categoryId);
+  }
 }
