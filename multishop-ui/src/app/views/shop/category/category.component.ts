@@ -67,7 +67,7 @@ export class ProductCategory {
   title: string;
   routerLink: string;
   orders: string;
-  pianaCategoryId: number;
+  pianaCategoryId: string;
 
   constructor(id, title, routerLink, orders, pianaCategoryId) {
     this.id = id;

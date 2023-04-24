@@ -46,6 +46,7 @@ public class CategoryRest {
                         .routerLink(body.get("routerLink"))
                         .siteId(siteEntity.getId())
                         .orders(categoryRepository.countBySiteId(siteEntity.getId()) + 1)
+                        .pianaCategoryId(body.get("pianaCategoryId"))
                         .build();
         ProductCategoryEntity save = categoryRepository.save(categorizationEntity);
         return ResponseEntity.ok(save);

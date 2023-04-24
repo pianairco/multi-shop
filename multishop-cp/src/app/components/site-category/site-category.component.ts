@@ -1,10 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SiteCategory, SiteCategoryService} from "../../services/site-category.service";
+import {LogService} from "../../../../../multishop-ui/src/app/services/log.service";
 
 @Component({
   selector: 'app-site-category',
   templateUrl: './site-category.component.html',
-  styleUrls: ['./site-category.component.css']
+  styleUrls: ['./site-category.component.css'],
+  providers: [
+    LogService, {provide: 'fromComponent', useValue: 'SiteCategoryComponent'}
+  ]
 })
 export class SiteCategoryComponent implements OnInit {
   selected: SiteCategory;
@@ -13,7 +17,9 @@ export class SiteCategoryComponent implements OnInit {
 
   @Output() onSelect = new EventEmitter<string>();
 
-  constructor(private siteCategoryService: SiteCategoryService) { }
+  constructor(
+    private siteCategoryService: SiteCategoryService,
+    private logService: LogService) { }
 
   goBack(siteCategory: SiteCategory) {
     if(this.last != this.selected)
@@ -33,12 +39,12 @@ export class SiteCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteCategoryService.rootCategorySubject.subscribe(rootCategory => {
-      console.log(rootCategory);
+      this.logService.log(rootCategory);
       this.rootCategory = rootCategory;
       this.selected = rootCategory;
       this.last = this.selected;
       if(this.selected) {
-        console.log(this.selected)
+        this.logService.log(this.selected)
         this.onSelect.emit(this.last.number);
       }
     })

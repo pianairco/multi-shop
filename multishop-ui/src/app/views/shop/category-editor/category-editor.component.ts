@@ -8,13 +8,14 @@ import {LoadingService} from "../../../services/loading.service";
 import {RestClientService} from "../../../services/rest-client.service";
 import {ProductCategoryService} from "../../../services/product-category.service";
 import {InputMaskDirective} from "../../../directives/input-mask.directive";
+import {LogService} from "../../../services/log.service";
 
 @Component({
   selector: 'app-category-editor',
   templateUrl: './category-editor.component.html',
   styleUrls: ['./category-editor.component.css'],
   providers: [
-    InputMaskDirective
+    InputMaskDirective, LogService, {provide: 'fromComponent', useValue: 'CategoryEditorComponent'}
   ]
 })
 export class CategoryEditorComponent implements OnInit, OnDestroy {
@@ -23,6 +24,7 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
   // new ProductCategory(0, null, null, null);
 
   constructor(
+    private logService: LogService,
     private router: Router,
     private route: ActivatedRoute,
     private categoryService: ProductCategoryService,
@@ -97,5 +99,10 @@ export class CategoryEditorComponent implements OnInit, OnDestroy {
 
   public close() {
     this.shareStateService.navigateReturn();
+  }
+
+  selectCategory(cat) {
+    this.logService.log(cat)
+    this.category.pianaCategoryId = cat;
   }
 }

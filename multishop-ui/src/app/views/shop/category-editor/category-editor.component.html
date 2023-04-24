@@ -25,6 +25,15 @@
                        [(ngModel)]="category.routerLink">
               </div>
             </div>
+
+            <div class="field">
+              <div class="control">
+                <label class="label">انتخاب دسته بندی آبشاری</label>
+                <div class="block">
+                  <app-site-category (onSelect)="selectCategory($event)"></app-site-category>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
