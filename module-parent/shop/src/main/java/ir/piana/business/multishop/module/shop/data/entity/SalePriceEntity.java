@@ -28,6 +28,8 @@ public class SalePriceEntity {
     private long changerId;
     @Column(name = "change_time")
     private Time changeTime;
+    @Column(name = "currency_unit_id")
+    private long currencyUnitId;
     @Column(name = "PRICE")
     private String price;
     @Column(name = "percentage")

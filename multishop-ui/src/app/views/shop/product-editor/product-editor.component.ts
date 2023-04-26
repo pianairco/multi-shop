@@ -32,9 +32,9 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
 
   constructor(
     private logService: LogService,
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
-    private shareStateService: ShareStateService,
+    public shareStateService: ShareStateService,
     private productCategoryService: ProductCategoryService,
     private restClientService: RestClientService,
     private loadingService: LoadingService,
@@ -53,8 +53,8 @@ export class ProductEditorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if(this.onInitCalled)
-      this.shareStateService.clearEditModeObject();
+    // if(this.onInitCalled)
+    //   this.shareStateService.clearEditModeObject();
     // if(this.onInitCalled)
       // this.shareStateService.editMode = false;
   }

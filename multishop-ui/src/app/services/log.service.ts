@@ -14,6 +14,7 @@ export class LogService {
   }
 
   public log(line, ...messages) {
+    console.trace()
     if (this.isDebugMode)
       console.log(this.fromComponent ? this.fromComponent : '', line, messages);
   }

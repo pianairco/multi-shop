@@ -5,6 +5,9 @@ import {AuthenticationService} from "../../../services/authentication-service.se
 import {ShareStateService} from "../../../services/share-state.service";
 import {ActivatedRoute, Router, RouterStateSnapshot} from "@angular/router";
 import {delay} from "rxjs/operators";
+import {StorePoolProductDto} from "../../../services/store-pool.service";
+import {CurrencyUnitService} from "../../../services/currency-unit.service";
+import {MeasurementUnitService} from "../../../services/measurement-unit.service";
 
 @Component({
   selector: 'app-product',
@@ -12,16 +15,19 @@ import {delay} from "rxjs/operators";
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  @Input() product: Product;
+  @Input() product: StorePoolProductDto;
 
   constructor(
     public router: Router,
+    public currencyUnitService: CurrencyUnitService,
+    public measurementUnitService: MeasurementUnitService,
     public shareStateService: ShareStateService,
     public authService: AuthenticationService,
     private commonUtilService: CommonUtilService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+    console.log(this.product)
     // this.shareStateService.editModeSubject.subscribe(next => {
     //   this.shareStateService.ifTrue(() => {
     //     this.router.navigate(['/tile/shop/product-editor'],
@@ -79,7 +85,6 @@ export class Product {
     this.title = title;
     this.description = description;
     this.image = image;
-    this.measurement = measurement;
     this.measurementUnit = measurementUnit;
     this.price = price;
     this.currency = currency;

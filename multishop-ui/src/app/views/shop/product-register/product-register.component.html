@@ -47,17 +47,14 @@
 
             <div class="field mt-3">
               <div class="control">
-                <label class="label">مقدار</label>
-                <input class="input" type="text"
-                       [(ngModel)]="product.measurement" rows="3">
-              </div>
-            </div>
-
-            <div class="field mt-3">
-              <div class="control">
                 <label class="label">واحد سنجش</label>
-                <input class="input" type="text"
-                       [(ngModel)]="product.measurementUnit" rows="3">
+                <div class="select" style="width: 100%;">
+                  <select style="width: 100%;">
+                    <option *ngFor="let o of measurementUnitService.measurementUnitsSubject | async">{{o.description}}</option>
+                  </select>
+                </div>
+<!--                <input class="input" type="text"
+                       [(ngModel)]="product.measurementUnit" rows="3">-->
               </div>
             </div>
           </div>

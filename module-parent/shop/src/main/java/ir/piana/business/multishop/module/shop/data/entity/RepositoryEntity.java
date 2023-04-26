@@ -11,9 +11,9 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "store_pool")
+@Table(name = "repository")
 @SequenceGenerator(name = "master_seq", initialValue = 1, sequenceName = "master_seq", allocationSize = 1)
-public class StorePoolEntity {
+public class RepositoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "master_seq")
     @Column(name = "ID")
@@ -23,17 +23,11 @@ public class StorePoolEntity {
     @Column(name = "SITE_ID")
     private long siteId;
     @Column(name = "PIANA_CATEGORY_ID")
-    private long pianaCategoryId;
+    private long PianaCategoryId;
     @Column(name = "CATEGORY_ID")
     private long categoryId;
-    @Column(name = "MEASUREMENT_UNIT_ID")
+    @Column(name = "MEASUREMENT_UNIT_id")
     private long measurementUnitId;
-    @Column(name = "MEASUREMENT_UNIT_NAME")
-    private String measurementUnitName;
-    @Column(name = "MEASUREMENT_UNIT_RATIO")
-    private double measurementUnitRatio;
-    @Column(name = "currency_unit_id")
-    private long currencyUnitId;
     @Column(name = "TITLE")
     private String title;
     @Column(name = "DESCRIPTION")
@@ -41,9 +35,5 @@ public class StorePoolEntity {
     @Column(name = "IMAGE")
     private String image;
     @Column(name = "amount")
-    private long amount;
-    @Column(name = "PRICE")
-    private long price;
-    @Column(name = "PERCENTAGE")
-    private int percentage;
+    private boolean amount;
 }

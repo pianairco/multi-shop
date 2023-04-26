@@ -27,7 +27,7 @@
         <div class="column is-mobile-4 is-4 pb-0">
           <div class="field">
             <div class="control">
-              <p>{{product.currency}}</p>
+              <p>{{currencyUnitService.byCurrencyId(product.currencyUnitId).persianName}}</p>
             </div>
           </div>
         </div>
@@ -41,14 +41,14 @@
         <div class="column is-mobile-4 is-4 pb-0">
           <div class="field">
             <div class="control" >
-              <p style="text-align: left">{{product.measurement}}</p>
+              <p style="text-align: left">{{product.amount}}</p>
             </div>
           </div>
         </div>
         <div class="column is-mobile-4 is-4 pb-0">
           <div class="field">
             <div class="control">
-              <p>{{product.measurementUnit}}</p>
+              <p>{{measurementUnitService.byMeasurementId(product.measurementUnitId).persianName}}</p>
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ import {ProductCategoryService} from "./product-category.service";
 export class ShareStateService {
   private urlMap = {
     product: '/tile/shop/product-editor',
+    'product-register': '/tile/shop/product-register',
     'product-creator': '/tile/shop/product-creator',
     category: '/tile/shop/category-editor',
     'category-creator': '/tile/shop/category-creator'
@@ -82,11 +83,14 @@ export class ShareStateService {
 
   set editModeObject(editModeObject) {
     this._editModeObject = editModeObject;
+    console.trace()
+    console.log(editModeObject, this.pianaStorageService.getObject(this.EDIT_MODE_STATE))
     this.pianaStorageService.putObject(this.EDIT_MODE_STATE, this._editModeObject);
     this._editModeSubject.next(this._editModeObject);
   }
 
   setEditModeObject(editMode, changeable, urlKey, returnUrl) {
+    console.log(returnUrl)
     this.editModeObject = new EditModeObject(editMode, changeable, urlKey, returnUrl);
   }
 

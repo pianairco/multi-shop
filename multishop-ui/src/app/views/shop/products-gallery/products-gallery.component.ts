@@ -11,6 +11,7 @@ import {ShareStateService} from "../../../services/share-state.service";
 import {AuthenticationService} from "../../../services/authentication-service.service";
 import {ProductCategoryService} from "../../../services/product-category.service";
 import {RestClientService} from "../../../services/rest-client.service";
+import {StorePoolProductDto, StorePoolService} from "../../../services/store-pool.service";
 
 @Component({
   selector: 'app-products-gallery',
@@ -21,7 +22,7 @@ export class ProductsGalleryComponent implements OnInit {
   // @Input() routerLink: string;
   routerLink: string;
   // private sub: any;
-  products: Product[] = [];
+  products: StorePoolProductDto[] = [];
   firstReload: boolean = false;
   // @ViewChild('insertProduct') insertProductComponent: ProductEditorComponent;
 
@@ -46,6 +47,7 @@ export class ProductsGalleryComponent implements OnInit {
               public shareStateService: ShareStateService,
               private constantService: ConstantService,
               private restClient: RestClientService,
+              private storePoolService : StorePoolService,
               private notificationService: NotificationService) { }
 
   async ngOnInit(): Promise<void> {
@@ -56,8 +58,9 @@ export class ProductsGalleryComponent implements OnInit {
         this.firstReload = true;
         // this.categoryService.checkCategory(this.routerLink);
         console.log(this.routerLink)
-        let res = await this.restClient.productList(this.routerLink);
-        this.products = res['data']['data'];
+        await this.storePoolService.renew(this.routerLink);
+        // let res = await this.restClient.productList(this.routerLink);
+        this.products = this.storePoolService.storePoolProducts;
         this.loadingService.changeState(false);
       } catch (e) {
         this.loadingService.changeState(false);

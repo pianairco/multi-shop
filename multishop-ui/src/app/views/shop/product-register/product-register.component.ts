@@ -9,6 +9,7 @@ import {LoadingService} from "../../../services/loading.service";
 import {CommonUtilService} from "../../../services/common-util.service";
 import {NotificationService} from "../../../services/notification.service";
 import {Product} from "../product/product.component";
+import {MeasurementUnitService} from "../../../services/measurement-unit.service";
 
 @Component({
   selector: 'app-product-register',
@@ -24,6 +25,7 @@ export class ProductRegisterComponent implements OnInit {
 
   constructor(
     private logService: LogService,
+    public measurementUnitService: MeasurementUnitService,
     private router: Router,
     private route: ActivatedRoute,
     private shareStateService: ShareStateService,

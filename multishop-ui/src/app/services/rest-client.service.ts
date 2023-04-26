@@ -11,7 +11,12 @@ import {log} from "util";
 })
 export class RestClientService {
   ajaxUrlMap = {
+    'root': 'api/modules/',
+    'shop': 'api/modules/shop/',
+    'measurement-unit': 'api/modules/shop/measurement-unit',
+    'currency-unit': 'api/modules/shop/currency-unit',
     'product': 'api/modules/shop/product',
+    'store-pool': 'api/modules/shop/store-pool',
     'category': 'api/modules/shop/category',
     'siteCategory': 'api/modules/site/category'
   }
@@ -41,8 +46,15 @@ export class RestClientService {
   }
 
   productList(routerLink) {
-    // console.log(this.categoryService.getCategoryId(routerLink))
+    console.log(routerLink, this.categoryService.getCategoryId(routerLink))
     return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' +
+      this.categoryService.getCategoryId(routerLink));
+    // return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' + routerLink);
+  }
+
+  storePoolList(routerLink) {
+    // console.log(this.categoryService.getCategoryId(routerLink))
+    return this.ajaxCallService.read(this.ajaxUrlMap["store-pool"] + '/list/' +
       this.categoryService.getCategoryId(routerLink));
     // return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/' + routerLink);
   }
@@ -73,4 +85,21 @@ export class RestClientService {
   getAllProductsByPianaCategory(categoryId) {
     return this.ajaxCallService.read(this.ajaxUrlMap.product + '/list/by-piana-categories/' + categoryId);
   }
+
+  getAllMeasurementUnitsForSelect() {
+    return this.ajaxCallService.read(this.ajaxUrlMap["measurement-unit"] + '/list-for-select');
+  }
+
+  getAllMeasurementUnits() {
+    return this.ajaxCallService.read(this.ajaxUrlMap["measurement-unit"] + '/list');
+  }
+
+  getAllCurrencyUnitsForSelect() {
+    return this.ajaxCallService.read(this.ajaxUrlMap["currency-unit"] + '/list-for-select');
+  }
+
+  getAllCurrencyUnits() {
+    return this.ajaxCallService.read(this.ajaxUrlMap["currency-unit"] + '/list');
+  }
+
 }

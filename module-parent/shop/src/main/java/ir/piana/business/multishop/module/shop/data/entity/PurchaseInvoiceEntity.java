@@ -32,10 +32,10 @@ public class PurchaseInvoiceEntity {
     private Time buyTime;
     @Column(name = "quantity")
     private int quantity;
-    @Column(name = "MEASUREMENT_UNIT")
-    private long measurementUnit;
-    @Column(name = "MEASUREMENT_UNIT_RATIO")
-    private long measurementUnitRatio;
+    @Column(name = "MEASUREMENT_UNIT_ID")
+    private long measurementUnitId;
+    @Column(name = "currency_unit_id")
+    private long currencyUnitId;
     @Column(name = "unit_price")
     private long unitPrice;
     @Column(name = "total_price")
