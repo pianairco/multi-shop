@@ -1,5 +1,6 @@
 package ir.piana.business.multishop.common.dev.uploadrest;
 
+import ir.piana.dev.secure.util.Base64Converter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -126,8 +127,7 @@ public class FileSystemStorageService implements StorageService {
             BufferedImage originalImage = null;
             byte[] imageByte;
 
-            BASE64Decoder decoder = new BASE64Decoder();
-            imageByte = decoder.decodeBuffer(imageString);
+            imageByte = Base64Converter.fromBase64String(imageString);
             ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
             originalImage = ImageIO.read(bis);
             bis.close();

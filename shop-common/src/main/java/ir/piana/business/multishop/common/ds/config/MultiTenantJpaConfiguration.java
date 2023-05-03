@@ -93,6 +93,7 @@ public class MultiTenantJpaConfiguration {
 		hibernateProps.put(Environment.MULTI_TENANT, MultiTenancyStrategy.DATABASE);
 		hibernateProps.put(Environment.MULTI_TENANT_CONNECTION_PROVIDER, multiTenantConnectionProvider);
 		hibernateProps.put(Environment.MULTI_TENANT_IDENTIFIER_RESOLVER, currentTenantIdentifierResolver);
+		hibernateProps.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.internal.EhcacheRegionFactory");
 
 		LocalContainerEntityManagerFactoryBean result = new LocalContainerEntityManagerFactoryBean();
 		result.setPackagesToScan(databaseConfig.getPackagesToScan());

@@ -9,6 +9,10 @@ server:
     encoding:
       force-response: true
 spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
+      provider: org.ehcache.jsr107.EhcacheCachingProvider
   profiles:
     include: resources, store, production, develop
 #    include: resources, store, production, product
