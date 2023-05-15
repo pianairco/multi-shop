@@ -2,6 +2,7 @@ package ir.piana.business.multishop.common.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "SITE")
 @SequenceGenerator(name = "masterSeq", initialValue = 1, allocationSize = 1, sequenceName = "MASTER_SEQ")
+@Cacheable
 public class SiteEntity {
     @Id
     @Column(name = "ID")

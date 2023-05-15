@@ -57,7 +57,7 @@ public class SiteRest {
     @Transactional
     @GetMapping("check-name/{name}")
     public ResponseEntity<ResponseModel> checkSiteName(@PathVariable("name") String siteName) {
-        SiteEntity byTenantId = siteRepository.findByDomain(siteName.concat("." + appDataCache.getDomain()));
+        SiteEntity byTenantId = siteRepository.findByDomain(siteName.concat("." + appDataCache.getDomain())).orElseGet(() -> null);
         if(byTenantId == null) {
             return ResponseEntity.ok(ResponseModel.builder().code(0).build());
         }

@@ -376,7 +376,7 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         SiteEntity siteEntity = null;
         SiteInfoEntity siteInfoEntity = null;
         if(!appDataCache.getDomain().equalsIgnoreCase(host)) {
-            siteEntity = siteRepository.findByDomain(host);
+            siteEntity = siteRepository.findByDomain(host).orElseGet(() -> null);
             siteInfoEntity = siteInfoRepository.findByTenantId(tenant);
         }
         AppInfo appInfo = AppInfo.builder()

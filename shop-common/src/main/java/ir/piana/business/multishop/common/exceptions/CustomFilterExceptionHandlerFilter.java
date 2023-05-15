@@ -94,6 +94,7 @@ public class CustomFilterExceptionHandlerFilter extends OncePerRequestFilter {
                 .errorCode(500)
                 .descriptionEN("an exception is occurred!")
                 .build();
+        logger.error(ex);
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().print(new ObjectMapper().writeValueAsString(errorModel));

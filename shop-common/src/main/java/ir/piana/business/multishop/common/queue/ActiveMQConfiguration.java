@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.jms.annotation.EnableJms;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.context.support.StandardServletEnvironment;
 
@@ -35,7 +36,7 @@ public class ActiveMQConfiguration {
                 true, new StandardServletEnvironment());
         provider.addIncludeFilter(new AnnotationTypeFilter(DispatcherQueue.class));
         Set<BeanDefinition> candidateComponents = provider.findCandidateComponents("ir.piana");
-        ActiveMQSpec activeMQSpec = new ActiveMQSpec(new LinkedHashMap<>());
+        ActiveMQSpec activeMQSpec = new ActiveMQSpec();
         for(BeanDefinition beanDefinition: candidateComponents) {
             try {
                 Class<?> targetClass = Class.forName(beanDefinition.getBeanClassName());
@@ -46,7 +47,7 @@ public class ActiveMQConfiguration {
 //                "piana.http.dispatcher.queue"
                     context.registerBean(beanName, ActiveMQQueue.class, () -> {
                         ActiveMQQueue activeMQQueue = new ActiveMQQueue(queueName);
-                        activeMQSpec.queueMap.put(beanName, activeMQQueue);
+                        activeMQSpec.addQueue(beanName, activeMQQueue);
                         return activeMQQueue;
                     });
                 }
@@ -73,6 +74,11 @@ public class ActiveMQConfiguration {
 //            }
 //        }
         return activeMQSpec;
+    }
+
+    @Bean
+    public PianaJmsTemplate pianaJmsTemplate(JmsTemplate jmsTemplate) {
+        return new PianaJmsTemplate(jmsTemplate, context);
     }
 
 //    @Bean

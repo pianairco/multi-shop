@@ -2,15 +2,19 @@ package ir.piana.business.multishop.common.queue;
 
 import org.apache.activemq.command.ActiveMQQueue;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ActiveMQSpec {
-    Map<String, ActiveMQQueue> queueMap;
+    private Map<String, ActiveMQQueue> queueMap;
 
-    ActiveMQSpec(Map<String, ActiveMQQueue> queueMap) {
-        this.queueMap = queueMap;
+    ActiveMQSpec() {
+        this.queueMap = new LinkedHashMap<>();
     }
 
+    void addQueue(String beanName, ActiveMQQueue activeMQQueue) {
+        queueMap.put(beanName, activeMQQueue);
+    }
     public ActiveMQQueue getQueue(String key) {
         return queueMap.get(key);
     }

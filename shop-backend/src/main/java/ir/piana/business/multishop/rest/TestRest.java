@@ -21,6 +21,12 @@ public class TestRest {
 
     @GetMapping(path = "test")
     public ResponseEntity testGet(HttpServletRequest request) {
+        System.out.println(Thread.currentThread().getName());
+        try {
+            Thread.sleep(10000l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok("Hello World");
     }
 

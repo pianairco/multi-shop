@@ -8,6 +8,9 @@ server:
   servlet:
     encoding:
       force-response: true
+  tomcat:
+    threads:
+      max: 1
 spring:
   cache:
     jcache:

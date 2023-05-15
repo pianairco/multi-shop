@@ -1,6 +1,5 @@
 package ir.piana.business.multishop.common.ds.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import ir.piana.business.multishop.common.cfg.ResourceHandlerRegistryProvider;
 import ir.piana.business.multishop.common.data.cache.AppDataCache;
 import ir.piana.business.multishop.common.data.cache.DataSourceService;
@@ -9,15 +8,12 @@ import ir.piana.business.multishop.common.data.cache.TenantContext;
 import ir.piana.business.multishop.common.data.repository.SiteRepository;
 import ir.piana.business.multishop.common.exceptions.TenantNotSpecifiedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
@@ -25,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)

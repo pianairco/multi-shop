@@ -18,9 +18,11 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication(exclude = {
+		/*JmsTemplate.class,*/
 		DataSourceAutoConfiguration.class,
 		HibernateJpaAutoConfiguration.class,
 		DataSourceTransactionManagerAutoConfiguration.class })
@@ -31,7 +33,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 		StaticResourcePropertiesModel.class,
 		StoreMenuProperties.class
 })
-@EnableCaching
+//@EnableCaching
 public class ShopBackendApplication {
 //	@Bean("spring-resource-chain-cache")
 //	public String cacheName() {

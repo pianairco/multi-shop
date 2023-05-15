@@ -28,7 +28,7 @@ public class SiteDomainFilter extends OncePerRequestFilter {
         if(!CommonUtils.isNull(domain)) {
 //            String tenantId = siteRepository.getTenantId(domain);
             //ToDo should be get from ram
-            SiteEntity byTenantId = siteRepository.findByDomain(domain);
+            SiteEntity byTenantId = siteRepository.findByDomain(domain).orElseGet(() -> null);
             request.setAttribute("site", byTenantId);
             filterChain.doFilter(request, response);
         }

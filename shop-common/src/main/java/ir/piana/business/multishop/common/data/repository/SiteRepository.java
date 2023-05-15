@@ -1,15 +1,19 @@
 package ir.piana.business.multishop.common.data.repository;
 
 import ir.piana.business.multishop.common.data.entity.SiteEntity;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SiteRepository extends JpaRepository<SiteEntity, Long> {
     @Query(value = "SELECT s.* FROM SITE s, domains d WHERE d.domain = :domain and d.site_id = s.id", nativeQuery = true)
-    SiteEntity findByDomain(@Param("domain") String domain);
+    @Cacheable(value = "sitesByDomain", key = "#a0", unless = "#result == null")
+    Optional<SiteEntity> findByDomain(@Param("domain") String domain);
     List<SiteEntity> findAllByOwnerId(Long ownerId);
 //    List<SiteEntity> findAllByAgentId(Long agentId);
     List<SiteEntity> findAllByCategory(Long category);
